@@ -1,0 +1,1 @@
+include ':app', ':LIB_Common', ':LIB_Component', ':LIB_Media', ':LIB_IJKPlayer_Sdk', ':LIB_Pay', ':LIB_Share', ':LIB_Statistics', ':LIB_Web'
