@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#008577</color>
+    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorAccent">#D81B60</color>
+
+    <color name="translucence">#00000000</color>
+    <color name="black">#000000</color>
+    <color name="white">#FFFFFF</color>
+
+    <!--=====文字相关颜色 start =====-->
+    <!--http://huaban.com/pins/2285783198/-->
+    <!--重要-->
+    <color name="textPrimary">#222222</color>
+    <color name="textPrimaryRed">#e4393c</color>
+    <color name="textPrimaryViolet">#b384c4</color>
+    <color name="textPrimaryGreen">#61ec8f</color>
+    <!--一般-->
+    <color name="textSecondary">#666666</color>
+    <color name="textSecondary2">#999999</color>
+    <color name="textSecondary3">#d7d7d7</color>
+    <!--较弱-->
+    <color name="textWeak">#f2f5f7</color>
+    <color name="textWeak2">#f8f8f8</color>
+    <color name="divider">#EFEFF3</color>
+    <color name="bkWarn">#FEFEFE</color>
+</resources>

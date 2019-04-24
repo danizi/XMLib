@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".test.MainActivity">
+
+    <!--新版播放器-->
+    <com.xm.lib.media.base.XmVideoView
+        android:id="@+id/video"
+        android:layout_width="match_parent"
+        android:layout_height="500px"
+        android:background="@color/colorAccent" />
+
+    <Button
+        android:id="@+id/btn_media2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:text="测试播放器"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/video" />
+
+    <Button
+        android:id="@+id/btn_set"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/app_name"
+        app:layout_constraintStart_toEndOf="@+id/btn_media2"
+        app:layout_constraintTop_toTopOf="@+id/btn_media2" />
+
+</android.support.constraint.ConstraintLayout>
