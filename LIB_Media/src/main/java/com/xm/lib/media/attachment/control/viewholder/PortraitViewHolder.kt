@@ -2,6 +2,7 @@ package com.xm.lib.media.attachment.control.viewholder
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.media.midi.MidiManager
 import android.support.constraint.ConstraintLayout
 import android.view.LayoutInflater
 import android.view.View
@@ -10,6 +11,7 @@ import android.widget.*
 import com.xm.lib.common.log.BKLog
 import com.xm.lib.common.util.ScreenUtil
 import com.xm.lib.common.util.TimeUtil
+import com.xm.lib.common.util.TimerHelper
 import com.xm.lib.media.R
 import com.xm.lib.media.attachment.control.AttachmentControl
 import com.xm.lib.media.attachment.control.ControlViewHolder
@@ -87,6 +89,11 @@ class PortraitViewHolder : ControlViewHolder {
         super.bind(attachmentControl)
         mediaPlayer = attachmentControl?.xmVideoView?.mediaPlayer
         xmVideoView = attachmentControl?.xmVideoView
+        size()
+        initEvent()
+    }
+
+    private fun size() {
         activity = attachmentControl?.context as Activity
         screenW = ScreenUtil.getNormalWH(activity)[0]
         screenH = ScreenUtil.getNormalWH(activity)[1]
@@ -95,7 +102,6 @@ class PortraitViewHolder : ControlViewHolder {
             screenW = screenH
             screenH = temp
         }
-        initEvent()
     }
 
     private fun initEvent() {
@@ -147,6 +153,7 @@ class PortraitViewHolder : ControlViewHolder {
             //xmVideoView?.layout(0, 0, screenW, screenH)    //设置宽高
             xmVideoView?.layoutParams?.height = screenH
             xmVideoView?.layoutParams?.width = screenW
+
             hideControlView()                  //隐藏控制界面  PS : 或者删除
             listener?.onState(AttachmentControl.LANDSCAPE)
         }

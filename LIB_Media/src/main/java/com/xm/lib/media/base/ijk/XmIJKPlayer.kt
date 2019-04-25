@@ -5,26 +5,27 @@ import com.xm.lib.media.base.*
 import tv.danmaku.ijk.media.player.IjkMediaPlayer
 
 class XmIJKPlayer : IXmMediaPlayer() {
-    private lateinit var ijkMediaPlayer: IjkMediaPlayer //IJKPlayer播放器
-    override fun setSpeed(speed: Float) {
-        ijkMediaPlayer.setSpeed(speed)
-    }
+    private var ijkMediaPlayer: IjkMediaPlayer = IjkMediaPlayer() //IJKPlayer播放器
 
     init {
-        ijkMediaPlayer = IjkMediaPlayer()
-        IjkMediaPlayer.loadLibrariesOnce(null)
-        IjkMediaPlayer.native_profileBegin("libijkplayer.so")
+//        ijkMediaPlayer = IjkMediaPlayer()
+//        IjkMediaPlayer.loadLibrariesOnce(null)
+//        IjkMediaPlayer.native_profileBegin("libijkplayer.so")
+//
+//        ijkMediaPlayer.setOption(IjkMediaPlayer.OPT_CATEGORY_PLAYER, "soundtouch", 1)       //todo 加了这个才能设置倍速播放
+//        ijkMediaPlayer.setOption(IjkMediaPlayer.OPT_CATEGORY_PLAYER, "libijkplayer.so", 1)
+//        ijkMediaPlayer.setOption(IjkMediaPlayer.OPT_CATEGORY_PLAYER, "framedrop", 0)
+//        ijkMediaPlayer.setOption(IjkMediaPlayer.OPT_CATEGORY_FORMAT, "start-on-prepared", 1)
+//        ijkMediaPlayer.setOption(IjkMediaPlayer.OPT_CATEGORY_CODEC, "skip_loop_filter", 48)
+//        ijkMediaPlayer.setOption(IjkMediaPlayer.OPT_CATEGORY_PLAYER, "opensles", 1)
+//        ijkMediaPlayer.setOption(IjkMediaPlayer.OPT_CATEGORY_PLAYER, "mediacodec", 1)
+//        ijkMediaPlayer.setOption(IjkMediaPlayer.OPT_CATEGORY_PLAYER, "mediacodec-auto-rotate", 1)
+//        ijkMediaPlayer.setOption(IjkMediaPlayer.OPT_CATEGORY_PLAYER, "mediacodec-handle-resolution-change", 1)
 
-        ijkMediaPlayer.setOption(IjkMediaPlayer.OPT_CATEGORY_PLAYER, "soundtouch", 1)       //todo 加了这个才能设置倍速播放
-        ijkMediaPlayer.setOption(IjkMediaPlayer.OPT_CATEGORY_PLAYER, "libijkplayer.so", 1)
-        ijkMediaPlayer.setOption(IjkMediaPlayer.OPT_CATEGORY_PLAYER, "framedrop", 0)
-        ijkMediaPlayer.setOption(IjkMediaPlayer.OPT_CATEGORY_FORMAT, "start-on-prepared", 1)
-        ijkMediaPlayer.setOption(IjkMediaPlayer.OPT_CATEGORY_CODEC, "skip_loop_filter", 48)
-        ijkMediaPlayer.setOption(IjkMediaPlayer.OPT_CATEGORY_PLAYER, "opensles", 1)
-        ijkMediaPlayer.setOption(IjkMediaPlayer.OPT_CATEGORY_PLAYER, "mediacodec", 1)
-        ijkMediaPlayer.setOption(IjkMediaPlayer.OPT_CATEGORY_PLAYER, "mediacodec-auto-rotate", 1)
-        ijkMediaPlayer.setOption(IjkMediaPlayer.OPT_CATEGORY_PLAYER, "mediacodec-handle-resolution-change", 1)
+    }
 
+    override fun setSpeed(speed: Float) {
+        ijkMediaPlayer.setSpeed(speed)
     }
 
     override fun getDuration(): Long {
@@ -56,10 +57,7 @@ class XmIJKPlayer : IXmMediaPlayer() {
     }
 
     override fun start() {
-        ijkMediaPlayer.setOption(IjkMediaPlayer.OPT_CATEGORY_PLAYER, "soundtouch", 1)       //todo 加了这个才能设置倍速播放
-        val method = Class.forName("tv.danmaku.ijk.media.player.IjkMediaPlayer")
-                .getDeclaredMethod("setOption", Int::class.javaPrimitiveType, String::class.java, Long::class.javaPrimitiveType)
-        method.invoke(ijkMediaPlayer, IjkMediaPlayer.OPT_CATEGORY_PLAYER, "soundtouch", 1)
+        ijkMediaPlayer.setScreenOnWhilePlaying(true)
         ijkMediaPlayer.start()
     }
 
@@ -68,6 +66,7 @@ class XmIJKPlayer : IXmMediaPlayer() {
     }
 
     override fun pause() {
+        ijkMediaPlayer.setScreenOnWhilePlaying(false)
         ijkMediaPlayer.pause()
     }
 
@@ -77,6 +76,15 @@ class XmIJKPlayer : IXmMediaPlayer() {
     }
 
     override fun prepareAsync() {
+        ijkMediaPlayer.setOption(IjkMediaPlayer.OPT_CATEGORY_PLAYER, "soundtouch", 1)       //todo 加了这个才能设置倍速播放
+        ijkMediaPlayer.setOption(IjkMediaPlayer.OPT_CATEGORY_PLAYER, "libijkplayer.so", 1)
+        ijkMediaPlayer.setOption(IjkMediaPlayer.OPT_CATEGORY_PLAYER, "framedrop", 0)
+        ijkMediaPlayer.setOption(IjkMediaPlayer.OPT_CATEGORY_FORMAT, "start-on-prepared", 1)
+        ijkMediaPlayer.setOption(IjkMediaPlayer.OPT_CATEGORY_CODEC, "skip_loop_filter", 48)
+        ijkMediaPlayer.setOption(IjkMediaPlayer.OPT_CATEGORY_PLAYER, "opensles", 1)
+        ijkMediaPlayer.setOption(IjkMediaPlayer.OPT_CATEGORY_PLAYER, "mediacodec", 1)
+        ijkMediaPlayer.setOption(IjkMediaPlayer.OPT_CATEGORY_PLAYER, "mediacodec-auto-rotate", 1)
+        ijkMediaPlayer.setOption(IjkMediaPlayer.OPT_CATEGORY_PLAYER, "mediacodec-handle-resolution-change", 1)
         ijkMediaPlayer.prepareAsync()
     }
 

@@ -20,7 +20,7 @@ import com.xm.lib.media.event.PlayerObserver
 
 class AttachmentControl(context: Context?) : BaseAttachmentView(context) {
 
-    private var controlViewHolder: ControlViewHolder? = null
+    var controlViewHolder: ControlViewHolder? = null
     private val period: Int = 1000
     private val delay: Int = 5000
 
@@ -105,6 +105,17 @@ class AttachmentControl(context: Context?) : BaseAttachmentView(context) {
                 }
             }
 
+            override fun onVertical(type: String, present: Int) {
+                super.onVertical(type, present)
+                if (controlViewHolder?.isControlViewShow!!) {
+                    if (present > 0) {
+                        controlViewHolder?.hidePlayListAni()
+                    } else {
+                        controlViewHolder?.showPlayListAni()
+                    }
+                }
+            }
+
             @SuppressLint("SetTextI18n")
             override fun onHorizontal(present: Int) {
                 super.onHorizontal(present)
@@ -120,7 +131,7 @@ class AttachmentControl(context: Context?) : BaseAttachmentView(context) {
                 controlViewHolder?.progressTimerStop()
 
                 //显示控制器界面
-                controlViewHolder?.updateProgress( horizontalSlidePos.toInt() + present * 1000L) // ps: 更新进度条 播放进度文本
+                controlViewHolder?.updateProgress(horizontalSlidePos.toInt() + present * 1000L) // ps: 更新进度条 播放进度文本
                 controlViewHolder?.showProgress()
                 controlViewHolder?.showControlView()
             }

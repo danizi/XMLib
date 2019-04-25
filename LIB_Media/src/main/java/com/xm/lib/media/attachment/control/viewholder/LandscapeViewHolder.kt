@@ -1,23 +1,33 @@
 package com.xm.lib.media.attachment.control.viewholder
 
-import android.R.attr.x
 import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.content.Context
 import android.support.constraint.ConstraintLayout
+import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.LayoutInflater
-import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.drawable.GlideDrawable
+import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.request.target.Target
+import com.google.gson.Gson
 import com.xm.lib.common.log.BKLog
 import com.xm.lib.common.util.ScreenUtil
 import com.xm.lib.common.util.TimeUtil
+import com.xm.lib.media.test.MediaListEnt
 import com.xm.lib.media.R
 import com.xm.lib.media.attachment.control.AttachmentControl
 import com.xm.lib.media.attachment.control.ControlViewHolder
+import com.xm.lib.media.base.XmVideoView
 import com.xm.lib.media.view.XmPopWindow
+import okhttp3.*
+import java.io.IOException
 
 
 /**
@@ -136,9 +146,7 @@ class LandscapeViewHolder : ControlViewHolder {
         ivMore?.setOnClickListener {
             val xmPopWindow = XmPopWindow(activity)
             val view = LayoutInflater.from(activity).inflate(R.layout.attachment_control_landscape_setting_pop, null, false)
-            view.findViewById<TextView>(R.id.tv_speed_20).setOnClickListener {
-                xmVideoView?.mediaPlayer?.setSpeed(2.0f)
-            }
+            PopSettingViewHolder.create(xmVideoView, view)
             xmPopWindow.ini(view, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT)
             xmPopWindow.showAtLocation(XmPopWindow.Location.RIGHT, R.style.AnimationRightFade, activity?.window?.decorView!!, 0, 0)
         }
@@ -217,33 +225,94 @@ class LandscapeViewHolder : ControlViewHolder {
             xmPopWindow.ini(ratioView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT)
             xmPopWindow.showAtLocation(XmPopWindow.Location.RIGHT, R.style.AnimationRightFade, activity?.window?.decorView!!, 0, 0)
         }
-        rv?.setOnTouchListener { v, event ->
-            //val x = event.rawX.toInt()
-            val y = event.rawY.toInt()
+//        rv?.setOnTouchListener { v, event ->
+//            //val x = event.rawX.toInt()
+//            val y = event.rawY.toInt()
+//            when (event.action) {
+//                MotionEvent.ACTION_DOWN -> {
+//                }
+//                MotionEvent.ACTION_UP -> {
+//                    if (deltaY > 0) {
+//                        ObjectAnimator.ofFloat(rv, "translationY", rv?.translationY!!, 0f).setDuration(500).start()
+//                    } else {
+//                        ObjectAnimator.ofFloat(rv, "translationY", rv?.translationY!!.toFloat(), (-rv?.height!!).toFloat()).setDuration(500).start()
+//                    }
+//                }
+//                MotionEvent.ACTION_MOVE -> {
+//                    if (mLastX != 0 && mLastY != 0) {
+//                        deltaX = x - mLastX//计算x坐标上的差值
+//                        deltaY = y - mLastY//计算y坐标上的差值
+//                        BKLog.d("rv?.translationY:${rv?.translationY} deltaY:$deltaY")
+//                        val tranX = rv?.translationX!! + deltaX//要平移的x值
+//                        val tranY = rv?.translationY!! + deltaY//要平移的y值
+//                        rv?.translationX = tranX//设置值
+//                        rv?.translationY = tranY
+//                    }
+//                }
+//            }
+//            mLastX = x;//记录上次的坐标
+//            mLastY = y;
+//            false
+//        }
 
-            when (event.action) {
-                MotionEvent.ACTION_DOWN -> {
-                }
-                MotionEvent.ACTION_UP -> {
-                    if (deltaY > 0) {
-                        ObjectAnimator.ofFloat(rv, "translationY", rv?.translationY!!, 0f).setDuration(500).start()
-                    } else {
-                        ObjectAnimator.ofFloat(rv, "translationY", rv?.translationY!!.toFloat(), (-rv?.height!!).toFloat()).setDuration(500).start()
-                    }
-                }
-                MotionEvent.ACTION_MOVE -> {
-                    deltaX = x - mLastX//计算x坐标上的差值
-                    deltaY = y - mLastY//计算y坐标上的差值
-                    val tranX = rv?.translationX!! + deltaX//要平移的x值
-                    val tranY = rv?.translationY!! + deltaY//要平移的y值
-                    rv?.translationX = tranX//设置值
-                    rv?.translationY = tranY
-                }
+        val l = LinearLayoutManager(activity)
+        l.orientation = LinearLayoutManager.HORIZONTAL
+        rv?.layoutManager = l
+
+        val okHttpClient = OkHttpClient.Builder().build()
+        val request = Request.Builder()
+                .url("https://api.tradestudy.cn/v3/course?courseId=e90b1cbc845411e5a95900163e000c35")
+                .addHeader("x-tradestudy-access-token", "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJwYXNzd29yZCI6IlpsczdzM0p6SG8zVHl6TkN3UU9iekUzakJNalB1L1loektHemNRYXlzOENHdkxBS1R5REFXbGt1K1FpdFE5WTJqTzAvNnJnQkgwVXA1cjJDYUxTakNBPT0iLCJwaG9uZSI6IjE1MDc0NzcwNzA4IiwiaWQiOiI2NTc4M2IxNWQ0NzcxMWU4OGI0NDAyNDJhYzEzMDAwMyIsInRva2VuIjoiZjc0OTEyYjIzYWFkNDIzMzliNjg1NDdmNzIyY2Y2NDEifQ.I2VniieCs33Q-78jkzfdI4O_aqosAiFOijpbCujtR5g")
+                .addHeader("x-tradestudy-client-version", "3.4.3")
+                .addHeader("x-tradestudy-client-device", "android_phone")
+                .addHeader("x-tradestudy-access-key-id", "c")
+                .build()
+        okHttpClient.newCall(request).enqueue(object : Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                Log.d("", "")
             }
-            mLastX = x;//记录上次的坐标
-            mLastY = y;
-            true
-        }
+
+            @Throws(IOException::class)
+            override fun onResponse(call: Call, response: Response) {
+                val body = response.body()?.string()
+                val mediaListEnt = Gson().fromJson(body, MediaListEnt::class.java)
+                val sections = ArrayList<MediaListEnt.ChaptersBean.SectionsBean>()
+                for (ent in mediaListEnt.chapters) {
+                    sections.addAll(ent.sections)
+                }
+                activity?.runOnUiThread {
+                    rv?.adapter = PlayListAdapter(sections, xmVideoView)
+                }
+                Log.d("", "body:$body-$mediaListEnt")
+            }
+        })
+    }
+
+    @SuppressLint("ObjectAnimatorBinding")
+    override fun showPlayList() {
+        super.showPlayList()
+        rv?.visibility = View.VISIBLE
+
+    }
+
+    @SuppressLint("ObjectAnimatorBinding")
+    override fun hidePlayListAni() {
+        super.hidePlayListAni()
+        ObjectAnimator.ofFloat(rv, "translationY", rv?.translationY!!, 0f).setDuration(500).start()
+    }
+
+    @SuppressLint("ObjectAnimatorBinding")
+    override fun showPlayListAni() {
+        super.showPlayListAni()
+        ObjectAnimator.ofFloat(rv, "translationY", rv?.translationY!!.toFloat(), (-rv?.height!!).toFloat()).setDuration(500).start()
+    }
+
+    @SuppressLint("ObjectAnimatorBinding")
+    override fun hidePlayList() {
+        super.hidePlayList()
+        rv?.visibility = View.GONE
+
+
     }
 
     override fun showOrHideControlView() {
@@ -322,31 +391,118 @@ class LandscapeViewHolder : ControlViewHolder {
     override fun progress(present: Int) {
         seekBar?.progress = present
     }
-}
 
-/**
- * 播放列表ViewHolder
- */
-class PlayListViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-    fun bind() {
+    private class PopSettingViewHolder private constructor(val xmVideoView: XmVideoView?, val context: Context, val tvEdit: TextView, val clAction: ConstraintLayout, val imageView: ImageView, val clSpeed: ConstraintLayout, val tvSpeedTitle: TextView, val tvSpeed05: TextView, val tvSpeed075: TextView, val tvSpeed10: TextView, val tvSpeed125: TextView, val tvSpeed15: TextView, val tvSpeed20: TextView, val clTimerTop: ConstraintLayout, val tvTimerTitle: TextView, val tvTimerNoOpen: TextView, val tvTimerComplete: TextView, val tvTimerCustom: TextView, val clPlayType: ConstraintLayout, val tvPlayTypeTitle: TextView, val tvPlayTypeAuto: TextView, val tvPlayTypeListLoop: TextView, val tvPlayTypeLoop: TextView, val tvPlayTypeCustom: TextView, val clCanvas: ConstraintLayout, val tvCanvasTitle: TextView, val tvCanvasFit: TextView, val tvCanvasFill: TextView, val tvCanvas169: TextView, val tvCanvas43: TextView) {
+        companion object {
 
+            fun create(xmVideoView: XmVideoView?, rootView: View?): PopSettingViewHolder {
+                val tvEdit = rootView?.findViewById<View>(R.id.tv_edit) as TextView
+                val clAction = rootView.findViewById<View>(R.id.cl_action) as ConstraintLayout
+                val imageView = rootView.findViewById<View>(R.id.imageView) as ImageView
+                val clSpeed = rootView.findViewById<View>(R.id.cl_speed) as ConstraintLayout
+                val tvSpeedTitle = rootView.findViewById<View>(R.id.tv_speed_title) as TextView
+                val tvSpeed05 = rootView.findViewById<View>(R.id.tv_speed_05) as TextView
+                val tvSpeed075 = rootView.findViewById<View>(R.id.tv_speed_075) as TextView
+                val tvSpeed10 = rootView.findViewById<View>(R.id.tv_speed_10) as TextView
+                val tvSpeed125 = rootView.findViewById<View>(R.id.tv_speed_125) as TextView
+                val tvSpeed15 = rootView.findViewById<View>(R.id.tv_speed_15) as TextView
+                val tvSpeed20 = rootView.findViewById<View>(R.id.tv_speed_20) as TextView
+                val clTimerTop = rootView.findViewById<View>(R.id.cl_timer_top) as ConstraintLayout
+                val tvTimerTitle = rootView.findViewById<View>(R.id.tv_timer_title) as TextView
+                val tvTimerNoOpen = rootView.findViewById<View>(R.id.tv_timer_no_open) as TextView
+                val tvTimerComplete = rootView.findViewById<View>(R.id.tv_timer_complete) as TextView
+                val tvTimerCustom = rootView.findViewById<View>(R.id.tv_timer_custom) as TextView
+                val clPlayType = rootView.findViewById<View>(R.id.cl_play_type) as ConstraintLayout
+                val tvPlayTypeTitle = rootView.findViewById<View>(R.id.tv_play_type_title) as TextView
+                val tvPlayTypeAuto = rootView.findViewById<View>(R.id.tv_play_type_auto) as TextView
+                val tvPlayTypeListLoop = rootView.findViewById<View>(R.id.tv_play_type_list_loop) as TextView
+                val tvPlayTypeLoop = rootView.findViewById<View>(R.id.tv_play_type_loop) as TextView
+                val tvPlayTypeCustom = rootView.findViewById<View>(R.id.tv_play_type_custom) as TextView
+                val clCanvas = rootView.findViewById<View>(R.id.cl_canvas) as ConstraintLayout
+                val tvCanvasTitle = rootView.findViewById<View>(R.id.tv_canvas_title) as TextView
+                val tvCanvasFit = rootView.findViewById<View>(R.id.tv_canvas_fit) as TextView
+                val tvCanvasFill = rootView.findViewById<View>(R.id.tv_canvas_fill) as TextView
+                val tvCanvas169 = rootView.findViewById<View>(R.id.tv_canvas_16_9) as TextView
+                val tvCanvas43 = rootView.findViewById<View>(R.id.tv_canvas_4_3) as TextView
+                return PopSettingViewHolder(xmVideoView, rootView.context, tvEdit, clAction, imageView, clSpeed, tvSpeedTitle, tvSpeed05, tvSpeed075, tvSpeed10, tvSpeed125, tvSpeed15, tvSpeed20, clTimerTop, tvTimerTitle, tvTimerNoOpen, tvTimerComplete, tvTimerCustom, clPlayType, tvPlayTypeTitle, tvPlayTypeAuto, tvPlayTypeListLoop, tvPlayTypeLoop, tvPlayTypeCustom, clCanvas, tvCanvasTitle, tvCanvasFit, tvCanvasFill, tvCanvas169, tvCanvas43)
+            }
+        }
+
+        init {
+            tvSpeed05.setOnClickListener {
+                xmVideoView?.mediaPlayer?.setSpeed(0.5f)
+                Toast.makeText(context, "0.5倍速度", Toast.LENGTH_SHORT).show()
+            }
+            tvSpeed075.setOnClickListener {
+                xmVideoView?.mediaPlayer?.setSpeed(0.75f)
+                Toast.makeText(context, "0.75倍速度", Toast.LENGTH_SHORT).show()
+            }
+            tvSpeed10.setOnClickListener {
+                xmVideoView?.mediaPlayer?.setSpeed(1.0f)
+                Toast.makeText(context, "1.0倍速度", Toast.LENGTH_SHORT).show()
+            }
+            tvSpeed125.setOnClickListener {
+                xmVideoView?.mediaPlayer?.setSpeed(1.25f)
+                Toast.makeText(context, "1.25倍速度", Toast.LENGTH_SHORT).show()
+            }
+            tvSpeed15.setOnClickListener {
+                xmVideoView?.mediaPlayer?.setSpeed(1.5f)
+                Toast.makeText(context, "1.5倍速度", Toast.LENGTH_SHORT).show()
+            }
+            tvSpeed20.setOnClickListener {
+                xmVideoView?.mediaPlayer?.setSpeed(2.0f)
+                Toast.makeText(context, "2.0倍速度", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
-}
 
-/**
- * 播放列表Adapter
- */
-class PlayListAdapter : RecyclerView.Adapter<PlayListViewHolder>() {
+    /**
+     * 播放列表ViewHolder
+     */
+    private class PlayListViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        private var cover: ImageView? = null
+        private var title: TextView? = null
+        fun bind(any: Any, mediaPlayer: XmVideoView?) {
+            val sectionsBean = any as MediaListEnt.ChaptersBean.SectionsBean
+            cover = itemView.findViewById(R.id.iv_cover)
+            title = itemView.findViewById(R.id.tv_title)
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PlayListViewHolder {
-        return PlayListViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_list, parent, false))
+            Glide.with(itemView.context).load(sectionsBean.avatar).error(R.mipmap.ic_launcher).listener(object : RequestListener<String?, GlideDrawable?> {
+                override fun onException(e: java.lang.Exception?, model: String?, target: Target<GlideDrawable?>?, isFirstResource: Boolean): Boolean {
+                    e?.printStackTrace()
+                    return false
+                }
+
+                override fun onResourceReady(resource: GlideDrawable?, model: String?, target: Target<GlideDrawable?>?, isFromMemoryCache: Boolean, isFirstResource: Boolean): Boolean {
+                    return false
+                }
+            }).into(cover)
+            title?.text = sectionsBean.name
+            itemView.setOnClickListener {
+                mediaPlayer?.start(sectionsBean.hls1, true)
+            }
+        }
     }
 
-    override fun getItemCount(): Int {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+    /**
+     * 播放列表Adapter
+     */
+    private class PlayListAdapter(val data: ArrayList<*>, val xmVideoView: XmVideoView?) : RecyclerView.Adapter<PlayListViewHolder>() {
 
-    override fun onBindViewHolder(holder: PlayListViewHolder, position: Int) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PlayListViewHolder {
+            return PlayListViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_list, parent, false))
+        }
+
+        override fun getItemCount(): Int {
+            return if (data.isEmpty()) {
+                0
+            } else {
+                data.size
+            }
+        }
+
+        override fun onBindViewHolder(holder: PlayListViewHolder, position: Int) {
+            holder.bind(data[position]!!, xmVideoView)
+        }
     }
 }

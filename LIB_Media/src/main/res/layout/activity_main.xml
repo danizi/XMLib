@@ -4,13 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
     tools:context=".test.MainActivity">
 
     <!--新版播放器-->
     <com.xm.lib.media.base.XmVideoView
         android:id="@+id/video"
         android:layout_width="match_parent"
-        android:layout_height="500px"
+        android:layout_height="200dp"
         android:background="@color/colorAccent" />
 
     <Button

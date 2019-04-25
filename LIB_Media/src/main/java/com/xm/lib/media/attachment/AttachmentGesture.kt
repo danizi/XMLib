@@ -1,11 +1,22 @@
 package com.xm.lib.media.attachment
 
+import android.Manifest
 import android.content.Context
+import android.content.Intent
+import android.net.Uri
+import android.os.Build
+import android.provider.Settings
 import android.support.constraint.ConstraintLayout
+import android.support.v4.content.ContextCompat.startActivity
+import android.support.v7.app.AlertDialog
+import android.support.v7.app.AppCompatActivity
+import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
+import com.tbruyelle.rxpermissions2.RxPermissions
+import com.xm.lib.common.log.BKLog
 import com.xm.lib.common.util.BrightnessUtil
 import com.xm.lib.common.util.VolumeUtil
 import com.xm.lib.media.R
@@ -18,14 +29,17 @@ import com.xm.lib.media.utils.GestureHelper
 class AttachmentGesture(context: Context) : BaseAttachmentView(context) {
 
     private var viewHolder: ViewHolder? = null
+    private var rxPermissions: RxPermissions? = null
 
     companion object {
+        const val TAG = "AttachmentGesture"
         const val SEEK = "Seek"
         const val BRIGHTNESS = "Brightness"
         const val VOLUME = "Volume"
     }
 
     init {
+        rxPermissions = RxPermissions((context as AppCompatActivity))
         observer = object : PlayerObserver {
         }
         gestureObserver = object : GestureObserver {
@@ -35,14 +49,44 @@ class AttachmentGesture(context: Context) : BaseAttachmentView(context) {
                 hide(BRIGHTNESS)
                 hide(VOLUME)
             }
-            override fun onVertical( type: String, present: Int) {
-                super.onVertical( type, present)
+
+            override fun onVertical(type: String, present: Int) {
+                super.onVertical(type, present)
+                val damp = 0.7f
                 when (type) {
                     GestureHelper.VERTICAL_LEFT_VALUE -> {
+                        rxPermissions?.request(Manifest.permission.WRITE_SETTINGS)
+                                ?.subscribe { granted ->
+                                    if (granted!!) {
+                                        BKLog.d(AttachmentGesture.TAG, "All requested permissions are granted")
+                                    } else {
+                                        Log.d("", "At least one permission is denied")
+//                                        AlertDialog.Builder(context)
+//                                                .setTitle("设置亮度")
+//                                                .setMessage("设置权限")
+//                                                .setNegativeButton("确认") { dialog, which ->
+//                                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+//                                                        if (Settings.System.canWrite(context)) {
+//                                                            // Do stuff here
+//                                                        } else {
+//                                                            val intent = Intent(Settings.ACTION_MANAGE_WRITE_SETTINGS)
+//                                                            intent.data = Uri.parse("package:" + context.getPackageName())
+//                                                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+//                                                            context.startActivity(intent)
+//                                                        }
+//                                                    }
+//                                                }.show()
+                                    }
+                                }
                         show(BRIGHTNESS)
+                        val curScreenBrightness = BrightnessUtil.getScreenBrightness(context)
                         viewHolder?.brightnessPb?.max = 100
-                        viewHolder?.brightnessPb?.progress = (BrightnessUtil.getScreenBrightness(context) * 100).toInt()
-                        val brightnessPresent = BrightnessUtil.getScreenBrightness(context) + (1f - BrightnessUtil.getScreenBrightness(context) * present / 100f)
+                        viewHolder?.brightnessPb?.progress = (curScreenBrightness * 100).toInt()
+                        val brightnessPresent = if (present > 0) {
+                            curScreenBrightness + (1f - curScreenBrightness * present * damp) / 100f
+                        } else {
+                            curScreenBrightness - (1f - curScreenBrightness) * present * damp / 100f
+                        }
                         BrightnessUtil.setSystemBrightness(context, brightnessPresent)
                     }
                     GestureHelper.VERTICAL_RIGHT_VALUE -> {
@@ -52,9 +96,9 @@ class AttachmentGesture(context: Context) : BaseAttachmentView(context) {
                         viewHolder?.volumePb?.progress = (curVolumePresent * 100).toInt()
                         var volumePresent = curVolumePresent
                         volumePresent = if (present > 0) {
-                            curVolumePresent + (1f - curVolumePresent * present) / 100f
+                            curVolumePresent + (1f - curVolumePresent * present * damp) / 100f
                         } else {
-                            curVolumePresent - (1f - curVolumePresent) * present / 100f
+                            curVolumePresent - (1f - curVolumePresent) * present * damp / 100f
                         }
                         VolumeUtil.setVolume(context, volumePresent)
                     }

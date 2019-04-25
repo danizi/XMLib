@@ -33,7 +33,7 @@ abstract class ControlViewHolder {
     protected var screenW = 0
     protected var screenH = 0
     var listener: OnScreenStateListener? = null
-
+    var isControlViewShow = false
     /**
      * 点击屏幕控制界面 显示和隐藏状态来回切换
      */
@@ -46,6 +46,8 @@ abstract class ControlViewHolder {
         rootView?.visibility = View.VISIBLE
         showTop()
         showBottom()
+        showPlayList()
+        isControlViewShow = true
     }
 
     abstract fun showProgress()
@@ -62,6 +64,8 @@ abstract class ControlViewHolder {
         hideBottom()
         hideLoading()
         hideProgress()
+        hidePlayList()
+        isControlViewShow = false
     }
 
     abstract fun hideProgress()
@@ -150,6 +154,11 @@ abstract class ControlViewHolder {
         /*停止延时隐藏控制界面*/
         controlViewHideTimer?.stop()
     }
+
+    open fun showPlayList() {}
+    open fun showPlayListAni() {}
+    open fun hidePlayList() {}
+    open fun hidePlayListAni() {}
 
     interface OnScreenStateListener {
         fun onState(type: String)

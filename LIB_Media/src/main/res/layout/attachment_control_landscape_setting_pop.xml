@@ -86,76 +86,80 @@
                 app:layout_constraintStart_toStartOf="parent" />
 
             <TextView
-                android:id="@+id/tv_speed_0.5"
+                android:id="@+id/tv_speed_05"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:layout_weight="1"
-                android:paddingRight="10dp"
+                android:padding="10dp"
                 android:text="0.5"
                 android:textColor="@color/white"
                 app:layout_constraintStart_toStartOf="@+id/tv_speed_title"
                 app:layout_constraintTop_toBottomOf="@+id/tv_speed_title" />
 
             <TextView
-                android:id="@+id/tv_speed_0.75"
+                android:id="@+id/tv_speed_075"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginLeft="8dp"
                 android:layout_weight="1"
+                android:padding="10dp"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
                 android:text="0.75"
                 android:textColor="@color/white"
-                app:layout_constraintBottom_toBottomOf="@+id/tv_speed_0.5"
-                app:layout_constraintStart_toEndOf="@+id/tv_speed_0.5"
-                app:layout_constraintTop_toTopOf="@+id/tv_speed_0.5" />
+                app:layout_constraintBottom_toBottomOf="@+id/tv_speed_05"
+                app:layout_constraintStart_toEndOf="@+id/tv_speed_05"
+                app:layout_constraintTop_toTopOf="@+id/tv_speed_05" />
 
             <TextView
-                android:id="@+id/tv_speed_1.0"
+                android:id="@+id/tv_speed_10"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginLeft="8dp"
                 android:layout_weight="1"
+                android:padding="10dp"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
                 android:text="1.0"
                 android:textColor="@color/white"
-                app:layout_constraintBottom_toBottomOf="@+id/tv_speed_0.5"
-                app:layout_constraintStart_toEndOf="@+id/tv_speed_0.75"
-                app:layout_constraintTop_toTopOf="@+id/tv_speed_0.5" />
+                app:layout_constraintBottom_toBottomOf="@+id/tv_speed_05"
+                app:layout_constraintStart_toEndOf="@+id/tv_speed_075"
+                app:layout_constraintTop_toTopOf="@+id/tv_speed_05" />
 
             <TextView
-                android:id="@+id/tv_speed_1.25"
+                android:id="@+id/tv_speed_125"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginLeft="8dp"
                 android:layout_weight="1"
+                android:padding="10dp"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
                 android:text="1.25"
                 android:textColor="@color/white"
-                app:layout_constraintBottom_toBottomOf="@+id/tv_speed_0.5"
-                app:layout_constraintStart_toEndOf="@+id/tv_speed_1.0"
-                app:layout_constraintTop_toTopOf="@+id/tv_speed_0.5" />
+                app:layout_constraintBottom_toBottomOf="@+id/tv_speed_05"
+                app:layout_constraintStart_toEndOf="@+id/tv_speed_10"
+                app:layout_constraintTop_toTopOf="@+id/tv_speed_05" />
 
             <TextView
-                android:id="@+id/tv_speed_1.5"
+                android:id="@+id/tv_speed_15"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginLeft="8dp"
                 android:layout_weight="1"
+                android:padding="10dp"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
                 android:text="1.5"
                 android:textColor="@color/white"
-                app:layout_constraintBottom_toBottomOf="@+id/tv_speed_0.5"
-                app:layout_constraintStart_toEndOf="@+id/tv_speed_1.25"
-                app:layout_constraintTop_toTopOf="@+id/tv_speed_0.5" />
+                app:layout_constraintBottom_toBottomOf="@+id/tv_speed_05"
+                app:layout_constraintStart_toEndOf="@+id/tv_speed_125"
+                app:layout_constraintTop_toTopOf="@+id/tv_speed_05" />
 
             <TextView
                 android:id="@+id/tv_speed_20"
@@ -164,13 +168,14 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginLeft="8dp"
                 android:layout_weight="1"
+                android:padding="10dp"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
                 android:text="2.0"
                 android:textColor="@color/white"
-                app:layout_constraintBottom_toBottomOf="@+id/tv_speed_0.5"
-                app:layout_constraintStart_toEndOf="@+id/tv_speed_1.5"
-                app:layout_constraintTop_toTopOf="@+id/tv_speed_0.5" />
+                app:layout_constraintBottom_toBottomOf="@+id/tv_speed_05"
+                app:layout_constraintStart_toEndOf="@+id/tv_speed_15"
+                app:layout_constraintTop_toTopOf="@+id/tv_speed_05" />
 
         </android.support.constraint.ConstraintLayout>
 
@@ -179,6 +184,7 @@
             android:id="@+id/cl_timer_top"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
             android:layout_marginLeft="12dp"
             android:layout_marginTop="12dp"
             app:layout_constraintStart_toStartOf="parent"
@@ -198,6 +204,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
+                android:padding="10dp"
                 android:text="不开启"
                 android:textColor="@color/white"
                 app:layout_constraintTop_toBottomOf="@+id/tv_timer_title" />
@@ -207,6 +214,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="12dp"
+                android:padding="10dp"
                 android:text="播放当前"
                 android:textColor="@color/white"
                 app:layout_constraintBottom_toBottomOf="@+id/tv_timer_no_open"
@@ -218,6 +226,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="12dp"
+                android:padding="10dp"
                 android:text="自定义"
                 android:textColor="@color/white"
                 app:layout_constraintBottom_toBottomOf="@+id/tv_timer_no_open"
@@ -231,66 +240,135 @@
             android:id="@+id/cl_play_type"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginLeft="12dp"
+            android:layout_marginTop="12dp"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/cl_timer_top">
 
             <TextView
                 android:id="@+id/tv_play_type_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="12dp"
-                android:layout_marginLeft="12dp"
                 android:text="播放方式"
-                android:textColor="#605e5e"
-                app:layout_constraintStart_toStartOf="parent" />
+                android:textColor="#605e5e" />
 
             <TextView
-                android:id="@+id/textView"
+                android:id="@+id/tv_play_type_auto"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
+                android:padding="10dp"
                 android:text="自动连播"
                 android:textColor="@color/white"
                 app:layout_constraintStart_toStartOf="@+id/tv_play_type_title"
                 app:layout_constraintTop_toBottomOf="@+id/tv_play_type_title" />
 
             <TextView
-                android:id="@+id/textView2"
+                android:id="@+id/tv_play_type_list_loop"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="8dp"
+                android:padding="10dp"
                 android:text="列表循环"
                 android:textColor="@color/white"
-                app:layout_constraintBottom_toBottomOf="@+id/textView"
-                app:layout_constraintStart_toEndOf="@+id/textView"
-                app:layout_constraintTop_toTopOf="@+id/textView" />
+                app:layout_constraintBottom_toBottomOf="@+id/tv_play_type_auto"
+                app:layout_constraintStart_toEndOf="@+id/tv_play_type_auto"
+                app:layout_constraintTop_toTopOf="@+id/tv_play_type_auto" />
 
             <TextView
-                android:id="@+id/textView3"
+                android:id="@+id/tv_play_type_loop"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginLeft="8dp"
+                android:padding="10dp"
                 android:text="单集循环"
                 android:textColor="@color/white"
-                app:layout_constraintBottom_toBottomOf="@+id/textView"
-                app:layout_constraintStart_toEndOf="@+id/textView2"
-                app:layout_constraintTop_toTopOf="@+id/textView" />
+                app:layout_constraintBottom_toBottomOf="@+id/tv_play_type_auto"
+                app:layout_constraintStart_toEndOf="@+id/tv_play_type_list_loop"
+                app:layout_constraintTop_toTopOf="@+id/tv_play_type_auto" />
 
             <TextView
+                android:id="@+id/tv_play_type_custom"
                 android:layout_width="wrap_content"
-                android:layout_height="16dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginLeft="8dp"
+                android:layout_height="wrap_content"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
                 android:text="播放暂停"
                 android:textColor="@color/white"
-                app:layout_constraintBottom_toBottomOf="@+id/textView"
-                app:layout_constraintStart_toEndOf="@+id/textView3"
-                app:layout_constraintTop_toTopOf="@+id/textView" />
+                app:layout_constraintBottom_toBottomOf="@+id/tv_play_type_auto"
+                app:layout_constraintStart_toEndOf="@+id/tv_play_type_loop"
+                app:layout_constraintTop_toTopOf="@+id/tv_play_type_auto" />
 
         </android.support.constraint.ConstraintLayout>
 
         <!--画面尺寸-->
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/cl_canvas"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_marginStart="12dp"
+            android:layout_marginLeft="12dp"
+            android:layout_marginTop="12dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cl_play_type">
+
+            <TextView
+                android:id="@+id/tv_canvas_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="画布尺寸"
+                android:textColor="#605e5e" />
+
+            <TextView
+                android:id="@+id/tv_canvas_fit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:padding="10dp"
+                android:text="适应"
+                android:textColor="@color/white"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_canvas_title" />
+
+            <TextView
+                android:id="@+id/tv_canvas_fill"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
+                android:padding="10dp"
+                android:text="填充"
+                android:textColor="@color/white"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_canvas_fit"
+                app:layout_constraintStart_toEndOf="@+id/tv_canvas_fit"
+                app:layout_constraintTop_toTopOf="@+id/tv_canvas_fit" />
+
+            <TextView
+                android:id="@+id/tv_canvas_16_9"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
+                android:padding="10dp"
+                android:text="16:9"
+                android:textColor="@color/white"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_canvas_fill"
+                app:layout_constraintStart_toEndOf="@+id/tv_canvas_fill"
+                app:layout_constraintTop_toTopOf="@+id/tv_canvas_fill" />
+
+            <TextView
+                android:id="@+id/tv_canvas_4_3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
+                android:padding="10dp"
+                android:text="4:3"
+                android:textColor="@color/white"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_canvas_16_9"
+                app:layout_constraintStart_toEndOf="@+id/tv_canvas_16_9"
+                app:layout_constraintTop_toTopOf="@+id/tv_canvas_16_9" />
+
+
+        </android.support.constraint.ConstraintLayout>
     </android.support.constraint.ConstraintLayout>
 
 
