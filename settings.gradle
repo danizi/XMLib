@@ -1,1 +1,27 @@
 include ':app', ':LIB_Common', ':LIB_Component', ':LIB_Media', ':LIB_IJKPlayer_Sdk', ':LIB_Pay', ':LIB_Share', ':LIB_Statistics', ':LIB_Web', ':LIB_Downloader'
+
+
+/*
+其他工程引入該工程LIB庫，例如引入LIB_Common如下
+setting 文件下：
+              include ':LIB_Common'
+              project(':LIB_Common').projectDir = new File('../XMLIb/LIB_Common')
+
+Project build.gradle：
+                  ext {
+                        kotlin_version = '1.3.21'
+                        buildToolsVersion = '28.0.3'
+                        compileSdkVersion = 28
+                        applicationId ='com.xm.lib.test'
+                        minSdkVersion = 15
+                        targetSdkVersion = 28
+                        versionCode = 1
+                        versionName = "1.0"
+                        minifyEnabled = false
+                       }
+
+Module build.gradle：
+              implementation project(path: ':LIB_Common')
+*/
+
+
