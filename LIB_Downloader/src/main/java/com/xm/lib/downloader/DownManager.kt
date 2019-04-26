@@ -35,8 +35,8 @@ class DownManager {
     companion object {
         fun createDownManager(context: Context): DownManager {
             //初始化数据库
-            val dao = DownDao(context, "XmDown", null, 100)
-//            val dao: DownDao? = null
+//            val dao = DownDao(context, "XmDown", null, 100)
+            val dao: DownDao? = null
             //初始化配置参数
             val config = DownConfig()
             config.path = Environment.getExternalStorageDirectory().absolutePath

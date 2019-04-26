@@ -26,7 +26,7 @@ import com.xm.lib.media.event.PlayerObserver
 import com.xm.lib.media.utils.GestureHelper
 
 
-class AttachmentGesture(context: Context) : BaseAttachmentView(context) {
+class AttachmentGesture(context: Context?) : BaseAttachmentView(context) {
 
     private var viewHolder: ViewHolder? = null
     private var rxPermissions: RxPermissions? = null

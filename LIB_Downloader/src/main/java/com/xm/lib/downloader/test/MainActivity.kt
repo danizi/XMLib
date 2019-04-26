@@ -7,8 +7,11 @@ import android.os.Environment
 import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.widget.Button
+import com.xm.lib.common.util.M3u8Helper
 import com.xm.lib.downloader.R
+import okhttp3.*
 import java.io.File
+import java.io.IOException
 
 class MainActivity : AppCompatActivity() {
     private var rv: RecyclerView? = null
@@ -70,10 +73,11 @@ class MainActivity : AppCompatActivity() {
 
     private fun initEvent() {
         btnAdd?.setOnClickListener {
-            if (count < downUrlArray.size) {
-                xmDownTest?.add(downUrlArray[count])
-                count++
-            }
+            //            if (count < downUrlArray.size) {
+//                xmDownTest?.add(downUrlArray[count])
+//                count++
+//            }
+            mediaDown()
         }
         btnEdit?.setOnClickListener {
             xmDownTest?.editMode()
@@ -93,5 +97,25 @@ class MainActivity : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         xmDownTest?.exit()
+    }
+
+    private fun mediaDown() {
+        val m3u8 = "http://hls.videocc.net/26de49f8c2/2/26de49f8c253b3715148ea0ebbb2ad95_1.m3u8"
+        OkHttpClient().newCall(Request.Builder().url(m3u8).build()).enqueue(object : Callback {
+            override fun onFailure(call: Call, e: IOException) {
+
+            }
+
+            override fun onResponse(call: Call, response: Response) {
+                val url = M3u8Helper.getDownUrls(response.body()?.byteStream())
+                this@MainActivity.runOnUiThread {
+//                    for (u in url) {
+//                        xmDownTest?.add(u)
+//                    }
+                    xmDownTest?.add("http://hls.videocc.net/26de49f8c2/5/26de49f8c253b3715148ea0ebbb2ad95_1.key")
+                }
+
+            }
+        })
     }
 }
