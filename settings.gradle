@@ -20,8 +20,19 @@ Project build.gradle：
                         minifyEnabled = false
                        }
 
+                allprojects {
+                    repositories {
+                        google()
+                        jcenter()
+                        maven { url 'https://jitpack.io' }
+                    }
+                }
+
+                 classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+
 Module build.gradle：
               implementation project(path: ':LIB_Common')
+
 */
 
 
