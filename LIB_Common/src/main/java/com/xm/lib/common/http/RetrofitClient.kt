@@ -81,7 +81,7 @@ class RetrofitClient {
         this.retrofit = Retrofit.Builder()
                 .baseUrl(baseUrl)
                 .client(getOkHttpClient())
-                .addConverterFactory(SecurityConverterFactory())
+                //.addConverterFactory(SecurityConverterFactory())
                 .addConverterFactory(NullOnEmptyConverterFactory())
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())

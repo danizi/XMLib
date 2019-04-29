@@ -82,4 +82,25 @@ object ScreenUtil {
         /*设置横屏*/
         activity?.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE
     }
+
+    /**
+     * dip 转 px
+     *
+     * @return 返回dp值对应的像素值
+     */
+    fun dip2px(context: Context, dipValue: Int): Int {
+        val scale = context.resources.displayMetrics.density
+        return (dipValue * scale + 0.5f).toInt()
+    }
+
+
+    /**
+     * px转 dp
+     *
+     * @return 返回像素值对应的dp值
+     */
+    fun px2dip(context: Context, pxValue: Float): Int {
+        val scale = context.resources.displayMetrics.density
+        return (pxValue / scale + 0.5f).toInt()
+    }
 }

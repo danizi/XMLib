@@ -36,17 +36,18 @@ class MediaListViewHolder private constructor(val context: Context?, val rv: Rec
     private fun initEvent() {
         rv?.addOnScrollListener(object : RecyclerView.OnScrollListener() {
 
-            override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
-                super.onScrolled(recyclerView, dx, dy)
-                val first = (recyclerView?.layoutManager as LinearLayoutManager).findFirstVisibleItemPosition()
+
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView!!, dx, dy)
+                val first = (recyclerView.layoutManager as LinearLayoutManager).findFirstVisibleItemPosition()
                 val last = (recyclerView.layoutManager as LinearLayoutManager).findLastVisibleItemPosition()
                 val visibleCount = last - first + 1
                 BKLog.d(TAG, " dx -> $dx   dy -> $dy")
                 BKLog.d(TAG, " first -> $first   last -> $last visibleCount -> $visibleCount")
             }
 
-            override fun onScrollStateChanged(recyclerView: RecyclerView?, newState: Int) {
-                super.onScrollStateChanged(recyclerView, newState)
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                super.onScrollStateChanged(recyclerView!!, newState)
             }
         })
     }
@@ -90,7 +91,7 @@ class MediaListViewHolder private constructor(val context: Context?, val rv: Rec
     }
 }
 
-private class MediaListViewHolder2(itemView: View?) : RecyclerView.ViewHolder(itemView) {
+private class MediaListViewHolder2(itemView: View?) : RecyclerView.ViewHolder(itemView!!) {
     fun bind(sectionsBean: MediaListEnt.ChaptersBean.SectionsBean, position: Int) {
         val xmVideoView = itemView.findViewById<XmVideoView>(R.id.video)
         val preUrl = sectionsBean.avatar

@@ -4,7 +4,7 @@ import android.util.Log
 
 object BKLog {
     private const val debug = true
-    private val TAG: String? = "xmMediaPlayer"
+    private val TAG: String? = "XmLib"
     const val I = 3
     const val D = 2
     const val W = 1

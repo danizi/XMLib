@@ -33,16 +33,14 @@ android {
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-
-
-
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
-    api 'com.android.support.constraint:constraint-layout:1.1.3'   //約束佈局
-    api "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"  // kotlin
-    api 'com.android.support:appcompat-v7:28.0.0' //卡片
+    api 'com.android.support.constraint:constraint-layout:1.1.3'
+    api 'com.android.support:design:28.0.0'//約束佈局
+    api "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"// kotlin
+    api 'com.android.support:appcompat-v7:28.0.0'    //卡片
 
     /* ===== 网络框架 ==== */
     api 'com.squareup.retrofit2:retrofit:2.5.0'
@@ -58,8 +56,9 @@ dependencies {
     api 'org.greenrobot:eventbus:3.1.1'
 
     /* ===== 其他第三方框架 ====*/
-    api 'com.jaeger.statusbarutil:library:1.5.1'      // 标题栏设置颜色
-    api 'com.github.tbruyelle:rxpermissions:0.10.2'   // 动态申请权限
-    api 'com.github.gongw:verifycodeview:1.0.2'       // 短信验证码框  https://github.com/wei-gong/VerifyCodeView
-    api 'com.youth.banner:banner:1.4.10'              // 轮播图
+    api 'com.jaeger.statusbarutil:library:1.5.1' // 标题栏设置颜色
+    api 'com.github.tbruyelle:rxpermissions:0.10.2'    // 动态申请权限
+    api 'com.github.gongw:verifycodeview:1.0.2'// 短信验证码框  https://github.com/wei-gong/VerifyCodeView
+    api 'com.youth.banner:banner:1.4.10' // 轮播图
+    api 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.5.1'//刷新组件
 }

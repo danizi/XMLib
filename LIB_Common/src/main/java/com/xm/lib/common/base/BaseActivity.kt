@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import com.xm.lib.common.log.BKLog
+import com.xm.lib.common.util.StatusBarUtil
 
 
 /**
@@ -24,14 +25,14 @@ abstract class BaseActivity : AppCompatActivity() {
         if (savedInstanceState != null) {
             this.savedInstanceState = savedInstanceState
         }
-        //val view = (getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater).inflate(getLayouId(), null, true)
-        setContentView(getLayouId())
+        //val view = (getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater).inflate(getLayoutId(), null, true)
+        setContentView(getLayoutId())
         findViews()
         initDisplay()
         iniData()
         iniEvent()
         //com.jaeger.library.StatusBarUtil.setColor(this, Color.parseColor("#FFFFFF"), 0)  //修改顶部系统栏的颜色
-        //StatusBarUtil.StatusBarLightMode(this)  // 使用该方法必须在对应的窗口添加 view.fitsSystemWindows = true属性
+        StatusBarUtil.StatusBarLightMode(this)  // 使用该方法必须在对应的窗口添加 view.fitsSystemWindows = true属性
     }
 
     /**
@@ -42,7 +43,7 @@ abstract class BaseActivity : AppCompatActivity() {
     /**
      * 布局ID
      */
-    abstract fun getLayouId(): Int
+    abstract fun getLayoutId(): Int
 
     /**
      * 查找view

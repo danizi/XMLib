@@ -32,4 +32,12 @@ object TimeUtil {
             java.text.SimpleDateFormat("mm:ss").format(Date(msec))
         }
     }
+    fun yyyyMMdd(msec: Long, pattern: String = "yyyy/MM/dd"): String {
+        val h = msec / 1000 / 60 / 60 % 60
+        return if (h > 0) {
+            java.text.SimpleDateFormat(pattern).format(Date(msec))
+        } else {
+            java.text.SimpleDateFormat("mm:ss").format(Date(msec))
+        }
+    }
 }
