@@ -61,4 +61,6 @@ dependencies {
     api 'com.github.gongw:verifycodeview:1.0.2'// 短信验证码框  https://github.com/wei-gong/VerifyCodeView
     api 'com.youth.banner:banner:1.4.10' // 轮播图
     api 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.5.1'//刷新组件
+    api 'de.hdodenhof:circleimageview:2.1.0' //圆形img
+
 }

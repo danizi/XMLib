@@ -18,9 +18,14 @@ object ViewUtil {
      * 通过layoutid获取view
      */
     @SuppressLint("InflateParams")
-    fun viewById(context: Context?, resID: Int): View? {
-        return LayoutInflater.from(context).inflate(resID, null, false)
+    fun viewById(context: Context?, resID: Int, root: ViewGroup? = null): View? {
+        return if (root == null) {
+            LayoutInflater.from(context).inflate(resID, null, false)
+        } else {
+            LayoutInflater.from(context).inflate(resID, root, false)
+        }
     }
+
 
     /**
      * 显示
