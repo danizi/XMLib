@@ -9,7 +9,7 @@ import android.view.ViewGroup
  * RecyclerView 适配器
  */
 abstract class BaseRvAdapter : RecyclerView.Adapter<BaseViewHolder>() {
-    var data: List<*>? = null
+    var data: ArrayList<Any>? = ArrayList()
     private var delegateManager: DelegateManager? = null
     private var onBindDataListener: OnBindDataListener? = null
 

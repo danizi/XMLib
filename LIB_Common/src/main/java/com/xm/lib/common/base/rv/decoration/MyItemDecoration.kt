@@ -23,9 +23,9 @@ class MyItemDecoration : RecyclerView.ItemDecoration() {
 //    }
 
     companion object {
-        fun divider(context: Context, orientation: Int, id: Int): RecyclerView.ItemDecoration {
+        fun divider(context: Context?, orientation: Int, id: Int): RecyclerView.ItemDecoration {
             val d = DividerItemDecoration(context, orientation)
-            d.setDrawable(ContextCompat.getDrawable(context, id)!!)
+            d.setDrawable(ContextCompat.getDrawable(context!!, id)!!)
             return d
         }
     }

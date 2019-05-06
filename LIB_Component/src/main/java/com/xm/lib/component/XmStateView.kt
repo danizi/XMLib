@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.*
 
 /**
@@ -18,12 +19,12 @@ class XmStateView(context: Context, attrs: AttributeSet?) : FrameLayout(context,
     private var btnReplay: Button? = null
 
     init {
-        view = LayoutInflater.from(context).inflate(R.layout.view_state, null, false)
+        view = LayoutInflater.from(context).inflate(R.layout.view_state, this, false)
         progressCircular = view?.findViewById(R.id.progress_circular)
         ivIcon = view?.findViewById(R.id.iv_icon)
         tvDes = view?.findViewById(R.id.tv_des)
         btnReplay = view?.findViewById(R.id.btn_replay)
-        addView(view)
+        addView(view, LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT))
         this.visibility = View.GONE
     }
 
