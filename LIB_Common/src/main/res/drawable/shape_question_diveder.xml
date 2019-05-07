@@ -2,6 +2,6 @@
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
     android:shape="rectangle">
     <size android:height="10dp"/>
-    <solid android:color="#fff5f5f5"/>
+    <solid android:color="@color/divider"/>
     <!--Drawable drawable = ContextCompat.getDrawable(mContext,R.drawable.shape_question_diveder);-->
 </shape>
