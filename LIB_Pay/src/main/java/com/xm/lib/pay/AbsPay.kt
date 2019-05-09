@@ -7,7 +7,13 @@ import android.app.Activity
  */
 abstract class AbsPay(act: Activity) {
     protected var activity: Activity = act
-    abstract fun pay(channel: Channel,paramsJson: String, listener: OnPayListener)
+
+    abstract fun pay(channel: Channel, paramsJson: String, listener: OnPayListener)
+
+    /**
+     * 微信支付初始化
+     */
+    abstract fun init(APP_ID: String)
 }
 
 /**

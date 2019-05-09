@@ -19,6 +19,10 @@ import com.xm.lib.pay.ali.util.PayResult
  */
 class AliPay(activity: Activity) : AbsPay(activity) {
 
+    override fun init(APP_ID: String) {
+
+    }
+
     companion object {
         //支付结果标志位
         const val SDK_PAY_FLAG = 1

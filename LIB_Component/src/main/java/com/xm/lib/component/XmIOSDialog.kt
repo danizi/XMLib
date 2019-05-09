@@ -11,19 +11,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.TextView
 import com.xm.lib.common.log.BKLog
-import com.xm.lib.component.IOSDialog.ViewHolder.clEnter
-import com.xm.lib.component.IOSDialog.ViewHolder.clEnterCancel
-import com.xm.lib.component.IOSDialog.ViewHolder.findViews
-import com.xm.lib.component.IOSDialog.ViewHolder.tvCancel
-import com.xm.lib.component.IOSDialog.ViewHolder.tvEnter
-import com.xm.lib.component.IOSDialog.ViewHolder.tvEnter2
-import com.xm.lib.component.IOSDialog.ViewHolder.tvMsg
-import com.xm.lib.component.IOSDialog.ViewHolder.tvTitle
+import com.xm.lib.component.XmIOSDialog.ViewHolder.clEnter
+import com.xm.lib.component.XmIOSDialog.ViewHolder.clEnterCancel
+import com.xm.lib.component.XmIOSDialog.ViewHolder.findViews
+import com.xm.lib.component.XmIOSDialog.ViewHolder.tvCancel
+import com.xm.lib.component.XmIOSDialog.ViewHolder.tvEnter
+import com.xm.lib.component.XmIOSDialog.ViewHolder.tvEnter2
+import com.xm.lib.component.XmIOSDialog.ViewHolder.tvMsg
+import com.xm.lib.component.XmIOSDialog.ViewHolder.tvTitle
 
 /**
  * 各种类型弹框
  */
-open class IOSDialog(var ctx: Context?) {
+open class XmIOSDialog(var ctx: Context?) {
 
     private var width = 0
     private var height = 0
@@ -32,23 +32,23 @@ open class IOSDialog(var ctx: Context?) {
     private var bind: OnBind? = null
     private var type: Type? = Type.GENERAL
 
-    fun setSize(w: Int, h: Int): IOSDialog {
+    fun setSize(w: Int, h: Int): XmIOSDialog {
         this.width = w
         this.height = h
         return this
     }
 
-    fun setType(type: Type): IOSDialog {
+    fun setType(type: Type): XmIOSDialog {
         this.type = type
         return this
     }
 
-    fun setLayoutId(id: Int): IOSDialog {
+    fun setLayoutId(id: Int): XmIOSDialog {
         this.layoutId = id
         return this
     }
 
-    fun setOnBind(bind: OnBind): IOSDialog {
+    fun setOnBind(bind: OnBind): XmIOSDialog {
         this.bind = bind
         return this
     }
@@ -61,7 +61,7 @@ open class IOSDialog(var ctx: Context?) {
 
     }
 
-    fun setCancelable(cancelable: Boolean): IOSDialog {
+    fun setCancelable(cancelable: Boolean): XmIOSDialog {
         this.cancelable = cancelable
         return this
     }
@@ -76,22 +76,22 @@ open class IOSDialog(var ctx: Context?) {
     private var title = ""
     private var msg = ""
 
-    fun setTitle(title: String): IOSDialog {
+    fun setTitle(title: String): XmIOSDialog {
         this.title = title
         return this
     }
 
-    fun setMsg(msg: String): IOSDialog {
+    fun setMsg(msg: String): XmIOSDialog {
         this.msg = msg
         return this
     }
 
-    fun setOnEnterListener(listener: OnEnterListener?): IOSDialog {
+    fun setOnEnterListener(listener: OnEnterListener?): XmIOSDialog {
         this.enterListener = listener
         return this
     }
 
-    fun setOnCancelListener(listener: OnCancelListener?): IOSDialog {
+    fun setOnCancelListener(listener: OnCancelListener?): XmIOSDialog {
         this.cancelListener = listener
         return this
     }
