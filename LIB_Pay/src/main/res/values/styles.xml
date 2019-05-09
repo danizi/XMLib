@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!--处理微信窗口回退闪一下问题-->
+    <style name="wx_theme" parent="AppTheme">
+        <item name="android:windowBackground">@color/translucent</item>
+        <item name="android:windowIsTranslucent">true</item></style>
 
     <!-- Navigation Header -->
     <style name="NavPage">

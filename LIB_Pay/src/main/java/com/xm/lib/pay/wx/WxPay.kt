@@ -46,8 +46,8 @@ class WxPay(activity: Activity) : AbsPay(activity) {
     private var api: IWXAPI? = null
 
     override fun init(APP_ID: String) {
-        val api = WXAPIFactory.createWXAPI(activity, APP_ID)
-        api.registerApp(APP_ID)// 将该app注册到微信
+        api = WXAPIFactory.createWXAPI(activity, APP_ID)
+        api?.registerApp(APP_ID)// 将该app注册到微信
     }
 
     override fun pay(channel: Channel, paramsJson: String, listener: OnPayListener) {

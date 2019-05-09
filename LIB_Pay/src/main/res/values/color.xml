@@ -12,5 +12,6 @@
     <color name="lightransparent">#a0000000</color>
     <color name="transparent">#00000000</color>
     <color name="navpage">#FFE1E8EB</color>
+    <color name="translucent">#00ffffff</color>
 
 </resources>
