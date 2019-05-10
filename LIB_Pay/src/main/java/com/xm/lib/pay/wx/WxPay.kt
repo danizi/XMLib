@@ -12,6 +12,7 @@ import com.tencent.mm.opensdk.openapi.WXAPIFactory
 import com.xm.lib.pay.AbsPay
 import com.xm.lib.pay.Channel
 import com.xm.lib.pay.OnPayListener
+import com.xm.lib.pay.PayConfig
 import com.xm.lib.pay.wx.uikit.PayParameters
 
 class WxPay(activity: Activity) : AbsPay(activity) {
@@ -42,12 +43,11 @@ class WxPay(activity: Activity) : AbsPay(activity) {
     }
 
     private var listener: OnPayListener? = null
-    private var APP_ID: String? = ""
     private var api: IWXAPI? = null
 
-    override fun init(APP_ID: String) {
-        api = WXAPIFactory.createWXAPI(activity, APP_ID)
-        api?.registerApp(APP_ID)// 将该app注册到微信
+    override fun init(payConfig: PayConfig) {
+        api = WXAPIFactory.createWXAPI(activity, payConfig.appid)
+        api?.registerApp(payConfig.appid) // 将该app注册到微信
     }
 
     override fun pay(channel: Channel, paramsJson: String, listener: OnPayListener) {

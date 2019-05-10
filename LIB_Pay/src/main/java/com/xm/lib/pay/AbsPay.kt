@@ -13,7 +13,7 @@ abstract class AbsPay(act: Activity) {
     /**
      * 微信支付初始化
      */
-    abstract fun init(APP_ID: String)
+    abstract fun init(payConfig: PayConfig)
 }
 
 /**

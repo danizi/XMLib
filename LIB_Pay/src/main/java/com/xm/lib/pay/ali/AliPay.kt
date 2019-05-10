@@ -10,6 +10,7 @@ import com.alipay.sdk.app.PayTask
 import com.xm.lib.pay.AbsPay
 import com.xm.lib.pay.Channel
 import com.xm.lib.pay.OnPayListener
+import com.xm.lib.pay.PayConfig
 import com.xm.lib.pay.ali.util.AuthResult
 import com.xm.lib.pay.ali.util.PayResult
 
@@ -19,7 +20,7 @@ import com.xm.lib.pay.ali.util.PayResult
  */
 class AliPay(activity: Activity) : AbsPay(activity) {
 
-    override fun init(APP_ID: String) {
+    override fun init(payConfig: PayConfig) {
 
     }
 

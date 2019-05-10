@@ -1,4 +1,4 @@
-package com.xm.lib.share;
+package com.xm.lib.share.test;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -8,6 +8,7 @@ import android.os.Bundle;
 import com.tencent.mm.opensdk.modelmsg.SendMessageToWX;
 import com.tencent.mm.opensdk.modelmsg.WXImageObject;
 import com.tencent.mm.opensdk.modelmsg.WXMediaMessage;
+import com.xm.lib.share.R;
 import com.xm.lib.share.wx.Util;
 
 public class MainActivity extends AppCompatActivity {
