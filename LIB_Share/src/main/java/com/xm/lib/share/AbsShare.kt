@@ -15,12 +15,12 @@ abstract class AbsShare(val activity: Activity) {
      * 分享图片
      * @param bmp 分享的图片Bitmap对象
      */
-    abstract fun shareImage(bmp: Bitmap)
+    abstract fun shareImage(bmp: Bitmap,scene:Int?=SendMessageToWX.Req.WXSceneSession)
 
     /**
      * 分享文本
      */
-    abstract fun shareText(text: String)
+    abstract fun shareText(text: String,scene:Int?=SendMessageToWX.Req.WXSceneSession)
 
     /**
      * 分享音乐
@@ -29,7 +29,7 @@ abstract class AbsShare(val activity: Activity) {
      * @param title 音乐分享标题
      * @param description 音乐分享描述
      */
-    abstract fun shareMusic(thumb: Int, lowBandUrl: String, title: String, description: String)
+    abstract fun shareMusic(thumb: Int, lowBandUrl: String, title: String, description: String,scene:Int?=SendMessageToWX.Req.WXSceneSession)
 
     /**
      * 分享视频
@@ -38,7 +38,7 @@ abstract class AbsShare(val activity: Activity) {
      * @param title 视频分享标题
      * @param description 视频分享描述
      */
-    abstract fun shareVideo(thumb: Int, videoUrl: String, title: String, description: String)
+    abstract fun shareVideo(thumb: Int, videoUrl: String, title: String, description: String,scene:Int?=SendMessageToWX.Req.WXSceneSession)
 
     /**
      * 分享app数据
@@ -46,7 +46,7 @@ abstract class AbsShare(val activity: Activity) {
      * @param title 分享标题
      * @param description 分享描述
      */
-    abstract fun shareAppData(path: String, title: String, description: String)
+    abstract fun shareAppData(path: String, title: String, description: String,scene:Int?=SendMessageToWX.Req.WXSceneSession)
 
     /**
      * 分享网页
@@ -55,7 +55,7 @@ abstract class AbsShare(val activity: Activity) {
      * @param title 分享标题
      * @param description 分享内容
      */
-    abstract fun shareWebPage(thumb: Int, webpageUrl: String, title: String, description: String)
+    abstract fun shareWebPage(thumb: Int, webpageUrl: String, title: String, description: String,scene:Int?=SendMessageToWX.Req.WXSceneSession)
 
     protected val mTargetScene = SendMessageToWX.Req.WXSceneSession
 

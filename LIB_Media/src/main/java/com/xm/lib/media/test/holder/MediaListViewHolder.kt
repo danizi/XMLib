@@ -60,6 +60,7 @@ class MediaListViewHolder private constructor(val context: Context?, val rv: Rec
     private fun request() {
         OkHttpClient.Builder().build().newCall(Request.Builder()
                 .url("https://api.tradestudy.cn/v3/course?courseId=e90b1cbc845411e5a95900163e000c35")
+                // ps:如果重新登录需要更改token
                 .addHeader("x-tradestudy-access-token", "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJwYXNzd29yZCI6IlpsczdzM0p6SG8zVHl6TkN3UU9iekUzakJNalB1L1loektHemNRYXlzOENHdkxBS1R5REFXbGt1K1FpdFE5WTJqTzAvNnJnQkgwVXA1cjJDYUxTakNBPT0iLCJwaG9uZSI6IjE1MDc0NzcwNzA4IiwiaWQiOiI2NTc4M2IxNWQ0NzcxMWU4OGI0NDAyNDJhYzEzMDAwMyIsInRva2VuIjoiZjc0OTEyYjIzYWFkNDIzMzliNjg1NDdmNzIyY2Y2NDEifQ.I2VniieCs33Q-78jkzfdI4O_aqosAiFOijpbCujtR5g")
                 .addHeader("x-tradestudy-client-version", "3.4.3")
                 .addHeader("x-tradestudy-client-device", "android_phone")

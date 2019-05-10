@@ -1,5 +1,6 @@
 package com.xm.lib.component
 
+import android.app.Activity
 import android.content.Context
 import android.graphics.drawable.ColorDrawable
 import android.view.Gravity
@@ -20,6 +21,7 @@ class XmPopWindow(val context: Context?) : PopupWindow(context) {
         this.height = height
         //实例化一个ColorDrawable颜色为半透明,设置SelectPicPopupWindow弹出窗体的背景
         this.setBackgroundDrawable(ColorDrawable(0x00000000))
+        //this.setBackgroundDrawable(  ColorDrawable(android.graphics.Color.BLACK))
     }
 
     init {

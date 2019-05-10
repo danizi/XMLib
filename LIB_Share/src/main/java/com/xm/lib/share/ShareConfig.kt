@@ -11,8 +11,9 @@ class ShareConfig(builder: Builder) {
 
     class Builder {
         var appid = ""
-        fun appid(appid: String) {
+        fun appid(appid: String):Builder {
             this.appid = appid
+            return this
         }
 
         fun build(): ShareConfig {
