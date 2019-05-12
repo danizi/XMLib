@@ -13,7 +13,7 @@ import com.xm.lib.share.ShareConfig
 class WxShare(act: Activity) : AbsShare(act) {
 
     companion object {
-        private const val THUMB_SIZE=100
+        private const val THUMB_SIZE = 100
     }
 
     private var api: IWXAPI? = null
@@ -23,7 +23,7 @@ class WxShare(act: Activity) : AbsShare(act) {
         api?.registerApp(shareConfig.appid)  // 将该app注册到微信
     }
 
-    override fun shareImage(bmp:Bitmap, scene: Int?) {
+    override fun shareImage(bmp: Bitmap, scene: Int?) {
         //val bmp = BitmapFactory.decodeResource(activity.resources, R.drawable.ic_launcher_background)
         val imgObj = WXImageObject(bmp)
 
@@ -103,7 +103,7 @@ class WxShare(act: Activity) : AbsShare(act) {
         api?.sendReq(req)
     }
 
-    override fun shareAppData(path:String,title: String, description: String, scene: Int?) {
+    override fun shareAppData(path: String, title: String, description: String, scene: Int?) {
         val gameVideoFileObject = WXGameVideoFileObject()
         //val path = "/sdcard/test_video.mp4"
         gameVideoFileObject.filePath = path
@@ -121,7 +121,7 @@ class WxShare(act: Activity) : AbsShare(act) {
         api?.sendReq(req)
     }
 
-    override fun shareWebPage(thumb:Int,webpageUrl:String,title:String,description:String,scene: Int?) {
+    override fun shareWebPage(thumb: Int, webpageUrl: String, title: String, description: String, scene: Int?) {
         val webpage = WXWebpageObject()
         webpage.webpageUrl = webpageUrl
         val msg = WXMediaMessage(webpage)
@@ -136,6 +136,17 @@ class WxShare(act: Activity) : AbsShare(act) {
         req.transaction = buildTransaction("webpage")
         req.message = msg
         req.scene = mTargetScene
+        api?.sendReq(req)
+    }
+
+    /**
+     * 微信授權,獲取唯一標識，唯一標識獲取請定位到 resp.getType() == ConstantsAPI.COMMAND_SENDAUTH
+     */
+    override fun oauth() {
+        val req = SendAuth.Req()
+        req.scope = "snsapi_userinfo"
+        req.state = "diandi_wx_login"
+        req.state = "wechat_sdk_微信登录"
         api?.sendReq(req)
     }
 }

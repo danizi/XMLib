@@ -57,6 +57,11 @@ abstract class AbsShare(val activity: Activity) {
      */
     abstract fun shareWebPage(thumb: Int, webpageUrl: String, title: String, description: String,scene:Int?=SendMessageToWX.Req.WXSceneSession)
 
+    /**
+     * 授權
+     */
+    abstract fun oauth()
+
     protected val mTargetScene = SendMessageToWX.Req.WXSceneSession
 
     protected fun buildTransaction(type: String?): String {

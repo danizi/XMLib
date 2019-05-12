@@ -3,6 +3,7 @@ package com.xm.lib.common.util
 import android.annotation.SuppressLint
 import android.content.Context
 import android.view.*
+import android.widget.RelativeLayout
 
 object ViewUtil {
 
@@ -43,5 +44,10 @@ object ViewUtil {
         if (target?.visibility == View.VISIBLE) {
             target.visibility = View.GONE
         }
+    }
+
+    fun setMargins(view:View?,left:Int,top:Int,right:Int,bottom:Int){
+        val lp = RelativeLayout.LayoutParams(view?.layoutParams)
+        lp.setMargins(left, top, right, bottom)
     }
 }

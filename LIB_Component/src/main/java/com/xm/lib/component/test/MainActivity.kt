@@ -28,7 +28,7 @@ class MainActivity : AppCompatActivity() {
 
         val data = ArrayList<String>()
         data.add("XmIOSDialog")
-        data.add("DialogActivity1")
+        data.add("TreeView")
         data.add("DialogActivity2")
         data.add("DialogActivity3")
         data.add("DialogActivity4")
@@ -53,6 +53,9 @@ class MainActivity : AppCompatActivity() {
                 when (position) {
                     0 -> {
                         itemView.context.startActivity(Intent(itemView.context, DialogActivity::class.java))
+                    }
+                    1 -> {
+                        itemView.context.startActivity(Intent(itemView.context, TreeViewActivity::class.java))
                     }
                 }
             }

@@ -150,6 +150,7 @@ class RetrofitClient {
                 response(call, response)
             } catch (e: Exception) {
                 e.printStackTrace()
+                onFailure(call, e.message)
             }
         }
 
@@ -166,24 +167,24 @@ class RetrofitClient {
         private fun response(call: Call<T>?, response: retrofit2.Response<T>?) {
             when (response?.code()?.div(100)) {
                 1 -> {
-                    //消息
+                    BKLog.d("消息")
                 }
                 2 -> {
-                    //请求成功
+                    BKLog.d("请求成功")
                     onSuccess(call, response)
                 }
                 3 -> {
-                    //重定向
+                    BKLog.e("重定向")
                 }
                 4 -> {
-                    //客户端请求错误
+                    BKLog.e("客户端请求错误")
                     errorMsg(response)
-                    onFailure(call, response.errorBody()?.string())
+                    //onFailure(call, response.errorBody()?.string())
                 }
                 5 -> {
-                    //服务端处理错误
+                    BKLog.e("服务端处理错误")
                     errorMsg(response)
-                    onFailure(call, response.errorBody().toString())
+                    //onFailure(call, response.errorBody()?.string())
                 }
             }
         }
@@ -192,6 +193,9 @@ class RetrofitClient {
 
         abstract fun onFailure(call: Call<T>?, msg: String?)
 
+        /**
+         * 对服务器返回的消息进行处理
+         */
         abstract fun errorMsg(response: retrofit2.Response<T>?)
     }
 }
