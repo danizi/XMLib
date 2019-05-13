@@ -46,4 +46,5 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation project(':LIB_Common')
+    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
 }
