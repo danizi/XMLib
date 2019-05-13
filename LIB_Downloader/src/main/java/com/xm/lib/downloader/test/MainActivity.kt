@@ -1,5 +1,6 @@
 package com.xm.lib.downloader.test
 
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
@@ -10,6 +11,7 @@ import android.widget.Button
 import com.xm.lib.common.util.M3u8Helper
 import com.xm.lib.common.util.M3u8Helper.parseDownUrl
 import com.xm.lib.downloader.R
+import com.xm.lib.downloader.test.m3u8down.M3u8DownActivity
 import okhttp3.*
 import java.io.File
 import java.io.IOException
@@ -37,6 +39,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        startActivity(Intent(this, M3u8DownActivity::class.java))
         findViews()
         iniData()
         initEvent()
@@ -74,7 +77,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun initEvent() {
         btnAdd?.setOnClickListener {
-//            if (count < downUrlArray.size) {
+            //            if (count < downUrlArray.size) {
 //                xmDownTest?.add(downUrlArray[count])
 //                count++
 //            }
@@ -102,7 +105,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun mediaDown() {
         val m3u8 = "http://hls.videocc.net/26de49f8c2/2/26de49f8c253b3715148ea0ebbb2ad95_1.m3u8"
-        parseDownUrl( m3u8)
+        parseDownUrl(m3u8)
         OkHttpClient().newCall(Request.Builder().url(m3u8).build()).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
 

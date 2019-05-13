@@ -40,7 +40,7 @@ class DownManager {
             //初始化配置参数
             val config = DownConfig()
             config.path = Environment.getExternalStorageDirectory().absolutePath
-            config.dir = "XmDown"
+            config.dir = "xmDown/26de49f8c253b3715148ea0ebbb2ad95_1"
             config.threadNum = 2
             config.downTaskerPool = ThreadPoolExecutor(config.threadNum.toInt(), config.threadNum.toInt(), 30, TimeUnit.SECONDS, ArrayBlockingQueue(2000)) //多任务下载线程池
             config.isMultiRunnable = false
