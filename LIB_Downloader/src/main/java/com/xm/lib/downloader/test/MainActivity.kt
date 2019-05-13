@@ -39,7 +39,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        startActivity(Intent(this, M3u8DownActivity::class.java))
+        //startActivity(Intent(this, M3u8DownActivity::class.java))
         findViews()
         iniData()
         initEvent()
@@ -77,11 +77,10 @@ class MainActivity : AppCompatActivity() {
 
     private fun initEvent() {
         btnAdd?.setOnClickListener {
-            //            if (count < downUrlArray.size) {
-//                xmDownTest?.add(downUrlArray[count])
-//                count++
-//            }
-            mediaDown()
+                        if (count < downUrlArray.size) {
+                xmDownTest?.add(downUrlArray[count])
+                count++
+            }
         }
         btnEdit?.setOnClickListener {
             xmDownTest?.editMode()
