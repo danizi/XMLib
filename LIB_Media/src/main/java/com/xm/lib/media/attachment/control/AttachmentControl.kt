@@ -198,9 +198,9 @@ class AttachmentControl(context: Context?) : BaseAttachmentView(context) {
                         addLandscapeView(View.VISIBLE)
                     }
                 }
-
             }
         }
         controlViewHolder?.progressTimerStart(period.toLong())
+        (controlViewHolder as LandscapeViewHolder)
     }
 }

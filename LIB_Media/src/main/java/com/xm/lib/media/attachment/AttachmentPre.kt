@@ -12,10 +12,10 @@ import com.xm.lib.media.event.PhoneStateObserver
 import com.xm.lib.media.event.PlayerObserver
 
 
-class AttachmentPre(context: Context?, private var preUrl: String = "") : BaseAttachmentView(context!!) {
+class AttachmentPre(context: Context?, private var preUrl: String ?= "") : BaseAttachmentView(context!!) {
     private var ivStart: ImageView? = null
     private var pbLoading: ProgressBar? = null
-    var url: String = ""
+    var url: String? = ""
     private var ivPre: ImageView? = null
 
     init {
@@ -30,7 +30,13 @@ class AttachmentPre(context: Context?, private var preUrl: String = "") : BaseAt
 
         }
         phoneObserver = object : PhoneStateObserver {}
-        Glide.with(context).load(preUrl).error(R.drawable.ic_launcher_background).into(ivPre)//加载图片
+        Glide.with(context).load(preUrl).error(R.mipmap.load_img_default).into(ivPre)//加载图片
+    }
+
+    fun load(playUrl:String,preUrl: String){
+        this.url = playUrl
+        this.preUrl = preUrl
+        Glide.with(context).load(preUrl).error(R.mipmap.load_img_default).into(ivPre)//加载图片
     }
 
     override fun layoutId(): Int {

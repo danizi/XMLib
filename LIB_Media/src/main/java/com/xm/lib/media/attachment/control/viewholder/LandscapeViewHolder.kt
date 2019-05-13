@@ -259,6 +259,7 @@ class LandscapeViewHolder : ControlViewHolder {
         l.orientation = LinearLayoutManager.HORIZONTAL
         rv?.layoutManager = l
 
+        //请求列表数据
         val okHttpClient = OkHttpClient.Builder().build()
         val request = Request.Builder()
                 .url("https://api.tradestudy.cn/v3/course?courseId=e90b1cbc845411e5a95900163e000c35")
@@ -311,8 +312,6 @@ class LandscapeViewHolder : ControlViewHolder {
     override fun hidePlayList() {
         super.hidePlayList()
         rv?.visibility = View.GONE
-
-
     }
 
     override fun showOrHideControlView() {

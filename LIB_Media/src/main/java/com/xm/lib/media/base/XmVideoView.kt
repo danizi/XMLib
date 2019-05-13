@@ -286,7 +286,7 @@ class XmVideoView : FrameLayout {
         }
     }
 
-    fun start(url: String, autoPlay: Boolean = false) {
+    fun start(url: String?, autoPlay: Boolean = false) {
         /*异步准备播放*/
         this.autoPlay = autoPlay
         if (surfaceView == null || sh == null) {
