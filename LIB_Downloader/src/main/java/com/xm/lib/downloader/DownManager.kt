@@ -46,7 +46,7 @@ class DownManager {
             config.isMultiRunnable = false
             config.isSingleRunnable = true
             config.bufferSize =  1024 * 4
-            config.runqueues = 2
+            config.runqueues = 1
             config.downDispatcherPool = ThreadPoolExecutor(config.runqueues.toInt(), config.runqueues.toInt(), 30, TimeUnit.SECONDS, ArrayBlockingQueue(2000)) //分发器线程池
 
             //初始化分发器
