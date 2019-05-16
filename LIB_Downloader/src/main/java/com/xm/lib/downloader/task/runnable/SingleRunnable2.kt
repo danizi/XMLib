@@ -28,6 +28,7 @@ open class SingleRunnable2 : BaseRunnable() {
             BKLog.d(TAG, "seek:$startIndex")
             DEFAULT_BUFFER_SIZE = downManager?.downConfig()?.bufferSize!!
             val singleRunnable = SingleRunnable2()
+            singleRunnable.downManager=downManager
             singleRunnable.name = task?.name!!
             singleRunnable.url = task.url
             singleRunnable.total = task.total
@@ -77,7 +78,7 @@ open class SingleRunnable2 : BaseRunnable() {
         }
     }
 
-    private var isComplete = false
+    var isComplete = false
     private fun write(inputStream: InputStream?, raf: RandomAccessFile?) {
         /*文件写入操作*/
         var length: Int
@@ -93,6 +94,11 @@ open class SingleRunnable2 : BaseRunnable() {
                 }
                 if (!runing.get()) {
                     BKLog.d(TAG, "外部修改了运行标志位，停止文件写入。")
+                    return
+                }
+                // todo m3u8下载解析地址需要一个全局标志位
+                if(downManager?.runFlag==false){
+                    BKLog.d(TAG, "m3u8下载解析地址需要一个全局标志位")
                     return
                 }
                 callBackProcess(length.toLong()) //进度回调

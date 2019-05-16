@@ -56,4 +56,15 @@ class DownDispatcher {
         runningQueue?.remove(tasker)
         readyQueue?.remove(tasker)
     }
+
+    fun removeAll(){
+        for (tasker in runningQueue?.iterator()!!){
+            tasker.runnable?.exit()
+            runningQueue?.remove(tasker)
+        }
+        for (tasker in readyQueue?.iterator()!!){
+            tasker.runnable?.exit()
+            readyQueue?.remove(tasker)
+        }
+    }
 }

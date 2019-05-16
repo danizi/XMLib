@@ -3,6 +3,7 @@ package com.xm.lib.downloader.task.runnable
 
 
 import com.xm.lib.common.log.BKLog
+import com.xm.lib.downloader.DownManager
 import com.xm.lib.downloader.config.DownConfig.Companion.DEFAULT
 import com.xm.lib.downloader.config.DownConfig.Companion.EMPTY_STRING
 import com.xm.lib.downloader.enum_.DownErrorType
@@ -21,6 +22,7 @@ abstract class BaseRunnable : Runnable {
     var total: Long = DEFAULT.toLong() //下载文件总大小（单位 B）
     var present: Float = DEFAULT.toFloat() //下载进度(单位 %)
     var listener: BaseRunnable.OnListener? = null //下载监听
+    var downManager: DownManager?=null
 
     /**
      * 多线程会使用到的属性

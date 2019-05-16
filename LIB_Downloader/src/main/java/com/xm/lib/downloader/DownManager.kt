@@ -8,6 +8,7 @@ import com.xm.lib.downloader.dispatcher.DownDispatcher
 import com.xm.lib.downloader.event.DownObservable
 import com.xm.lib.downloader.task.DownTask
 import com.xm.lib.downloader.task.DownTasker
+import com.xm.lib.downloader.task.runnable.SingleRunnable2
 import java.util.concurrent.ArrayBlockingQueue
 import java.util.concurrent.LinkedBlockingQueue
 import java.util.concurrent.ThreadPoolExecutor
@@ -20,6 +21,8 @@ class DownManager {
     private var downDispatcher: DownDispatcher? = null //下载分发器
     private var downObserverable: DownObservable? = null //被观察者对象 ps:监听下载状态，相比监听接口更灵活
     private var downTaskers: ArrayList<DownTasker>? = null
+
+    var runFlag = true  //为了停止线程的
 
     private constructor()
 
@@ -41,7 +44,7 @@ class DownManager {
             val config = DownConfig()
             config.path = Environment.getExternalStorageDirectory().absolutePath
             config.dir = "xmDown/26de49f8c253b3715148ea0ebbb2ad95_1"
-            config.threadNum = 2
+            config.threadNum = 1
             config.downTaskerPool = ThreadPoolExecutor(config.threadNum.toInt(), config.threadNum.toInt(), 30, TimeUnit.SECONDS, ArrayBlockingQueue(2000)) //多任务下载线程池
             config.isMultiRunnable = false
             config.isSingleRunnable = true
@@ -75,9 +78,15 @@ class DownManager {
         /*暂停所有下载任务*/
         if (downTaskers?.isNotEmpty()!!) {
             for (tasker in downTaskers!!) {
-                tasker.pause()
+                if(tasker.runnable is SingleRunnable2){
+                    if((tasker.runnable as SingleRunnable2).isComplete==true){
+                        tasker.pause()
+                    }
+                }
             }
         }
+        runFlag=false
+        downDispatcher?.removeAll()
     }
 
     fun deleteAllDownTasker() {
