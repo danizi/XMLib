@@ -60,7 +60,14 @@ open class SingleRunnable2 : BaseRunnable() {
                 "bytes=$rangeStartIndex-"
             }
             conn.setRequestProperty("Range", value)
-            val inputStream = conn.inputStream
+            var inputStream:InputStream?=null
+            try {
+                 inputStream = conn.inputStream
+            }catch (e:Exception){
+                if(rangeStartIndex>0/*并有网络*/){  //todo 当文件已经完成下载了会触发这个异常，临时添加，写法会有问题
+                    listener?.onComplete(this,rangeStartIndex)
+                }
+            }
             total = conn.contentLength.toLong() + rangeStartIndex
 
             if (total > getUsableSpace()) {
