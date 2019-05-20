@@ -9,12 +9,22 @@ import java.util.*
  * 定时器帮助类
  */
 class TimerHelper {
-    //定时器
+    /**
+     * 主线程handler
+     */
     private val handler = Handler(Looper.getMainLooper())
-    //开启一个定时器显示当前播放时长
+    /**
+     * 定时器任务
+     */
     private var task: TimerTask? = null
+    /**
+     * 定时器
+     */
     private var timer: Timer? = null
 
+    /**
+     * 定时器
+     */
     fun start(listener: OnPeriodListener?, period: Long) {
         if (task != null) {
             stop()
@@ -33,6 +43,9 @@ class TimerHelper {
         timer?.schedule(task, 0, period)
     }
 
+    /**
+     * 延时执行
+     */
     fun start(listener: OnDelayTimerListener?, delay: Long) {
         if (task != null) {
             stop()
@@ -51,6 +64,9 @@ class TimerHelper {
         timer?.schedule(task, delay)
     }
 
+    /**
+     * 停止定时器
+     */
     fun stop() {
         timer?.cancel()
         task?.cancel()
