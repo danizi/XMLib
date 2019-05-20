@@ -92,7 +92,7 @@ class MediaListViewHolder private constructor(val context: Context?, val rv: Rec
     }
 }
 
-private class MediaListViewHolder2(itemView: View?) : RecyclerView.ViewHolder(itemView!!) {
+open class MediaListViewHolder2(itemView: View?) : RecyclerView.ViewHolder(itemView!!) {
     fun bind(sectionsBean: MediaListEnt.ChaptersBean.SectionsBean, position: Int) {
         val xmVideoView = itemView.findViewById<XmVideoView>(R.id.video)
         val preUrl = sectionsBean.avatar
@@ -106,7 +106,7 @@ private class MediaListViewHolder2(itemView: View?) : RecyclerView.ViewHolder(it
     }
 }
 
-private class MediaListAdapter(val sections: ArrayList<MediaListEnt.ChaptersBean.SectionsBean>) : RecyclerView.Adapter<MediaListViewHolder2>() {
+open class MediaListAdapter(val sections: ArrayList<MediaListEnt.ChaptersBean.SectionsBean>) : RecyclerView.Adapter<MediaListViewHolder2>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MediaListViewHolder2 {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.test_item_media, parent, false)
