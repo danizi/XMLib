@@ -18,7 +18,29 @@ class XmAutoViewPager : ViewPager {
 
     constructor(context: Context, attrs: AttributeSet) : super(context, attrs) {}
 
-    override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
+    //    override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
+//        var heightMeasureSpec = heightMeasureSpec
+//        var height = 0
+//        for (i in 0 until childCount) {
+//            val child = getChildAt(i)
+//            child.measure(widthMeasureSpec, View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED))
+//            val h = child.measuredHeight
+//            if (h > height) {
+//                height = h
+//            }
+//        }
+//
+//        // Viewpager网页处理
+//        if (height > 0 && currentItem == 0) {
+//            val webViewH = (getChildAt(0) as ViewGroup).getChildAt(0).measuredHeight
+//            height = webViewH
+//        }
+//
+//        height += ScreenUtil.dip2px(context, 30)
+//        heightMeasureSpec = View.MeasureSpec.makeMeasureSpec(height, View.MeasureSpec.EXACTLY)
+//        super.onMeasure(widthMeasureSpec, heightMeasureSpec)
+//    }
+    protected override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         var heightMeasureSpec = heightMeasureSpec
         var height = 0
         for (i in 0 until childCount) {
@@ -36,7 +58,7 @@ class XmAutoViewPager : ViewPager {
             height = webViewH
         }
 
-        height += ScreenUtil.dip2px(context, 30)
+        height = height + ScreenUtil.dip2px(context, 30)
         heightMeasureSpec = View.MeasureSpec.makeMeasureSpec(height, View.MeasureSpec.EXACTLY)
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
     }
