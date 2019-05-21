@@ -1,14 +1,24 @@
 package com.xm.lib.share.wx
 
 import android.app.Activity
+import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.Canvas
 import com.tencent.mm.opensdk.modelmsg.*
 import com.tencent.mm.opensdk.openapi.IWXAPI
 import com.tencent.mm.opensdk.openapi.WXAPIFactory
 import com.xm.lib.share.AbsShare
 import com.xm.lib.share.R
 import com.xm.lib.share.ShareConfig
+import android.opengl.ETC1.getHeight
+import android.opengl.ETC1.getWidth
+import android.graphics.drawable.Drawable
+import android.os.Build
+import android.os.Build.VERSION_CODES
+import android.os.Build.VERSION_CODES.LOLLIPOP
+import android.os.Build.VERSION
+
 
 class WxShare(act: Activity) : AbsShare(act) {
 
@@ -121,21 +131,37 @@ class WxShare(act: Activity) : AbsShare(act) {
         api?.sendReq(req)
     }
 
+    private fun getBitmap(context: Context, vectorDrawableId: Int): Bitmap? {
+        var bitmap: Bitmap? = null
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
+            val vectorDrawable = context.getDrawable(vectorDrawableId)
+            bitmap = Bitmap.createBitmap(vectorDrawable.getIntrinsicWidth(),
+                    vectorDrawable.intrinsicHeight, Bitmap.Config.ARGB_8888)
+            val canvas = Canvas(bitmap)
+            vectorDrawable.setBounds(0, 0, canvas.width, canvas.height)
+            vectorDrawable.draw(canvas)
+        } else {
+            bitmap = BitmapFactory.decodeResource(context.resources, vectorDrawableId)
+        }
+        return bitmap
+    }
+
     override fun shareWebPage(thumb: Int, webpageUrl: String, title: String, description: String, scene: Int?) {
         val webpage = WXWebpageObject()
         webpage.webpageUrl = webpageUrl
         val msg = WXMediaMessage(webpage)
         msg.title = title
         msg.description = description
-        val bmp = BitmapFactory.decodeResource(activity.resources, thumb)
+        //val bmp = BitmapFactory.decodeResource(activity.resources, thumb)
+        val bmp = getBitmap(activity, thumb)
         val thumbBmp = Bitmap.createScaledBitmap(bmp, THUMB_SIZE, THUMB_SIZE, true)
-        bmp.recycle()
+        bmp?.recycle()
         msg.thumbData = Util.bmpToByteArray(thumbBmp, true)
 
         val req = SendMessageToWX.Req()
         req.transaction = buildTransaction("webpage")
         req.message = msg
-        req.scene = mTargetScene
+        req.scene = scene!!
         api?.sendReq(req)
     }
 

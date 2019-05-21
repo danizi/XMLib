@@ -4,6 +4,9 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.view.*
 import android.widget.RelativeLayout
+import android.graphics.Bitmap
+import android.graphics.Canvas
+
 
 object ViewUtil {
 
@@ -46,8 +49,38 @@ object ViewUtil {
         }
     }
 
-    fun setMargins(view:View?,left:Int,top:Int,right:Int,bottom:Int){
+    fun setMargins(view: View?, left: Int, top: Int, right: Int, bottom: Int) {
         val lp = RelativeLayout.LayoutParams(view?.layoutParams)
         lp.setMargins(left, top, right, bottom)
     }
+
+    /**
+     * view转bitmap
+     */
+    @Deprecated("")
+    fun getViewBitmap(addViewContent: View): Bitmap {
+
+        addViewContent.isDrawingCacheEnabled = true
+
+        addViewContent.measure(
+                View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
+                View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED))
+        addViewContent.layout(0, 0,
+                addViewContent.measuredWidth,
+                addViewContent.measuredHeight)
+
+        addViewContent.buildDrawingCache()
+        val cacheBitmap = addViewContent.drawingCache
+
+        return Bitmap.createBitmap(cacheBitmap)
+    }
+
+    fun getViewBitmap2(view: View): Bitmap {
+        val shareBitmap = Bitmap.createBitmap(view.measuredWidth, view.measuredHeight, Bitmap.Config.ARGB_4444)
+        val c = Canvas(shareBitmap)
+        view.draw(c)
+        return shareBitmap
+        //return setImgSize(shareBitmap, view.measuredWidth, (view.measuredWidth * 1.7).toInt())
+    }
+
 }

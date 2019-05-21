@@ -42,7 +42,7 @@ class RetrofitClient {
     private var TIMEOUT = (5 * 1000).toLong()
     private var httpCacheDirectory = File(app?.cacheDir, "responses")
     private var cacheSize = 100 * 1024 * 1024L // 100 MiB
-    var headers: HashMap<String, String>? = null
+    var headers: LinkedHashMap<String, String>? = null
 
     fun setBaseUrl(url: String): RetrofitClient {
         /*设置资源访问前缀*/
@@ -70,7 +70,7 @@ class RetrofitClient {
         return this
     }
 
-    fun setHeaders(headers: HashMap<String, String>): RetrofitClient {
+    fun setHeaders(headers: LinkedHashMap<String, String>): RetrofitClient {
         /*设置需要添加的请求头*/
         this.headers = headers
         return this

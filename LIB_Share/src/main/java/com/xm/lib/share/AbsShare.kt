@@ -62,7 +62,7 @@ abstract class AbsShare(val activity: Activity) {
      */
     abstract fun oauth()
 
-    protected val mTargetScene = SendMessageToWX.Req.WXSceneSession
+    val mTargetScene = SendMessageToWX.Req.WXSceneSession
 
     protected fun buildTransaction(type: String?): String {
         return if (type == null) System.currentTimeMillis().toString() else type + System.currentTimeMillis()
