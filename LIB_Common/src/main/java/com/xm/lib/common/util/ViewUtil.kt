@@ -75,6 +75,9 @@ object ViewUtil {
         return Bitmap.createBitmap(cacheBitmap)
     }
 
+    /**
+     * view转bitmap
+     */
     fun getViewBitmap2(view: View): Bitmap {
         val shareBitmap = Bitmap.createBitmap(view.measuredWidth, view.measuredHeight, Bitmap.Config.ARGB_4444)
         val c = Canvas(shareBitmap)
