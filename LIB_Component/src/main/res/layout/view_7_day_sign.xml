@@ -1,0 +1,355 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    tools:ignore="HardcodedText">
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1">
+
+        <TextView
+            android:id="@+id/tv_score_1"
+            android:layout_width="34dp"
+            android:layout_height="34dp"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/sign_icon"
+            android:enabled="false"
+            android:gravity="center"
+            android:text="1"
+            android:textColor="#34314C"
+            android:textSize="17sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <!--选中 #FF3542-->
+        <View
+            android:id="@+id/view_line_1"
+            android:layout_width="0dp"
+            android:layout_height="4dp"
+            android:background="#DFE3F1"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_score_1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/tv_score_1"
+            app:layout_constraintTop_toTopOf="@+id/tv_score_1" />
+
+        <!--选中 #FF3542-->
+        <TextView
+            android:id="@+id/tv_day_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:enabled="false"
+            android:text="11.15"
+            android:textColor="@drawable/sign_tv"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/tv_score_1"
+            app:layout_constraintStart_toStartOf="@+id/tv_score_1"
+            app:layout_constraintTop_toBottomOf="@+id/tv_score_1"
+            app:layout_constraintVertical_bias="0.0" />
+
+    </android.support.constraint.ConstraintLayout>
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1">
+
+        <TextView
+            android:id="@+id/tv_score_2"
+            android:layout_width="34dp"
+            android:layout_height="34dp"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/sign_icon"
+            android:enabled="false"
+            android:gravity="center"
+            android:text="2"
+            android:textColor="#34314C"
+            android:textSize="17sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <!--选中 #FF3542-->
+        <View
+            android:id="@+id/view_line_2"
+            android:layout_width="0dp"
+            android:layout_height="4dp"
+            android:background="#DFE3F1"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_score_2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/tv_score_2"
+            app:layout_constraintTop_toTopOf="@+id/tv_score_2" />
+
+        <!--选中 #FF3542-->
+        <TextView
+            android:id="@+id/tv_day_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:enabled="false"
+            android:text="11.15"
+            android:textColor="@drawable/sign_tv"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/tv_score_2"
+            app:layout_constraintStart_toStartOf="@+id/tv_score_2"
+            app:layout_constraintTop_toBottomOf="@+id/tv_score_2"
+            app:layout_constraintVertical_bias="0.0" />
+
+    </android.support.constraint.ConstraintLayout>
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1">
+
+        <TextView
+            android:id="@+id/tv_score_3"
+            android:layout_width="34dp"
+            android:layout_height="34dp"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/sign_icon"
+            android:enabled="false"
+            android:gravity="center"
+            android:text="3"
+            android:textColor="#34314C"
+            android:textSize="17sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <!--选中 #FF3542-->
+        <View
+            android:id="@+id/view_line_3"
+            android:layout_width="0dp"
+            android:layout_height="4dp"
+            android:background="#DFE3F1"
+            android:enabled="false"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_score_3"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/tv_score_3"
+            app:layout_constraintTop_toTopOf="@+id/tv_score_3" />
+
+        <!--选中 #FF3542-->
+        <TextView
+            android:id="@+id/tv_day_3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:enabled="false"
+            android:text="11.15"
+            android:textColor="@drawable/sign_tv"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/tv_score_3"
+            app:layout_constraintStart_toStartOf="@+id/tv_score_3"
+            app:layout_constraintTop_toBottomOf="@+id/tv_score_3"
+            app:layout_constraintVertical_bias="0.0" />
+
+    </android.support.constraint.ConstraintLayout>
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1">
+
+        <TextView
+            android:id="@+id/tv_score_4"
+            android:layout_width="34dp"
+            android:layout_height="34dp"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/sign_icon"
+            android:enabled="false"
+            android:gravity="center"
+            android:text="4"
+            android:textColor="#34314C"
+            android:textSize="17sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <!--选中 #FF3542-->
+        <View
+            android:id="@+id/view_line_4"
+            android:layout_width="0dp"
+            android:layout_height="4dp"
+            android:background="#DFE3F1"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_score_4"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/tv_score_4"
+            app:layout_constraintTop_toTopOf="@+id/tv_score_4" />
+
+        <!--选中 #FF3542-->
+        <TextView
+            android:id="@+id/tv_day_4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:enabled="false"
+            android:text="11.15"
+            android:textColor="@drawable/sign_tv"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/tv_score_4"
+            app:layout_constraintStart_toStartOf="@+id/tv_score_4"
+            app:layout_constraintTop_toBottomOf="@+id/tv_score_4"
+            app:layout_constraintVertical_bias="0.0" />
+
+    </android.support.constraint.ConstraintLayout>
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1">
+
+        <TextView
+            android:id="@+id/tv_score_5"
+            android:layout_width="34dp"
+            android:layout_height="34dp"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/sign_icon"
+            android:enabled="false"
+            android:gravity="center"
+            android:text="5"
+            android:textColor="#34314C"
+            android:textSize="17sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <!--选中 #FF3542-->
+        <View
+            android:id="@+id/view_line_5"
+            android:layout_width="0dp"
+            android:layout_height="4dp"
+            android:background="#DFE3F1"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_score_5"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/tv_score_5"
+            app:layout_constraintTop_toTopOf="@+id/tv_score_5" />
+
+        <!--选中 #FF3542-->
+        <TextView
+            android:id="@+id/tv_day_5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:enabled="false"
+            android:text="11.15"
+            android:textColor="@drawable/sign_tv"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/tv_score_5"
+            app:layout_constraintStart_toStartOf="@+id/tv_score_5"
+            app:layout_constraintTop_toBottomOf="@+id/tv_score_5"
+            app:layout_constraintVertical_bias="0.0" />
+
+    </android.support.constraint.ConstraintLayout>
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1">
+
+        <TextView
+            android:id="@+id/tv_score_6"
+            android:layout_width="34dp"
+            android:layout_height="34dp"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/sign_icon"
+            android:enabled="false"
+            android:gravity="center"
+            android:text="6"
+            android:textColor="#34314C"
+            android:textSize="17sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <!--选中 #FF3542-->
+        <View
+            android:id="@+id/view_line_6"
+            android:layout_width="0dp"
+            android:layout_height="4dp"
+            android:background="#DFE3F1"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_score_6"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/tv_score_6"
+            app:layout_constraintTop_toTopOf="@+id/tv_score_6" />
+
+        <!--选中 #FF3542-->
+        <TextView
+            android:id="@+id/tv_day_6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:enabled="false"
+            android:text="11.15"
+            android:textColor="@drawable/sign_tv"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/tv_score_6"
+            app:layout_constraintStart_toStartOf="@+id/tv_score_6"
+            app:layout_constraintTop_toBottomOf="@+id/tv_score_6"
+            app:layout_constraintVertical_bias="0.0" />
+
+    </android.support.constraint.ConstraintLayout>
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1">
+
+        <TextView
+            android:id="@+id/tv_score_7"
+            android:layout_width="34dp"
+            android:layout_height="34dp"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/sign_icon"
+            android:enabled="false"
+            android:gravity="center"
+            android:text="7"
+            android:textColor="#34314C"
+            android:textSize="17sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <!--选中 #FF3542-->
+        <View
+            android:id="@+id/view_line_7"
+            android:layout_width="0dp"
+            android:layout_height="4dp"
+            android:background="#DFE3F1"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_score_7"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/tv_score_7"
+            app:layout_constraintTop_toTopOf="@+id/tv_score_7" />
+
+        <!--选中 #FF3542-->
+        <TextView
+            android:id="@+id/tv_day_7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:enabled="false"
+            android:text="11.15"
+            android:textColor="@drawable/sign_tv"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/tv_score_7"
+            app:layout_constraintStart_toStartOf="@+id/tv_score_7"
+            app:layout_constraintTop_toBottomOf="@+id/tv_score_7"
+            app:layout_constraintVertical_bias="0.0" />
+
+    </android.support.constraint.ConstraintLayout>
+
+</LinearLayout>

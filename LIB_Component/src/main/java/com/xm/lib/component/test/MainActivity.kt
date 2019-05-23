@@ -29,7 +29,7 @@ class MainActivity : AppCompatActivity() {
         val data = ArrayList<String>()
         data.add("XmIOSDialog")
         data.add("TreeView")
-        data.add("DialogActivity2")
+        data.add("SignView")
         data.add("DialogActivity3")
         data.add("DialogActivity4")
         data.add("DialogActivity5")
@@ -56,6 +56,9 @@ class MainActivity : AppCompatActivity() {
                     }
                     1 -> {
                         itemView.context.startActivity(Intent(itemView.context, TreeViewActivity::class.java))
+                    }
+                    2 -> {
+                        itemView.context.startActivity(Intent(itemView.context, SignViewActivity::class.java))
                     }
                 }
             }

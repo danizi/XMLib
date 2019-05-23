@@ -87,8 +87,14 @@ abstract class BaseRvAdapter : RecyclerView.Adapter<BaseViewHolder>() {
     /**
      * 获取ViewHolder实例
      */
-    fun getTypeViewHolder(type: Int): BaseViewHolder {
-        return delegateManager?.typeViewHolders?.get(type)!!
+    fun getTypeViewHolder(type: Int): BaseViewHolder? {
+        var vh: BaseViewHolder? = null
+        try {
+            vh = delegateManager?.typeViewHolders?.get(type)!!
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+        return vh
     }
 
     /**

@@ -3,6 +3,8 @@ package com.xm.lib.common.base
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.view.KeyEvent
+import android.widget.Toast
 import com.xm.lib.common.log.BKLog
 import com.xm.lib.common.util.StatusBarUtil
 
@@ -64,4 +66,21 @@ abstract class BaseActivity : AppCompatActivity() {
      * 初始化监听
      */
     abstract fun iniEvent()
+
+    private val tip: String = "再按一次退出程序"
+    private val time = 2000
+    private var lastTime: Long = 0
+
+    fun back(keyCode: Int, event: KeyEvent?): Boolean {
+        if (keyCode == KeyEvent.KEYCODE_BACK && event?.action == KeyEvent.ACTION_DOWN) {
+            if (System.currentTimeMillis() - lastTime > time) {
+                Toast.makeText(this, tip, Toast.LENGTH_SHORT).show()
+                lastTime = System.currentTimeMillis()
+            } else {
+                finish()
+            }
+            return true
+        }
+        return false
+    }
 }
