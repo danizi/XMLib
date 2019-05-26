@@ -12,6 +12,8 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.drawable.GlideDrawable
 import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.request.animation.GlideAnimation
+import com.bumptech.glide.request.target.SimpleTarget
 import com.bumptech.glide.request.target.Target
 import com.xm.lib.common.log.BKLog
 import com.xm.lib.common.util.ScreenUtil
@@ -19,7 +21,7 @@ import java.lang.Exception
 
 
 /**
- * 广告弹框
+ * 广告弹框 ps:布局根节点千万不用使用约束布局
  */
 class XmAdView(context: Context?, builder: Builder) : Dialog(context!!) {
 
@@ -43,13 +45,16 @@ class XmAdView(context: Context?, builder: Builder) : Dialog(context!!) {
             ivClose = view?.findViewById(R.id.iv_close)
             ivAd = view?.findViewById(R.id.iv_ad)
         }
+
         //设置对话框UI界面
         setContentView(view)
         //设置透明背景
-        window?.setBackgroundDrawableResource(bkColor!!)
+        //设置透明背景
+        window?.setBackgroundDrawableResource(android.R.color.transparent)
+        //window?.setBackgroundDrawableResource(bkColor!!)
         //设置点击屏幕dialog不消失
         setCanceledOnTouchOutside(canceledOnTouchOutside!!)
-        setDialogSize(this)
+        //setDialogSize(this)
     }
 
     private fun setDialogSize(dg: Dialog) {
@@ -92,7 +97,7 @@ class XmAdView(context: Context?, builder: Builder) : Dialog(context!!) {
         val w = ScreenUtil.getNormalWH(activity)[0]
         val para1 = ivAd?.layoutParams
         para1?.width = w - 2 * ScreenUtil.dip2px(context, space)
-        para1?.height = ivAd?.layoutParams?.width!! / rate.toInt()
+        para1?.height = para1?.width!! / rate.toInt()
         ivAd?.layoutParams = para1
     }
 
@@ -112,7 +117,12 @@ class XmAdView(context: Context?, builder: Builder) : Dialog(context!!) {
                         return false
                     }
                 })
-                .into(ivAd)
+                .into(object : SimpleTarget<GlideDrawable>() {
+                    //ps:添加回调处理第一次不显示图片问题，但是没有动画了
+                    override fun onResourceReady(resource: GlideDrawable?, glideAnimation: GlideAnimation<in GlideDrawable>?) {
+                        ivAd?.setImageDrawable(resource)
+                    }
+                })
     }
 
     class Builder {
@@ -172,10 +182,6 @@ class XmAdView(context: Context?, builder: Builder) : Dialog(context!!) {
             if (bkColor == -1) {
                 bkColor = android.R.color.transparent
             }
-
-//            if (view == null) {
-//                view = LayoutInflater.from(context).inflate(R.layout.view_ad, null)
-//            }
         }
     }
 }

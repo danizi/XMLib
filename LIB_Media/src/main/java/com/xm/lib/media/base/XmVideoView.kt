@@ -28,25 +28,72 @@ import com.xm.lib.media.event.PlayerObservable
 import com.xm.lib.media.service.XmMediaPlayerService
 import com.xm.lib.media.utils.GestureHelper
 import java.io.IOException
+import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.ConcurrentLinkedQueue
+import java.util.concurrent.ConcurrentMap
 
+/**
+ * 播放器View
+ */
 class XmVideoView : FrameLayout {
-
-    var mediaPlayer: XmMediaPlayer? = null //播放器
+    /**
+     * 播放器
+     */
+    var mediaPlayer: XmMediaPlayer? = null
+    /**
+     * 播放器附着页面
+     */
     private var attachmentViews: ConcurrentLinkedQueue<BaseAttachmentView>? = ConcurrentLinkedQueue() //附着页面集合
-    private var urls: ConcurrentLinkedQueue<String>? = ConcurrentLinkedQueue() //保存播放记录
-    private var surfaceView: SurfaceView? = null //画布
-    private var sh: SurfaceHolder? = null //画布Holder
-    private var autoPlay = false //是否自动播放
-    private var playerObservable: PlayerObservable? = null //播放器相关监听
-    private var phoneStateObservable: PhoneStateObservable? = null //广播相关监听
-    private var gestureObservable: GestureObservable? = null //手势相关监听
-    private var broadcastManager: BroadcastManager? = null // 广播管理类
-    private var gestureHelper: GestureHelper? = null //手势帮助类
-    private var pos = 0L //记录播放的位置
-
-    var binder: XmMediaPlayerService.XmMediaPlayerBinder? = null//服务对外提供接口
-    var xmMediaPlayerService: XmMediaPlayerService? = null //播放服务
+    var attachmentViewMaps: ConcurrentMap<String, BaseAttachmentView>? = ConcurrentHashMap<String, BaseAttachmentView>() //附着页面集合
+    /**
+     * 保存播放记录
+     */
+    @Deprecated("")
+    private var urls: ConcurrentLinkedQueue<String>? = ConcurrentLinkedQueue()
+    /**
+     * 画布
+     */
+    private var surfaceView: SurfaceView? = null
+    /**
+     * 画布Holder
+     */
+    private var sh: SurfaceHolder? = null
+    /**
+     * 是否自动播放标志
+     */
+    private var autoPlay = false
+    /**
+     * 播放器相关监听
+     */
+    private var playerObservable: PlayerObservable? = null
+    /**
+     * 广播相关监听
+     */
+    private var phoneStateObservable: PhoneStateObservable? = null
+    /**
+     * 手势相关监听
+     */
+    private var gestureObservable: GestureObservable? = null
+    /**
+     * 手势帮助类
+     */
+    private var gestureHelper: GestureHelper? = null
+    /**
+     * 广播管理类
+     */
+    private var broadcastManager: BroadcastManager? = null
+    /**
+     * 记录播放的位置
+     */
+    private var pos = 0L
+    /**
+     * 服务对外提供接口
+     */
+    var binder: XmMediaPlayerService.XmMediaPlayerBinder? = null
+    /**
+     * 播放服务
+     */
+    var xmMediaPlayerService: XmMediaPlayerService? = null
 
     constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)
 
@@ -56,25 +103,27 @@ class XmVideoView : FrameLayout {
         initMediaPlayer()
     }
 
-    @SuppressLint("ClickableViewAccessibility")
-    override fun onTouchEvent(event: MotionEvent?): Boolean {
-        if (sh != null) { //只要播放过则就手势处理
-            return gestureHelper?.onTouchEvent(event)!!
-        }
-        return super.onTouchEvent(event)
-    }
-
+    /**
+     * 播放器初始化
+     */
     private fun initMediaPlayer() {
 
+        //播放器观察者实例化
         if (playerObservable == null) {
             playerObservable = PlayerObservable()
         }
+
+        //手机状态观察者实例化
         if (phoneStateObservable == null) {
             phoneStateObservable = PhoneStateObservable()
         }
+
+        //手势观察者实例化
         if (gestureObservable == null) {
             gestureObservable = GestureObservable()
         }
+
+        //播放器实例化
         if (mediaPlayer == null) {
             mediaPlayer = XmMediaPlayer()
             initMediaPlayerListener()
@@ -161,6 +210,8 @@ class XmVideoView : FrameLayout {
         broadcastManager?.registerReceiver(phoneStateReceiver.createIntentFilter(), phoneStateReceiver)
         broadcastManager?.registerReceiver(powerConnectionReceiver.createIntentFilter(), powerConnectionReceiver)
 
+
+        //判断视图是否渲染完成
         viewTreeObserver.addOnGlobalLayoutListener(object : OnGlobalLayoutListener {
             override fun onGlobalLayout() {
                 BKLog.d(TAG, "XmVideoView 渲染完成")
@@ -176,6 +227,9 @@ class XmVideoView : FrameLayout {
         })
     }
 
+    /**
+     * 播放器监听
+     */
     private fun initMediaPlayerListener() {
         mediaPlayer?.setOnVideoSizeChangedListener(object : OnVideoSizeChangedListener {
             override fun onVideoSizeChanged(mp: IXmMediaPlayer, width: Int, height: Int, sar_num: Int, sar_den: Int) {
@@ -252,40 +306,76 @@ class XmVideoView : FrameLayout {
         })
     }
 
+    /**
+     * 播放器事件处理
+     */
+    @SuppressLint("ClickableViewAccessibility")
+    override fun onTouchEvent(event: MotionEvent?): Boolean {
+        if (sh != null) { //只要播放过则就手势处理
+            return gestureHelper?.onTouchEvent(event)!!
+        }
+        return super.onTouchEvent(event)
+    }
+
+    /**
+     * 添加播放器观察者
+     * @param attachment 附着View
+     */
     fun addPlayerObserver(attachment: BaseAttachmentView?) {
         playerObservable?.addObserver(attachment?.observer)
     }
 
+    /**
+     * 添加手势观察者
+     * @param attachment 附着View
+     */
     fun addGestureObserver(attachment: BaseAttachmentView?) {
         gestureObservable?.addObserver(attachment?.gestureObserver)
     }
 
+    /**
+     * 添加手机状态观察者
+     * @param attachment 附着View
+     */
     fun addPhoneStateObserver(attachment: BaseAttachmentView?) {
         phoneStateObservable?.addObserver(attachment?.phoneObserver)
     }
 
-    fun bindAttachmentView(attachment: BaseAttachmentView?) {
+    /**
+     * 绑定附着view
+     * @param attachment 附着View
+     */
+    fun bindAttachmentView(attachment: BaseAttachmentView?, attachmentName: String? = "") {
         /*添加在播放器附着的页面*/
         if (attachment != null) {
             attachmentViews?.add(attachment)
+            attachmentViewMaps?.put(attachmentName, attachment)
         } else {
             BKLog.e(TAG, "attachment is null")
         }
     }
 
-    fun unBindAttachmentView(attachment: BaseAttachmentView?) {
+    /**
+     * 解绑附着View,删除观察者，删除附着View
+     */
+    fun unBindAttachmentView(attachment: BaseAttachmentView?, attachmentName: String? = "") {
         if (attachment != null) {
-            //this.removeView(attachment)
-            //attachmentViews?.remove(attachment)
             playerObservable?.deleteObserver(attachment.observer)
             gestureObservable?.deleteObserver(attachment.gestureObserver)
             phoneStateObservable?.deleteObserver(attachment.phoneObserver)
             attachment.unBind()
+            attachmentViews?.remove(attachment)
+            attachmentViewMaps?.remove(attachmentName)
         } else {
             BKLog.e(TAG, "attachment is null")
         }
     }
 
+    /**
+     * 播放
+     * @param url 播放地址
+     * @param autoPlay 是否自动播放
+     */
     fun start(url: String?, autoPlay: Boolean = false) {
         /*异步准备播放*/
         this.autoPlay = autoPlay
@@ -334,69 +424,49 @@ class XmVideoView : FrameLayout {
             mediaPlayer?.setDataSource(url)
             mediaPlayer?.prepareAsync()
         }
-//        if (TextUtils.isEmpty(url)) {
-//            throw NullPointerException("url is null")
-//        }
-//
-//        if (mediaPlayer == null) {
-//            initMediaPlayer()
-//            initMediaPlayerListener()
-//        }
-//
-//        if (surfaceView == null) {
-//            surfaceView = SurfaceView(context)
-//            surfaceView?.layoutParams = ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
-//            sh = surfaceView?.holder
-//            sh?.addCallback(object : SurfaceHolder.Callback {
-//                override fun surfaceChanged(holder: SurfaceHolder?, format: Int, width: Int, height: Int) {
-//                    BKLog.d(TAG, "surfaceChanged width:$width height:$height")
-//                }
-//
-//                override fun surfaceDestroyed(holder: SurfaceHolder?) {
-//                    BKLog.d(TAG, "surfaceDestroyed")
-//                }
-//
-//                override fun surfaceCreated(holder: SurfaceHolder?) {
-//                    try {
-//                        mediaPlayer?.setDisplay(sh)
-//                        mediaPlayer?.setDataSource(url)
-//                    } catch (e: Exception) {
-//                        e.printStackTrace()
-//                    }
-//                    mediaPlayer?.prepareAsync()
-//                    BKLog.d(IXmMediaPlayer.TAG, "surfaceCreated")
-//                }
-//            })
-//            // surfaceView?.visibility= View.GONE  设置画布隐藏就无法播放了
-//            addView(surfaceView)
-//        }
-//
-//        mediaPlayer?.stop()
-//        mediaPlayer?.reset()
-//        mediaPlayer?.setDataSource(url)
-//        mediaPlayer?.prepareAsync()
     }
 
+    /**
+     * 设置播放列表信息
+     */
+    @Deprecated("在控制器中处理", ReplaceWith("start(\"http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4\")"))
     fun addPlaylists(url: String) {
         urls?.add(url)
     }
 
+    /**
+     * 播放下一集视频
+     */
+    @Deprecated("在控制器中处理", ReplaceWith("start(\"http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4\")"))
     fun next() {
         start("http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4")
     }
 
+    /**
+     * 播放上一集视频
+     */
+    @Deprecated("在控制器中处理", ReplaceWith("start(\"http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4\")"))
     fun pre() {
         start("http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4")
     }
 
+    /**
+     * 暂停视频
+     */
     fun pause() {
         mediaPlayer?.pause()
     }
 
+    /**
+     * 播放视频
+     */
     fun start() {
         mediaPlayer?.start()
     }
 
+    /**
+     * 窗口不可见处理
+     */
     fun onPause() {
         pos = mediaPlayer?.getCurrentPosition()!!
         val conn = object : ServiceConnection {
@@ -423,8 +493,14 @@ class XmVideoView : FrameLayout {
         context?.bindService(Intent(context, XmMediaPlayerService::class.java), conn, Context.BIND_AUTO_CREATE)
     }
 
+    /**
+     * 窗口可见处理
+     */
     fun onResume() {}
 
+    /**
+     * 窗口销毁处理
+     */
     fun onDestroy() {
         mediaPlayer?.stop()
         mediaPlayer?.release()

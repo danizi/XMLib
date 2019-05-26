@@ -11,14 +11,31 @@ import com.xm.lib.media.event.GestureObserver
 import com.xm.lib.media.event.PhoneStateObserver
 import com.xm.lib.media.event.PlayerObserver
 
-
+/**
+ * 附着View基类
+ */
 abstract class BaseAttachmentView : FrameLayout {
 
-    var observer: PlayerObserver? = null  //观察者
-    var gestureObserver: GestureObserver? = null  //观察者
-    var phoneObserver: PhoneStateObserver? = null  //观察者
-    var xmVideoView: XmVideoView? = null  //播放实例
-    var view: View? = null //当前页面View
+    /**
+     * 播放器相关回调观察者
+     */
+    var observer: PlayerObserver? = null
+    /**
+     * 手势相关回调观察者
+     */
+    var gestureObserver: GestureObserver? = null
+    /**
+     * 手机状态相关观察者
+     */
+    var phoneObserver: PhoneStateObserver? = null
+    /**
+     * 播放器View
+     */
+    var xmVideoView: XmVideoView? = null
+    /**
+     * 当前页面View
+     */
+    var view: View? = null
 
     constructor(context: Context?) : super(context!!)
 
@@ -37,18 +54,36 @@ abstract class BaseAttachmentView : FrameLayout {
         }
     }
 
+    /**
+     * 获取附着view
+     */
     fun getView(layoutID: Int): View {
         return LayoutInflater.from(context).inflate(layoutID, null, false)
     }
 
+    /**
+     * 获取布局id
+     */
     abstract fun layoutId(): Int
 
+    /**
+     * 查找
+     */
     open fun findViews(view: View?) {}
 
+    /**
+     * 初始化显示状态
+     */
     open fun initDisplay() {}
 
+    /**
+     * 初始化监听
+     */
     open fun initEvent() {}
 
+    /**
+     * 初始化数据
+     */
     open fun initData() {}
 
     /**
