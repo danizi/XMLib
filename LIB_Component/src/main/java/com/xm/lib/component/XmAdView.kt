@@ -3,6 +3,7 @@ package com.xm.lib.component
 import android.app.Activity
 import android.app.Dialog
 import android.content.Context
+import android.graphics.Color
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -41,7 +42,7 @@ class XmAdView(context: Context?, builder: Builder) : Dialog(context!!) {
         if (view != null) {
             view = builder.view
         } else {
-            view = LayoutInflater.from(getContext()).inflate(R.layout.view_ad, null)
+            view = LayoutInflater.from(getContext()).inflate(R.layout.view_ad, null,false)
             ivClose = view?.findViewById(R.id.iv_close)
             ivAd = view?.findViewById(R.id.iv_ad)
         }
@@ -180,7 +181,7 @@ class XmAdView(context: Context?, builder: Builder) : Dialog(context!!) {
             }
 
             if (bkColor == -1) {
-                bkColor = android.R.color.transparent
+                bkColor = Color.parseColor("#80000000")
             }
         }
     }

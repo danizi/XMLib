@@ -101,4 +101,10 @@ abstract class BaseAttachmentView : FrameLayout {
         xmVideoView?.removeView(this)
         xmVideoView = null
     }
+
+    //open fun setOnPlayListItemClickListener(listener: OnPlayListItemClickListener){}
+}
+
+interface OnPlayListItemClickListener {
+    fun item(view: View, postion: Int)
 }

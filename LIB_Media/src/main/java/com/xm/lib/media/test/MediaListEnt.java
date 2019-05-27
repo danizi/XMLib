@@ -202,6 +202,7 @@ public class MediaListEnt {
              * id : 1fc6e2ae845511e5a95900163e000c35
              * free : false
              */
+            private String chapterName="帮课大学";//临时添加
 
             private String avatar;
             private boolean collection;

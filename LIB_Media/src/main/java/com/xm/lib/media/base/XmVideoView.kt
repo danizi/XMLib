@@ -375,8 +375,9 @@ class XmVideoView : FrameLayout {
      * 播放
      * @param url 播放地址
      * @param autoPlay 是否自动播放
+     * @param pos 指定位置播放，默认为0(单位毫秒)
      */
-    fun start(url: String?, autoPlay: Boolean = false) {
+    fun start(url: String?, autoPlay: Boolean = false, pos: Int? = 0) {
         /*异步准备播放*/
         this.autoPlay = autoPlay
         if (surfaceView == null || sh == null) {
