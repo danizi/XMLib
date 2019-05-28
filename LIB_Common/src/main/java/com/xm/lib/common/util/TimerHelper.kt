@@ -87,6 +87,7 @@ class TimerHelper {
             override fun run() {
                 handler.post {
                     listener?.onDelayTimerFinish()
+                    stop()
                 }
             }
         }
