@@ -379,6 +379,7 @@ class XmVideoView : FrameLayout {
      */
     fun start(url: String?, autoPlay: Boolean = false, pos: Int? = 0) {
         /*异步准备播放*/
+        this.pos = pos?.toLong()!!
         this.autoPlay = autoPlay
         if (surfaceView == null || sh == null) {
             //添加画布
