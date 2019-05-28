@@ -95,6 +95,11 @@ class XmVideoView : FrameLayout {
      */
     var xmMediaPlayerService: XmMediaPlayerService? = null
 
+    /**
+     * 是否完成
+     */
+    var isComplete = false
+
     constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)
 
     constructor(context: Context) : super(context)
@@ -276,6 +281,7 @@ class XmVideoView : FrameLayout {
         mediaPlayer?.setOnCompletionListener(object : OnCompletionListener {
             override fun onCompletion(mp: IXmMediaPlayer) {
                 playerObservable?.notifyObserversCompletion(mp)
+                isComplete = true
             }
         })
 
@@ -379,6 +385,7 @@ class XmVideoView : FrameLayout {
      */
     fun start(url: String?, autoPlay: Boolean = false, pos: Int? = 0) {
         /*异步准备播放*/
+        isComplete = false
         this.pos = pos?.toLong()!!
         this.autoPlay = autoPlay
         if (surfaceView == null || sh == null) {
