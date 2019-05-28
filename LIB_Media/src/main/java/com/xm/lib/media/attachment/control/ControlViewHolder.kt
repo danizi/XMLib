@@ -160,6 +160,7 @@ abstract class ControlViewHolder {
     open fun hidePlayList() {}
     open fun hidePlayListAni() {}
 
+
     interface OnScreenStateListener {
         fun onState(type: String)
     }

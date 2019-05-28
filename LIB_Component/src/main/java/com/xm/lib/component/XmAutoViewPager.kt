@@ -58,7 +58,7 @@ class XmAutoViewPager : ViewPager {
             height = webViewH
         }
 
-        height = height + ScreenUtil.dip2px(context, 30)
+        height = height + ScreenUtil.dip2px(context, 70)
         heightMeasureSpec = View.MeasureSpec.makeMeasureSpec(height, View.MeasureSpec.EXACTLY)
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
     }
