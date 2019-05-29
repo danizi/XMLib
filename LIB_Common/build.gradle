@@ -62,4 +62,5 @@ dependencies {
     api 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.5.1'//刷新组件
     api 'de.hdodenhof:circleimageview:2.1.0' //圆形img
 
+    api 'com.android.support:multidex:1.0.3' //https://blog.csdn.net/qq_38357358/article/details/83180613
 }

@@ -83,7 +83,5 @@ object ViewUtil {
         val c = Canvas(shareBitmap)
         view.draw(c)
         return shareBitmap
-        //return setImgSize(shareBitmap, view.measuredWidth, (view.measuredWidth * 1.7).toInt())
     }
-
 }
