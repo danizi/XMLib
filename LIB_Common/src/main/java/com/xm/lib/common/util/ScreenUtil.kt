@@ -11,10 +11,18 @@ import android.util.DisplayMetrics
 import android.view.View
 import android.view.WindowManager
 
+
 /**
  * 横竖切屏幕相关
  */
 object ScreenUtil {
+
+    fun getStatusBarHeight(activity: Activity?): Int {
+        val resources = activity?.resources
+        val resourceId = resources?.getIdentifier("status_bar_height", "dimen", "android")!!
+        return resources.getDimensionPixelSize(resourceId)
+    }
+
     @SuppressLint("ObsoleteSdkInt")
     fun getNormalWH(activity: Activity?): IntArray {
         return if (Build.VERSION.SDK_INT < Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
