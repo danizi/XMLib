@@ -1,6 +1,7 @@
 package com.xm.lib.common.base
 
 import android.app.Activity
+import android.app.ActivityManager
 import android.app.Application
 import android.content.Context
 import android.os.Bundle
@@ -120,6 +121,15 @@ class ActManager : Application.ActivityLifecycleCallbacks, IActManager {
         } catch (e: Exception) {
             e.printStackTrace()
         }
+    }
+
+    fun getAppPackageName(): String {
+        val context = getTopActivity()
+        val activityManager = context?.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
+        val taskInfo = activityManager.getRunningTasks(1)
+        val componentInfo = taskInfo[0].topActivity
+        BKLog.d("lixx", "当前应用:" + componentInfo.packageName)
+        return componentInfo.packageName
     }
 }
 
