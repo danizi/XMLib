@@ -5,6 +5,7 @@ import android.support.v4.view.ViewPager
 import android.util.AttributeSet
 import android.view.View
 import android.view.ViewGroup
+import com.xm.lib.common.log.BKLog
 
 import com.xm.lib.common.util.ScreenUtil
 
@@ -52,13 +53,25 @@ class XmAutoViewPager : ViewPager {
             }
         }
 
-        // Viewpager网页处理
+        // Viewpager网页处理 ps:免费播放视频页面中
         if (height > 0 && currentItem == 0) {
             val webViewH = (getChildAt(0) as ViewGroup).getChildAt(0).measuredHeight
             height = webViewH
+            BKLog.d("网页高度：$height")
         }
 
-        height = height + ScreenUtil.dip2px(context, 70)
+        //
+        if (height > 0 && currentItem == 0) {
+            val a = (getChildAt(0) as ViewGroup).measuredHeight
+            height = a
+            BKLog.d("a height -> $a")
+        } else if (height > 0 && currentItem == 1) {
+            val b = (getChildAt(1) as ViewGroup).measuredHeight
+            BKLog.d("b height -> $b ")
+            height = b
+        }
+
+        height += ScreenUtil.dip2px(context, 70)
         heightMeasureSpec = View.MeasureSpec.makeMeasureSpec(height, View.MeasureSpec.EXACTLY)
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
     }

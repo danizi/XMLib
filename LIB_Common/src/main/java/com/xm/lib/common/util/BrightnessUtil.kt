@@ -7,6 +7,7 @@ import android.provider.Settings
 
 /**
  * 设置手机屏幕亮度相关
+ * 高版本会出现问题，无法修改系统文件
  */
 object BrightnessUtil {
     fun setLandscape(activity: Activity) {
@@ -58,6 +59,7 @@ object BrightnessUtil {
         activity.window.attributes = lp
     }
 
+    @Deprecated("")
     fun setSystemBrightness(context: Context?, brightness: Float?) {
         /*
          * 设置系统亮度
