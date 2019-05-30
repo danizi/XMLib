@@ -15,11 +15,12 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <ImageView
+        <android.support.v7.widget.AppCompatImageButton
             android:id="@+id/iv_back"
-            android:layout_width="wrap_content"
+            android:background="@null"
+            android:layout_width="45dp"
             android:layout_height="0dp"
-            android:layout_marginLeft="12dp"
+            android:padding="10dp"
             android:src="@mipmap/media_control_back"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -45,13 +46,16 @@
             android:layout_marginEnd="8dp"
             android:layout_marginRight="8dp"
             android:src="@mipmap/media_control_share"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/iv_more"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageView
+        <android.support.v7.widget.AppCompatImageButton
+            android:background="@null"
             android:id="@+id/iv_more"
-            android:layout_width="wrap_content"
+            android:layout_width="45dp"
+            android:padding="10dp"
             android:layout_height="0dp"
             android:layout_marginRight="12dp"
             android:src="@mipmap/media_control_more"
@@ -83,12 +87,14 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
-        <ImageView
+        <android.support.v7.widget.AppCompatImageButton
+            android:background="@null"
             android:id="@+id/iv_action"
-            android:layout_width="wrap_content"
+            android:layout_width="35dp"
             android:layout_height="35dp"
             android:layout_marginStart="10dp"
             android:layout_marginLeft="8dp"
+            android:padding="10dp"
             android:src="@mipmap/media_control_play"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -97,8 +103,9 @@
         <TextView
             android:id="@+id/tv_time"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:layout_marginLeft="12dp"
+            android:gravity="center_vertical"
             android:text="00:00/00:00"
             android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="@+id/iv_action"
@@ -107,10 +114,11 @@
 
         <TextView
             android:id="@+id/tv_ratio"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="60dp"
+            android:layout_height="0dp"
             android:layout_marginEnd="12dp"
             android:layout_marginRight="12dp"
+            android:gravity="center_vertical|right"
             android:text="自动"
             android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="@+id/tv_time"

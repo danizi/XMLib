@@ -1,5 +1,6 @@
 package com.xm.lib.media.attachment
 
+import android.app.Activity
 import android.content.Context
 import android.view.View
 import android.widget.ImageView
@@ -12,11 +13,12 @@ import com.xm.lib.media.event.PhoneStateObserver
 import com.xm.lib.media.event.PlayerObserver
 
 
-class AttachmentPre(context: Context?, private var preUrl: String ?= "") : BaseAttachmentView(context!!) {
+class AttachmentPre(context: Context?, private var preUrl: String? = "") : BaseAttachmentView(context!!) {
     private var ivStart: ImageView? = null
     private var pbLoading: ProgressBar? = null
     var url: String? = ""
     private var ivPre: ImageView? = null
+    private var tvBack: ImageView? = null
 
     init {
         observer = object : PlayerObserver {
@@ -33,7 +35,7 @@ class AttachmentPre(context: Context?, private var preUrl: String ?= "") : BaseA
         Glide.with(context).load(preUrl).error(R.mipmap.load_img_default).into(ivPre)//加载图片
     }
 
-    fun load(playUrl:String,preUrl: String){
+    fun load(playUrl: String, preUrl: String) {
         this.url = playUrl
         this.preUrl = preUrl
         Glide.with(context).load(preUrl).error(R.mipmap.load_img_default).into(ivPre)//加载图片
@@ -47,6 +49,7 @@ class AttachmentPre(context: Context?, private var preUrl: String ?= "") : BaseA
         ivPre = view?.findViewById(R.id.iv_pre)
         ivStart = view?.findViewById(R.id.iv_start)
         pbLoading = view?.findViewById(R.id.pb_loading)
+        tvBack = view?.findViewById(R.id.tv_back)
     }
 
     override fun initEvent() {
@@ -57,6 +60,9 @@ class AttachmentPre(context: Context?, private var preUrl: String ?= "") : BaseA
                 xmVideoView?.start(url, true) //播放视频
                 xmVideoView?.bringChildToFront(this@AttachmentPre)
             }
+        }
+        tvBack?.setOnClickListener {
+            (context as Activity).finish()
         }
     }
 

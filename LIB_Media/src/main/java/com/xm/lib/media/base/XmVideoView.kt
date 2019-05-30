@@ -499,13 +499,15 @@ class XmVideoView : FrameLayout {
                 Log.d("", "onNullBinding")
             }
         }
-        context?.bindService(Intent(context, XmMediaPlayerService::class.java), conn, Context.BIND_AUTO_CREATE)
+        //context?.bindService(Intent(context, XmMediaPlayerService::class.java), conn, Context.BIND_AUTO_CREATE)
     }
 
     /**
      * 窗口可见处理
      */
-    fun onResume() {}
+    fun onResume() {
+
+    }
 
     /**
      * 窗口销毁处理

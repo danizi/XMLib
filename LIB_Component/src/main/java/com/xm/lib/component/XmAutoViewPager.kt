@@ -60,7 +60,7 @@ class XmAutoViewPager : ViewPager {
             BKLog.d("网页高度：$height")
         }
 
-        //
+
         if (height > 0 && currentItem == 0) {
             val a = (getChildAt(0) as ViewGroup).measuredHeight
             height = a
