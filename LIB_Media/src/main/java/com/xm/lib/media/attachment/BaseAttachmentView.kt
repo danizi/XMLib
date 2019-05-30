@@ -106,5 +106,5 @@ abstract class BaseAttachmentView : FrameLayout {
 }
 
 interface OnPlayListItemClickListener {
-    fun item(vid: String?,progress:Int?, view: View, postion: Int)
+    fun item(vid: String?,progress:Int?, view: View?, postion: Int)
 }

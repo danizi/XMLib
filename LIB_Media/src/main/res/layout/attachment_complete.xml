@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#99000000">
 
     <ProgressBar
         android:id="@+id/pb"
@@ -14,12 +16,78 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.572"
+        tools:ignore="HardcodedText">
+
+        <android.support.v7.widget.AppCompatImageButton
+            android:id="@+id/iv_replay"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="100dp"
+            android:layout_marginRight="100dp"
+            android:background="@null"
+            android:src="@mipmap/media_replay"
+            app:layout_constraintEnd_toStartOf="@+id/iv_next"
+            app:layout_constraintRight_toLeftOf="@+id/iv_next"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:text="重播"
+            android:textColor="@color/white"
+            app:layout_constraintEnd_toEndOf="@+id/iv_replay"
+            app:layout_constraintStart_toStartOf="@+id/iv_replay"
+            app:layout_constraintTop_toBottomOf="@+id/iv_replay" />
+
+        <android.support.v7.widget.AppCompatImageButton
+            android:id="@+id/iv_next"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:background="@null"
+            android:src="@mipmap/media_next"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/iv_replay"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:text="下一集"
+            android:textColor="@color/white"
+            app:layout_constraintEnd_toEndOf="@+id/iv_next"
+            app:layout_constraintStart_toStartOf="@+id/iv_next"
+            app:layout_constraintTop_toBottomOf="@+id/iv_next" />
+
+    </android.support.constraint.ConstraintLayout>
+
+
     <TextView
         android:id="@+id/tv_des"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:text="完成"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="@+id/pb"
         app:layout_constraintStart_toStartOf="@+id/pb"
         app:layout_constraintTop_toBottomOf="@+id/pb" />

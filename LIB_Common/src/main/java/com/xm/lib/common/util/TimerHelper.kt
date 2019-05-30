@@ -58,7 +58,7 @@ class TimerHelper {
             @SuppressLint("SetTextI18n")
             override fun run() {
                 handler.post {
-                    count -= 1000
+                    count -= 1
                     if (count > 0) {
                         listener?.onDelayTimer(count)
                     } else {
@@ -119,4 +119,17 @@ class TimerHelper {
     interface OnDelayTimerListener {
         fun onDelayTimerFinish()
     }
+}
+
+fun main(args: Array<String>) {
+    TimerHelper().countDown(object :TimerHelper.OnCountDownListener{
+        override fun onDelayTimer(ms: Long) {
+            System.out.print("时间:$ms")
+        }
+
+        override fun onComplete() {
+            System.out.print("完成")
+        }
+
+    },1000L,5*1000L)
 }

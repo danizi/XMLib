@@ -28,6 +28,7 @@
             app:layout_constraintTop_toBottomOf="@+id/tv_edit">
 
             <android.support.constraint.ConstraintLayout
+                android:visibility="gone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
@@ -181,6 +182,7 @@
 
         <!--定时停止播放-->
         <android.support.constraint.ConstraintLayout
+            android:visibility="gone"
             android:id="@+id/cl_timer_top"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -236,7 +238,7 @@
 
         <!--播放方式-->
         <android.support.constraint.ConstraintLayout
-
+            android:visibility="gone"
             android:id="@+id/cl_play_type"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -301,6 +303,7 @@
 
         <!--画面尺寸-->
         <android.support.constraint.ConstraintLayout
+            android:visibility="gone"
             android:id="@+id/cl_canvas"
             android:layout_width="match_parent"
             android:layout_height="100dp"
