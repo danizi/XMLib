@@ -164,6 +164,7 @@ object FileUtil {
     }
 
     fun del(f: File) {
+        BKLog.d(TAG, "删除文件路徑:${f.absoluteFile}")
         /*递归删除文件*/
         val b = f.listFiles()
         if (b != null) {

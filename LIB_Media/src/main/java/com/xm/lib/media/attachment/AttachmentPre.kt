@@ -49,7 +49,7 @@ class AttachmentPre(context: Context?, private var preUrl: String? = "") : BaseA
         ivPre = view?.findViewById(R.id.iv_pre)
         ivStart = view?.findViewById(R.id.iv_start)
         pbLoading = view?.findViewById(R.id.pb_loading)
-        tvBack = view?.findViewById(R.id.tv_back)
+        tvBack = view?.findViewById(R.id.iv_back)
     }
 
     override fun initEvent() {

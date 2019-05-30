@@ -37,6 +37,10 @@ import java.util.concurrent.ConcurrentMap
  */
 class XmVideoView : FrameLayout {
     /**
+     * 播放器狀態
+     */
+    var mediaState: MediaState? = null
+    /**
      * 播放器
      */
     var mediaPlayer: XmMediaPlayer? = null
@@ -244,6 +248,7 @@ class XmVideoView : FrameLayout {
 
         mediaPlayer?.setOnErrorListener(object : OnErrorListener {
             override fun onError(mp: IXmMediaPlayer, what: Int, extra: Int): Boolean {
+                mediaState = MediaState.MEDIA_STATE_ERROR
                 playerObservable?.notifyObserversError(mp, what, extra)
                 return false
             }
@@ -262,6 +267,7 @@ class XmVideoView : FrameLayout {
                     mediaPlayer?.seekTo(pos.toInt())
                     mediaPlayer?.start()
                 }
+                mediaState = MediaState.MEDIA_STATE_PREPARED
                 playerObservable?.notifyObserversPrepared(mp)
             }
         })
@@ -274,6 +280,7 @@ class XmVideoView : FrameLayout {
 
         mediaPlayer?.setOnSeekCompleteListener(object : OnSeekCompleteListener {
             override fun onSeekComplete(mp: IXmMediaPlayer) {
+                mediaState = MediaState.MEDIA_STATE_COMPLETION
                 playerObservable?.notifyObserversSeekComplete(mp)
             }
         })

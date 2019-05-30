@@ -34,7 +34,7 @@
         app:layout_constraintTop_toTopOf="@+id/iv_start" />
 
     <android.support.v7.widget.AppCompatImageButton
-        android:id="@+id/tv_back"
+        android:id="@+id/iv_back"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@null"

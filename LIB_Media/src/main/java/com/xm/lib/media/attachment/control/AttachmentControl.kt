@@ -5,6 +5,7 @@ import android.content.Context
 import android.graphics.Rect
 import android.view.View
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
+import android.widget.Toast
 import com.xm.lib.common.log.BKLog
 import com.xm.lib.common.util.ScreenUtil
 import com.xm.lib.media.R
@@ -63,8 +64,6 @@ class AttachmentControl(context: Context?) : BaseAttachmentView(context) {
                 super.onBufferingUpdate(mp, percent)
                 controlViewHolder?.secondaryProgress(percent)
             }
-
-
         }
         gestureObserver = object : GestureObserver {
             private var horizontalSlidePos: Long = -1  //记录手指滑动时，第一次播放进度。主要在回调中使用
