@@ -28,7 +28,7 @@ open class SingleRunnable2 : BaseRunnable() {
             BKLog.d(TAG, "seek:$startIndex")
             DEFAULT_BUFFER_SIZE = downManager?.downConfig()?.bufferSize!!
             val singleRunnable = SingleRunnable2()
-            singleRunnable.downManager=downManager
+            singleRunnable.downManager = downManager
             singleRunnable.name = task?.name!!
             singleRunnable.url = task.url
             singleRunnable.total = task.total
@@ -51,6 +51,8 @@ open class SingleRunnable2 : BaseRunnable() {
     override fun down() {
         // 连接下载资源
         try {
+            if (downManager?.runFlag == false) return
+
             val conn = iniConn()
             val value = if (/*rangeStartIndex > 0 && */rangeEndIndex > 0) {
                 BKLog.d(TAG, "请求头 bytes=$rangeStartIndex-$rangeEndIndex")
@@ -60,12 +62,13 @@ open class SingleRunnable2 : BaseRunnable() {
                 "bytes=$rangeStartIndex-"
             }
             conn.setRequestProperty("Range", value)
-            var inputStream:InputStream?=null
+            var inputStream: InputStream? = null
             try {
-                 inputStream = conn.inputStream
-            }catch (e:Exception){
-                if(rangeStartIndex>0/*并有网络*/){  //todo 当文件已经完成下载了会触发这个异常，临时添加，写法会有问题
-                    listener?.onComplete(this,rangeStartIndex)
+                inputStream = conn.inputStream
+            } catch (e: Exception) {
+                if (rangeStartIndex > 0/*并有网络*/) {  //todo 当文件已经完成下载了会触发这个异常，临时添加，写法会有问题
+                    listener?.onComplete(this, rangeStartIndex)
+                    return
                 }
             }
             total = conn.contentLength.toLong() + rangeStartIndex
@@ -104,7 +107,7 @@ open class SingleRunnable2 : BaseRunnable() {
                     return
                 }
                 // todo m3u8下载解析地址需要一个全局标志位
-                if(downManager?.runFlag==false){
+                if (downManager?.runFlag == false) {
                     BKLog.d(TAG, "m3u8下载解析地址需要一个全局标志位")
                     return
                 }
