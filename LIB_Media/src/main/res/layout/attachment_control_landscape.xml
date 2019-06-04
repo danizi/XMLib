@@ -17,9 +17,9 @@
 
         <android.support.v7.widget.AppCompatImageButton
             android:id="@+id/iv_back"
-            android:background="@null"
             android:layout_width="45dp"
             android:layout_height="0dp"
+            android:background="@null"
             android:padding="10dp"
             android:src="@mipmap/media_control_back"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -52,12 +52,12 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <android.support.v7.widget.AppCompatImageButton
-            android:background="@null"
             android:id="@+id/iv_more"
             android:layout_width="45dp"
-            android:padding="10dp"
             android:layout_height="0dp"
             android:layout_marginRight="12dp"
+            android:background="@null"
+            android:padding="10dp"
             android:src="@mipmap/media_control_more"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -84,33 +84,49 @@
             android:layout_height="wrap_content"
             android:max="100"
             android:secondaryProgress="10"
+
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
         <android.support.v7.widget.AppCompatImageButton
-            android:background="@null"
             android:id="@+id/iv_action"
             android:layout_width="35dp"
             android:layout_height="35dp"
             android:layout_marginStart="10dp"
             android:layout_marginLeft="8dp"
+            android:background="@null"
             android:padding="10dp"
             android:src="@mipmap/media_control_play"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/seekBar" />
 
+        <android.support.v7.widget.AppCompatImageButton
+            android:id="@+id/iv_next"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginLeft="4dp"
+            android:background="@null"
+            android:padding="9dp"
+            android:src="@mipmap/media_next"
+            app:layout_constraintBottom_toBottomOf="@+id/iv_action"
+            app:layout_constraintStart_toEndOf="@+id/iv_action"
+            app:layout_constraintTop_toTopOf="@+id/iv_action" />
+
         <TextView
             android:id="@+id/tv_time"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
-            android:layout_marginLeft="12dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
             android:gravity="center_vertical"
             android:text="00:00/00:00"
             android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="@+id/iv_action"
-            app:layout_constraintStart_toEndOf="@+id/iv_action"
-            app:layout_constraintTop_toTopOf="@+id/iv_action" />
+            app:layout_constraintStart_toEndOf="@+id/iv_next"
+            app:layout_constraintTop_toTopOf="@+id/iv_action"
+            app:layout_constraintVertical_bias="0.0" />
 
         <TextView
             android:id="@+id/tv_ratio"
@@ -119,6 +135,7 @@
             android:layout_marginEnd="12dp"
             android:layout_marginRight="12dp"
             android:gravity="center_vertical|right"
+            android:paddingRight="5dp"
             android:text="自动"
             android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="@+id/tv_time"
