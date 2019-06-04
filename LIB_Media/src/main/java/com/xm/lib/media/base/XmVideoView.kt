@@ -21,6 +21,7 @@ import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import com.xm.lib.common.log.BKLog
 import com.xm.lib.common.util.ScreenUtil
+import com.xm.lib.common.util.TimerHelper
 import com.xm.lib.media.R
 import com.xm.lib.media.attachment.BaseAttachmentView
 import com.xm.lib.media.base.IXmMediaPlayer.Companion.TAG
@@ -410,37 +411,45 @@ class XmVideoView : FrameLayout {
             sh = surfaceView?.holder
             sh?.addCallback(object : SurfaceHolder.Callback {
                 override fun surfaceChanged(holder: SurfaceHolder?, format: Int, width: Int, height: Int) {
-                    if (ScreenUtil.isLandscape(context)) {
-                        //横屏
-                        val w = ScreenUtil.getNormalWH(context as Activity)[0]
-                        val h = ScreenUtil.getNormalWH(context as Activity)[1]
-                        val surfaceViewW = (ratio * height).toInt()
-                        val margin = (w - surfaceViewW) / 2
-                        val lp = FrameLayout.LayoutParams(
-                                RelativeLayout.LayoutParams.MATCH_PARENT,
-                                RelativeLayout.LayoutParams.MATCH_PARENT)
-                        lp.setMargins(margin, 0, margin, 0)
-                        surfaceView?.layoutParams = lp
-                        val lp2 = ConstraintLayout.LayoutParams(
-                                RelativeLayout.LayoutParams.MATCH_PARENT,
-                                RelativeLayout.LayoutParams.MATCH_PARENT)
-                        this@XmVideoView.layoutParams = lp2
-                        BKLog.d(TAG, "横屏 surfaceChanged width:$width height:$height")
-                        BKLog.d(TAG, "横屏 surfaceChanged w:$w h:$h")
-                    } else {
-                        //竖屏
-                        val w = ScreenUtil.getNormalWH(context as Activity)[0]
-                        val h = ScreenUtil.getNormalWH(context as Activity)[1]
-                        val lp = FrameLayout.LayoutParams(
-                                RelativeLayout.LayoutParams.MATCH_PARENT,
-                                RelativeLayout.LayoutParams.MATCH_PARENT)
-                        lp.setMargins(0, 0, 0, 0)
-                        surfaceView?.layoutParams?.width = w
-                        surfaceView?.layoutParams?.height = height
-                        surfaceView?.layoutParams = lp
-                        BKLog.d(TAG, "竖屏 surfaceChanged width:$width height:$height")
-                        BKLog.d(TAG, "竖屏 surfaceChanged w:$w h:$h")
-                    }
+                    TimerHelper().start(object :TimerHelper.OnDelayTimerListener{
+                        override fun onDelayTimerFinish() {
+                            if (ScreenUtil.isLandscape(context)) {
+                                //横屏
+                                val w = ScreenUtil.getNormalWH(context as Activity)[0]
+                                val h = ScreenUtil.getNormalWH(context as Activity)[1]
+                                val surfaceViewW = (ratio * height).toInt()
+                                val margin = (w - surfaceViewW) / 2
+                                val lp = FrameLayout.LayoutParams(
+                                        RelativeLayout.LayoutParams.MATCH_PARENT,
+                                        RelativeLayout.LayoutParams.MATCH_PARENT)
+                                lp.setMargins(margin, 0, margin, 0)
+                                surfaceView?.layoutParams = lp
+                                val lp2 = ConstraintLayout.LayoutParams(
+                                        RelativeLayout.LayoutParams.MATCH_PARENT,
+                                        RelativeLayout.LayoutParams.MATCH_PARENT)
+                                this@XmVideoView.layoutParams = lp2
+                                BKLog.d(TAG, "横屏 surfaceChanged width:$width height:$height")
+                                BKLog.d(TAG, "横屏 surfaceChanged w:$w h:$h")
+                            } else if (ScreenUtil.isPortrait(context)) {
+                                //竖屏
+                                val w = ScreenUtil.getNormalWH(context as Activity)[0]
+                                val h = ScreenUtil.getNormalWH(context as Activity)[1]
+                                val lp = FrameLayout.LayoutParams(
+                                        RelativeLayout.LayoutParams.MATCH_PARENT,
+                                        RelativeLayout.LayoutParams.MATCH_PARENT)
+                                lp.setMargins(0, 0, 0, 0)
+                                surfaceView?.layoutParams?.width = w
+                                surfaceView?.layoutParams?.height = height
+                                surfaceView?.layoutParams = lp
+                                val lp2 = ConstraintLayout.LayoutParams(
+                                        RelativeLayout.LayoutParams.MATCH_PARENT,
+                                        height)
+                                this@XmVideoView.layoutParams = lp2
+                                BKLog.d(TAG, "竖屏 surfaceChanged width:$width height:$height")
+                                BKLog.d(TAG, "竖屏 surfaceChanged w:$w h:$h")
+                            }
+                        }
+                    },500)
                 }
 
                 override fun surfaceDestroyed(holder: SurfaceHolder?) {
