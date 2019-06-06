@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:ns1="http://schemas.android.com/tools">
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
@@ -8,4 +8,10 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="suibowen" parent="android:Widget">
+        <item name="android:stateListAnimator" ns1:ignore="NewApi,PrivateResource">@animator/design_appbar_state_list_animator</item>
+        <item name="android:keyboardNavigationCluster" ns1:ignore="NewApi">true</item>
+        <item name="android:touchscreenBlocksFocus" ns1:ignore="NewApi">true</item>
+        <item name="colorControlHighlight">@color/red</item>
+    </style>
 </resources>
