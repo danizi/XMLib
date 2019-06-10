@@ -23,7 +23,7 @@ class Xm7DaySignView(context: Context, attrs: AttributeSet?) : FrameLayout(conte
     /**
      * 签到超过七天是否，再重头开始，true代表是
      */
-    private var isLoop = true
+    private var isLoop = false
     /**
      * 签到的天数
      */
@@ -133,7 +133,13 @@ class Xm7DaySignView(context: Context, attrs: AttributeSet?) : FrameLayout(conte
      */
     fun setSelect(index: Int) {
         this.index = (index - 1)
-        this.index = this.index % 7
+        if (isLoop) {
+            this.index = this.index % 7
+        } else {
+            if (this.index > 6) {
+                this.index = 5
+            }
+        }
         scores.clear()
         display()
     }

@@ -44,6 +44,7 @@ object Statistics {
      * 初始化bugly
      */
     fun initBugly(ctx: Context, appId: String) {
-        Bugly.init(ctx, appId, BuildConfig.DEBUG)
+        //Bugly.init(ctx, appId, BuildConfig.DEBUG)
+        Bugly.init(ctx, appId, true)
     }
 }

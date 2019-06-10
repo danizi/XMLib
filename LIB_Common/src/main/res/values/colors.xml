@@ -13,6 +13,7 @@
     <!--重要-->
     <color name="textPrimary">#222222</color>
     <color name="textPrimaryRed">#e4393c</color>
+    <color name="textPrimaryRedBk">#2ee4393c</color>
     <color name="textPrimaryViolet">#b384c4</color>
     <color name="textPrimaryGreen">#61ec8f</color>
     <!--一般-->

@@ -12,6 +12,6 @@
         <item name="android:stateListAnimator" ns1:ignore="NewApi,PrivateResource">@animator/design_appbar_state_list_animator</item>
         <item name="android:keyboardNavigationCluster" ns1:ignore="NewApi">true</item>
         <item name="android:touchscreenBlocksFocus" ns1:ignore="NewApi">true</item>
-        <item name="colorControlHighlight">@color/red</item>
+        <item name="colorControlHighlight">@color/textPrimaryRedBk</item>
     </style>
 </resources>

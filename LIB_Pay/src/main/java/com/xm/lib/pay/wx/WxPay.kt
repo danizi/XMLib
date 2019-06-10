@@ -21,12 +21,14 @@ class WxPay(activity: Activity) : AbsPay(activity) {
     companion object {
         const val ACTION_PAY_SUCCESS = "ACTION_PAY_SUCCESS"
         const val ACTION_PAY_FAILURE = "ACTION_PAY_FAILURE"
+        const val ACTION_PAY_CANCEL = "ACTION_PAY_CANCEL"
     }
 
     init {
         val filter = IntentFilter()
         filter.addAction(ACTION_PAY_SUCCESS)
         filter.addAction(ACTION_PAY_FAILURE)
+        filter.addAction(ACTION_PAY_CANCEL)
         activity.registerReceiver(object : BroadcastReceiver() {
             override fun onReceive(context: Context?, intent: Intent?) {
                 when (intent?.action) {
@@ -35,6 +37,9 @@ class WxPay(activity: Activity) : AbsPay(activity) {
                     }
                     ACTION_PAY_FAILURE -> {
                         listener?.onFailure()
+                    }
+                    ACTION_PAY_CANCEL->{
+                        listener?.onCancel()
                     }
                 }
             }
