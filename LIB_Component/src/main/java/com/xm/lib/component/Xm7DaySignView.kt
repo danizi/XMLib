@@ -130,14 +130,22 @@ class Xm7DaySignView(context: Context, attrs: AttributeSet?) : FrameLayout(conte
 
     /**
      * 设置选中天数
+     * @param index 签到天数
+     * @param completed 是否签到过标识
      */
-    fun setSelect(index: Int) {
+    fun setSelect(index: Int, completed: Boolean? = false) {
         this.index = (index - 1)
         if (isLoop) {
             this.index = this.index % 7
         } else {
-            if (this.index > 6) {
-                this.index = 5
+            if (completed!!) {
+                if (this.index > 6) {
+                    this.index = 6
+                }
+            } else {
+                if (this.index > 6) {
+                    this.index = 5
+                }
             }
         }
         scores.clear()
@@ -224,22 +232,4 @@ class Xm7DaySignView(context: Context, attrs: AttributeSet?) : FrameLayout(conte
             }
         }
     }
-
-
 }
-
-//@SuppressLint("SimpleDateFormat")
-//private fun date(days: Int): String {
-//    val sf = SimpleDateFormat("MM-dd")
-//    val c = Calendar.getInstance()
-//    c.add(Calendar.DAY_OF_MONTH, days)
-//    return sf.format(c.time)
-//}
-//
-//fun main(args: Array<String>) {
-//    System.out.println(date(0))
-//    System.out.println(date(1))
-//    System.out.println(date(2))
-//    System.out.println(date(-3))
-//}
-

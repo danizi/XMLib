@@ -1,14 +1,15 @@
 package com.xm.lib.component.test
 
 import android.content.Context
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import com.xm.lib.component.R
 import com.xm.lib.component.tree.Node
 import com.xm.lib.component.tree.NodeTreeAdapter
-import java.util.ArrayList
+import java.util.*
+
 
 class TreeViewActivity : AppCompatActivity() {
     private var mRecyclerView: RecyclerView? = null

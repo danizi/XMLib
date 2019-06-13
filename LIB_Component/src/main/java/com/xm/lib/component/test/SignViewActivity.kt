@@ -40,7 +40,7 @@ class SignViewActivity : AppCompatActivity() {
             }
         })
         ui?.btnEtDay?.setOnClickListener {
-            ui?.viewSign?.setSelect(et.toInt())
+            ui?.viewSign?.setSelect(et.toInt(), false)
         }
     }
 

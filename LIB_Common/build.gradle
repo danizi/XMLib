@@ -61,6 +61,7 @@ dependencies {
     api 'com.youth.banner:banner:1.4.10' // 轮播图
     api 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.5.1'//刷新组件
     api 'de.hdodenhof:circleimageview:2.1.0' //圆形img
-
-    api 'com.android.support:multidex:1.0.3' //https://blog.csdn.net/qq_38357358/article/details/83180613
+    api 'com.android.support:multidex:1.0.3' //方法数超过 - https://blog.csdn.net/qq_38357358/article/details/83180613
+    api 'me.imid.swipebacklayout.lib:library:1.1.0' //窗口滑动退出
+    api 'q.rorbin:badgeview:1.1.2' // https://blog.csdn.net/qq_34471736/article/details/77645953
 }
