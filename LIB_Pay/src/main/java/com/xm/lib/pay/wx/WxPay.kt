@@ -13,7 +13,7 @@ import com.xm.lib.pay.AbsPay
 import com.xm.lib.pay.Channel
 import com.xm.lib.pay.OnPayListener
 import com.xm.lib.pay.PayConfig
-import com.xm.lib.pay.wx.uikit.PayParameters
+import com.xm.lib.pay.wx.uikit.wxapi.PayParameters
 
 class WxPay(activity: Activity) : AbsPay(activity) {
 
@@ -38,7 +38,7 @@ class WxPay(activity: Activity) : AbsPay(activity) {
                     ACTION_PAY_FAILURE -> {
                         listener?.onFailure()
                     }
-                    ACTION_PAY_CANCEL->{
+                    ACTION_PAY_CANCEL -> {
                         listener?.onCancel()
                     }
                 }
@@ -59,6 +59,7 @@ class WxPay(activity: Activity) : AbsPay(activity) {
         this.listener = listener
         val request = PayReq()
         val payParameters = Gson().fromJson(paramsJson, PayParameters::class.java)
+        //Toast.makeText(activity, payParameters.toString(), Toast.LENGTH_SHORT).show()
         request.appId = payParameters?.appid
         request.partnerId = payParameters?.partnerid
         request.prepayId = payParameters?.prepayid

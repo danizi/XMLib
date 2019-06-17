@@ -1,4 +1,4 @@
-package com.xm.lib.pay.wx.uikit
+package com.xm.lib.pay.wx.uikit.wxapi
 
 import com.google.gson.annotations.SerializedName
 
@@ -20,4 +20,8 @@ class PayParameters {
     var prepayid: String? = null
     var noncestr: String? = null
     var timestamp: String? = null
+    override fun toString(): String {
+        return "PayParameters(packageName=$packageName, appid=$appid, sign=$sign, partnerid=$partnerid, prepayid=$prepayid, noncestr=$noncestr, timestamp=$timestamp)"
+    }
+
 }
