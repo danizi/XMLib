@@ -47,7 +47,7 @@ class WxShare(act: Activity) : AbsShare(act) {
         val req = SendMessageToWX.Req()
         req.transaction = buildTransaction("img")
         req.message = msg
-        req.scene = mTargetScene
+        req.scene = scene!!
         api?.sendReq(req)
     }
 

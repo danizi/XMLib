@@ -53,5 +53,6 @@ android {
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation project(':LIB_Common')
-    api project(':LIB_IJKPlayer_Sdk')
+    implementation project(':LIB_IJKPlayer_Sdk')
+
 }

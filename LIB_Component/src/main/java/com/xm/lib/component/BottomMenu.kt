@@ -162,7 +162,6 @@ class BottomMenu(context: Context?, attrs: AttributeSet?) : TabLayout(context, a
         lisenter?.onItemClick(this, pos)
         fragmentUitls.displayFragment(context as FragmentActivity, layoutID, tab.tag.toString(), items!![pos].fragment!!)
     }
-
 }
 
 /**
