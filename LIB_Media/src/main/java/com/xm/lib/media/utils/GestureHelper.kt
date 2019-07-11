@@ -39,7 +39,7 @@ class GestureHelper(context: Context?) {
             private val VERTICAL_LEFT = VERTICAL_LEFT_VALUE    //左半部分上下滑动
             private val VERTICAL_RIGHT = VERTICAL_RIGHT_VALUE  //右半部分上下滑动
             private val HORIZONTAL = "horizontal"              //水平方向滑动
-            private val DEFALUT_HORIZONTAL = 10                //水平滑动判断基准值
+            private val DEFALUT_HORIZONTAL = 20                //水平滑动判断基准值
             private val NONE = "none"                          //水平方向滑动
             private var scrollType = NONE                      //用户"点击释放"都需要初始化为NODE
 
@@ -59,6 +59,8 @@ class GestureHelper(context: Context?) {
             override fun onScroll(e1: MotionEvent?, e2: MotionEvent?, distanceX: Float, distanceY: Float): Boolean {
                 val offsetX = e2?.x!! - e1?.x!!
                 val offsetY = e2.y - e1.y
+
+                BKLog.d(TAG, "offsetX:$offsetX offsetY:$offsetY")
 
                 if (scrollType == NONE) { //判断当前滑动类型
                     scrollType = when {

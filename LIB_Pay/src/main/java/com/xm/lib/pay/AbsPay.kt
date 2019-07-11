@@ -23,6 +23,11 @@ abstract class AbsPay(act: Activity) {
      * @param payConfig 初始化参数
      */
     abstract fun init(payConfig: PayConfig)
+
+    /**
+     * 回收资源
+     */
+    abstract fun clear()
 }
 
 /**

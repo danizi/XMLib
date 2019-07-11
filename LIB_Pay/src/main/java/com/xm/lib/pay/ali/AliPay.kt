@@ -20,6 +20,10 @@ import com.xm.lib.pay.ali.util.PayResult
  */
 class AliPay(activity: Activity) : AbsPay(activity) {
 
+    override fun clear() {
+
+    }
+
     override fun init(payConfig: PayConfig) {
 
     }

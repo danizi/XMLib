@@ -16,31 +16,34 @@
         android:text="1080P"
         android:textColor="@color/white" />
 
+    <!--高清720P-->
     <TextView
         android:id="@+id/tv_ratio_720p"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:padding="12dp"
-        android:text="高清720P"
+        android:text="高清"
         android:textColor="@color/white" />
 
+    <!--标清480P-->
     <TextView
         android:id="@+id/tv_ratio_480p"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:padding="12dp"
-        android:text="标清480P"
+        android:text="标清"
         android:textColor="@color/white" />
 
+    <!--流畅360P-->
     <TextView
         android:id="@+id/tv_ratio_360p"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:padding="12dp"
-        android:text="流畅360P"
+        android:text="流畅"
         android:textColor="@color/white" />
 
 </LinearLayout>

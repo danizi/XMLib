@@ -13,11 +13,11 @@
 
     <ImageView
         android:id="@+id/iv_close"
-        android:layout_width="38dp"
-        android:layout_height="38dp"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
         android:layout_below="@+id/iv_ad"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="12dp"
         android:src="@mipmap/ad_close"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

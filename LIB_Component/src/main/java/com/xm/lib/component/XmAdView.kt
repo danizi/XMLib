@@ -3,21 +3,13 @@ package com.xm.lib.component
 import android.app.Activity
 import android.app.Dialog
 import android.content.Context
+import android.graphics.Bitmap
 import android.graphics.Color
-import android.view.Gravity
-import android.view.LayoutInflater
-import android.view.View
-import android.view.WindowManager
+import android.graphics.Matrix
+import android.view.*
 import android.widget.ImageView
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.bumptech.glide.load.resource.drawable.GlideDrawable
-import com.bumptech.glide.request.RequestListener
-import com.bumptech.glide.request.animation.GlideAnimation
-import com.bumptech.glide.request.target.SimpleTarget
-import com.bumptech.glide.request.target.Target
-import com.xm.lib.common.log.BKLog
-import com.xm.lib.common.util.ScreenUtil
+import com.bumptech.glide.request.target.ImageViewTarget
 import java.lang.Exception
 
 
@@ -42,7 +34,7 @@ class XmAdView(context: Context?, builder: Builder) : Dialog(context!!) {
         if (view != null) {
             view = builder.view
         } else {
-            view = LayoutInflater.from(getContext()).inflate(R.layout.view_ad, null,false)
+            view = LayoutInflater.from(getContext()).inflate(R.layout.view_ad, null, false)
             ivClose = view?.findViewById(R.id.iv_close)
             ivAd = view?.findViewById(R.id.iv_ad)
         }
@@ -95,35 +87,42 @@ class XmAdView(context: Context?, builder: Builder) : Dialog(context!!) {
      * @param space 左右的margin 单位dp
      */
     fun setAdRate(rate: Float, space: Int) {
-        val w = ScreenUtil.getNormalWH(activity)[0]
-        val para1 = ivAd?.layoutParams
-        para1?.width = w - 2 * ScreenUtil.dip2px(context, space)
-        para1?.height = para1?.width!! / rate.toInt()
-        ivAd?.layoutParams = para1
+//        val w = ScreenUtil.getNormalWH(activity)[0]
+//        val para1 = ivAd?.layoutParams
+//        //para1?.width = w - 2 * ScreenUtil.dip2px(context, space)
+//        para1?.height = para1?.width!! / rate.toInt()
+//        ivAd?.layoutParams = para1
     }
 
     fun setCover(picture: String?) {
-        Glide.with(context).load(picture)
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .placeholder(R.mipmap.ic_launcher)
-                .crossFade()
-                .listener(object : RequestListener<String, GlideDrawable> {
-                    override fun onException(e: Exception?, model: String?, target: Target<GlideDrawable>?, isFirstResource: Boolean): Boolean {
-                        BKLog.e("")
-                        return false
-                    }
+        Glide.with(context)
+                .load(picture)
+                .asBitmap() // 制Glide返回一个Bitmap对象
+                .into(TransformationUtilV2(ivAd!!, this@XmAdView))
 
-                    override fun onResourceReady(resource: GlideDrawable?, model: String?, target: Target<GlideDrawable>?, isFromMemoryCache: Boolean, isFirstResource: Boolean): Boolean {
-                        BKLog.e("")
-                        return false
-                    }
-                })
-                .into(object : SimpleTarget<GlideDrawable>() {
-                    //ps:添加回调处理第一次不显示图片问题，但是没有动画了
-                    override fun onResourceReady(resource: GlideDrawable?, glideAnimation: GlideAnimation<in GlideDrawable>?) {
-                        ivAd?.setImageDrawable(resource)
-                    }
-                })
+//        Glide.with(context).load(picture)
+//                .diskCacheStrategy(DiskCacheStrategy.ALL)
+//                .placeholder(R.mipmap.ic_launcher)
+//                .crossFade()
+//                .into(TransformationUtilV2(ivAd!!))
+//                .listener(object : RequestListener<String, GlideDrawable> {
+//                    override fun onException(e: Exception?, model: String?, target: Target<GlideDrawable>?, isFirstResource: Boolean): Boolean {
+//                        BKLog.e("")
+//                        return false
+//                    }
+//
+//                    override fun onResourceReady(resource: GlideDrawable?, model: String?, target: Target<GlideDrawable>?, isFromMemoryCache: Boolean, isFirstResource: Boolean): Boolean {
+//                        BKLog.e("")
+//                        return false
+//                    }
+//                })
+
+//                .into(object : SimpleTarget<GlideDrawable>() {
+//                    //ps:添加回调处理第一次不显示图片问题，但是没有动画了
+//                    override fun onResourceReady(resource: GlideDrawable?, glideAnimation: GlideAnimation<in GlideDrawable>?) {
+//                        ivAd?.setImageDrawable(resource)
+//                    }
+//                })
     }
 
     class Builder {
@@ -185,4 +184,62 @@ class XmAdView(context: Context?, builder: Builder) : Dialog(context!!) {
             }
         }
     }
+}
+
+open class TransformationUtilV2(private val target: ImageView, private val xmAdView: XmAdView) : ImageViewTarget<Bitmap>(target) {
+
+    override fun setResource(resource: Bitmap) {
+        try {
+            s(resource)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
+    private fun s(resource: Bitmap) {
+        view.setImageBitmap(resource)
+
+        //获取原图的宽高
+        val width = resource.width
+        val height = resource.height
+
+        //获取imageView的宽
+        val imageViewWidth = target.width
+
+        //计算缩放比例
+        val sy = (imageViewWidth * 0.1).toFloat() / (width * 0.1).toFloat()
+
+        //计算图片等比例放大后的高
+        val imageViewHeight = (height * sy).toInt()
+        val params = target.layoutParams
+        params.height = imageViewHeight
+        target.layoutParams = params
+
+        //
+        val parent = target.parent.parent.parent as ViewGroup
+        parent.layoutParams.height = imageViewHeight
+        xmAdView.show()
+    }
+
+    fun sy(resource: Bitmap): Float {
+        val width = resource.width
+        val height = resource.height
+        val imageViewWidth = target.width
+        return (imageViewWidth * 0.1).toFloat() / (width * 0.1).toFloat()
+    }
+
+    fun getNewBitmap(bitmap: Bitmap, newWidth: Int, newHeight: Int): Bitmap {
+        // 获得图片的宽高.
+        val width = bitmap.width
+        val height = bitmap.height
+        // 计算缩放比例.
+        val scaleWidth = newWidth.toFloat() / width
+        val scaleHeight = newHeight.toFloat() / height
+        // 取得想要缩放的matrix参数.
+        val matrix = Matrix()
+        matrix.postScale(scaleWidth, scaleHeight)
+        // 得到新的图片.
+        return Bitmap.createBitmap(bitmap, 0, 0, width, height, matrix, true)
+    }
+
 }

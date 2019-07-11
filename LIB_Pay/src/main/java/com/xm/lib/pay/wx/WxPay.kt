@@ -16,7 +16,9 @@ import com.xm.lib.pay.PayConfig
 import com.xm.lib.pay.wx.uikit.wxapi.PayParameters
 
 class WxPay(activity: Activity) : AbsPay(activity) {
-
+    override fun clear() {
+        activity.unregisterReceiver(payReceiver)
+    }
 
     companion object {
         const val ACTION_PAY_SUCCESS = "ACTION_PAY_SUCCESS"
@@ -24,27 +26,29 @@ class WxPay(activity: Activity) : AbsPay(activity) {
         const val ACTION_PAY_CANCEL = "ACTION_PAY_CANCEL"
     }
 
+    private var payReceiver=object : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+            when (intent?.action) {
+                ACTION_PAY_SUCCESS -> {
+                    listener?.onSuccess()
+                }
+                ACTION_PAY_FAILURE -> {
+                    listener?.onFailure()
+                }
+                ACTION_PAY_CANCEL -> {
+                    listener?.onCancel()
+                }
+            }
+        }
+
+    }
+
     init {
         val filter = IntentFilter()
         filter.addAction(ACTION_PAY_SUCCESS)
         filter.addAction(ACTION_PAY_FAILURE)
         filter.addAction(ACTION_PAY_CANCEL)
-        activity.registerReceiver(object : BroadcastReceiver() {
-            override fun onReceive(context: Context?, intent: Intent?) {
-                when (intent?.action) {
-                    ACTION_PAY_SUCCESS -> {
-                        listener?.onSuccess()
-                    }
-                    ACTION_PAY_FAILURE -> {
-                        listener?.onFailure()
-                    }
-                    ACTION_PAY_CANCEL -> {
-                        listener?.onCancel()
-                    }
-                }
-            }
-
-        }, filter)
+        activity.registerReceiver(payReceiver, filter)
     }
 
     private var listener: OnPayListener? = null
