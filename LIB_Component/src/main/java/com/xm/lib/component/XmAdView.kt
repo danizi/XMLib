@@ -216,9 +216,9 @@ open class TransformationUtilV2(private val target: ImageView, private val xmAdV
         target.layoutParams = params
 
         //
-        val parent = target.parent.parent.parent as ViewGroup
-        parent.layoutParams.height = imageViewHeight
-        xmAdView.show()
+//        val parent = target.parent.parent.parent as ViewGroup
+//        parent.layoutParams.height = imageViewHeight
+//        xmAdView.show()
     }
 
     fun sy(resource: Bitmap): Float {
