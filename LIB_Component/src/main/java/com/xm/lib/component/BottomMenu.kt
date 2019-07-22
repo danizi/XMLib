@@ -15,6 +15,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import java.util.*
 
 /**
@@ -121,14 +122,20 @@ class BottomMenu(context: Context?, attrs: AttributeSet?) : TabLayout(context, a
                     val itemView: ViewGroup = LayoutInflater.from(context).inflate(this.itemLayoutId, this, false) as ViewGroup
                     val tabImg: ImageView = itemView.getChildAt(0) as ImageView
                     val tabTv: TextView = itemView.getChildAt(1) as TextView
-                    tabTv.text = items!![index].title
-                    tabImg.setImageResource(items!![index].beforeIconID!!)
-
-                    this.addTab(tab.setCustomView(itemView))
+                    if (tabImg != null || tabTv != null) {
+                        tabTv.text = items!![index].title
+                        tabImg.setImageResource(items!![index].beforeIconID!!)
+                        this.addTab(tab.setCustomView(itemView))
+                    } else {
+                        Toast.makeText(context, "获取菜单项失败:tabTv:$tabTv tabImg:$tabImg", Toast.LENGTH_SHORT).show()
+                    }
                 } catch (e: Exception) {
                     e.printStackTrace()
+                    Toast.makeText(context, e.message, Toast.LENGTH_SHORT).show()
                 }
             }
+        } else {
+            Toast.makeText(context, "菜单项为空", Toast.LENGTH_SHORT).show()
         }
         //选择选项
         this.getTabAt(pos)?.select()
