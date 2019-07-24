@@ -1,4 +1,4 @@
-package com.xm.lib.common.util
+package com.xm.lib.common.helper
 
 import android.annotation.SuppressLint
 import android.os.Handler
@@ -9,6 +9,28 @@ import java.util.*
  * 定时器帮助类
  */
 class TimerHelper {
+    /**
+     * 倒计时监听
+     */
+    interface OnCountDownListener {
+        fun onDelayTimer(ms: Long)
+        fun onComplete()
+    }
+
+    /**
+     * 周期执行监听
+     */
+    interface OnPeriodListener {
+        fun onPeriod()
+    }
+
+    /**
+     * 延时执行监听
+     */
+    interface OnDelayTimerListener {
+        fun onDelayTimerFinish()
+    }
+
     /**
      * 主线程handler
      */
@@ -23,7 +45,7 @@ class TimerHelper {
     private var timer: Timer? = null
 
     /**
-     * 定时器
+     * 循环执行
      */
     fun start(listener: OnPeriodListener?, period: Long) {
         if (task != null) {
@@ -41,6 +63,28 @@ class TimerHelper {
             timer = Timer()
         }
         timer?.schedule(task, 0, period)
+    }
+
+    /**
+     * 延时执行
+     */
+    fun start(listener: OnDelayTimerListener?, delay: Long) {
+        if (task != null) {
+            stop()
+        }
+        task = object : TimerTask() {
+            @SuppressLint("SetTextI18n")
+            override fun run() {
+                handler.post {
+                    listener?.onDelayTimerFinish()
+                    stop()
+                }
+            }
+        }
+        if (null == timer) {
+            timer = Timer()
+        }
+        timer?.schedule(task, delay)
     }
 
     /**
@@ -76,28 +120,6 @@ class TimerHelper {
 
 
     /**
-     * 延时执行
-     */
-    fun start(listener: OnDelayTimerListener?, delay: Long) {
-        if (task != null) {
-            stop()
-        }
-        task = object : TimerTask() {
-            @SuppressLint("SetTextI18n")
-            override fun run() {
-                handler.post {
-                    listener?.onDelayTimerFinish()
-                    stop()
-                }
-            }
-        }
-        if (null == timer) {
-            timer = Timer()
-        }
-        timer?.schedule(task, delay)
-    }
-
-    /**
      * 停止定时器
      */
     fun stop() {
@@ -106,23 +128,11 @@ class TimerHelper {
         timer = null
         task = null
     }
-
-    interface OnCountDownListener {
-        fun onDelayTimer(ms: Long)
-        fun onComplete()
-    }
-
-    interface OnPeriodListener {
-        fun onPeriod()
-    }
-
-    interface OnDelayTimerListener {
-        fun onDelayTimerFinish()
-    }
 }
 
+
 fun main(args: Array<String>) {
-    TimerHelper().countDown(object :TimerHelper.OnCountDownListener{
+    TimerHelper().countDown(object : TimerHelper.OnCountDownListener {
         override fun onDelayTimer(ms: Long) {
             System.out.print("时间:$ms")
         }
@@ -131,5 +141,5 @@ fun main(args: Array<String>) {
             System.out.print("完成")
         }
 
-    },1000L,5*1000L)
+    }, 1000L, 5 * 1000L)
 }

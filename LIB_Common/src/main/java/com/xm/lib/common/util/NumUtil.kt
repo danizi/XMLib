@@ -2,6 +2,9 @@ package com.xm.lib.common.util
 
 import java.text.DecimalFormat
 
+/**
+ * 数字相关工具类
+ */
 class NumUtil {
     companion object {
         /**

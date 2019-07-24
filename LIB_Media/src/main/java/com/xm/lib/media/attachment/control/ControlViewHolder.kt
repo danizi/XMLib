@@ -5,7 +5,7 @@ import android.app.Activity
 import android.graphics.Rect
 import android.view.View
 import com.xm.lib.common.log.BKLog
-import com.xm.lib.common.util.TimerHelper
+import com.xm.lib.common.helper.TimerHelper
 import com.xm.lib.media.base.XmMediaPlayer
 import com.xm.lib.media.base.XmVideoView
 

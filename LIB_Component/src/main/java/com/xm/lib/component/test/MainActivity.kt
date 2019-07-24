@@ -26,9 +26,8 @@ class MainActivity : AppCompatActivity() {
         data.add("XmIOSDialog")
         data.add("TreeView")
         data.add("SignView")
-        data.add("DialogActivity3")
-        data.add("DialogActivity4")
-        data.add("DialogActivity5")
+        data.add("Char")
+        data.add("PopWindow")
 
         adapter?.data?.addAll(data)
         adapter?.addItemViewDelegate(0, ViewHolder::class.java, String::class.java, R.layout.item_select)
@@ -55,6 +54,9 @@ class MainActivity : AppCompatActivity() {
                     }
                     2 -> {
                         itemView.context.startActivity(Intent(itemView.context, SignViewActivity::class.java))
+                    }
+                    3 -> {
+                        itemView.context.startActivity(Intent(itemView.context, CharActivity::class.java))
                     }
                 }
             }

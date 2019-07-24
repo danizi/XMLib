@@ -19,7 +19,8 @@
         <activity android:name=".test.DialogActivity" />
         <activity android:name=".test.PopActivity" />
         <activity android:name=".test.TreeViewActivity" />
-        <activity android:name=".test.SignViewActivity"></activity>
+        <activity android:name=".test.SignViewActivity" />
+        <activity android:name=".test.CharActivity"></activity>
     </application>
 
 </manifest>

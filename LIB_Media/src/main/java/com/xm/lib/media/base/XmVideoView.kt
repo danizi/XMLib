@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.ComponentName
 import android.content.Context
-import android.content.Intent
 import android.content.ServiceConnection
 import android.graphics.Color
 import android.media.MediaPlayer
@@ -21,8 +20,7 @@ import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import com.xm.lib.common.log.BKLog
 import com.xm.lib.common.util.ScreenUtil
-import com.xm.lib.common.util.TimerHelper
-import com.xm.lib.media.R
+import com.xm.lib.common.helper.TimerHelper
 import com.xm.lib.media.attachment.BaseAttachmentView
 import com.xm.lib.media.base.IXmMediaPlayer.Companion.TAG
 import com.xm.lib.media.broadcast.BroadcastManager
@@ -411,7 +409,7 @@ class XmVideoView : FrameLayout {
             sh = surfaceView?.holder
             sh?.addCallback(object : SurfaceHolder.Callback {
                 override fun surfaceChanged(holder: SurfaceHolder?, format: Int, width: Int, height: Int) {
-                    TimerHelper().start(object :TimerHelper.OnDelayTimerListener{
+                    TimerHelper().start(object : TimerHelper.OnDelayTimerListener{
                         override fun onDelayTimerFinish() {
                             if (ScreenUtil.isLandscape(context)) {
                                 //横屏

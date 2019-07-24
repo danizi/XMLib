@@ -19,19 +19,37 @@ object ScreenUtil {
 
     /**
      * 判断当前设备是手机还是平板，代码来自 Google I/O App for Android
-     * @param context
-     * @return 平板返回 True，手机返回 False
      */
     fun isPad(context: Context): Boolean {
         return context.resources.configuration.screenLayout and Configuration.SCREENLAYOUT_SIZE_MASK >= Configuration.SCREENLAYOUT_SIZE_LARGE
     }
 
+    /**
+     * 是否竖屏
+     */
+    fun isPortrait(context: Context): Boolean {
+        return context.resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT
+    }
+
+    /**
+     * 是否横屏
+     */
+    fun isLandscape(context: Context): Boolean {
+        return context.resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
+    }
+
+    /**
+     * 获取状态栏高度
+     */
     fun getStatusBarHeight(activity: Activity?): Int {
         val resources = activity?.resources
         val resourceId = resources?.getIdentifier("status_bar_height", "dimen", "android")!!
         return resources.getDimensionPixelSize(resourceId)
     }
 
+    /**
+     * 获取屏幕宽高
+     */
     @SuppressLint("ObsoleteSdkInt")
     fun getNormalWH(activity: Activity?): IntArray {
         return if (Build.VERSION.SDK_INT < Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
@@ -47,8 +65,10 @@ object ScreenUtil {
         }
     }
 
+    /**
+     * 隐藏状态栏
+     */
     fun hideStatusBar(activity: Activity?) {
-        /*隐藏状态栏*/
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
             activity?.window?.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                     WindowManager.LayoutParams.FLAG_FULLSCREEN)
@@ -68,8 +88,10 @@ object ScreenUtil {
         }
     }
 
+    /**
+     * 显示状态栏
+     */
     fun setDecorVisible(activity: Activity?) {
-        /*显示状态栏*/
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
             activity?.window?.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
         } else {
@@ -80,41 +102,31 @@ object ScreenUtil {
         }
     }
 
-    fun isPortrait(context: Context): Boolean {
-        /*是否竖屏*/
-        return context.resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT
-    }
-
-    fun isLandscape(context: Context): Boolean {
-        /*是否横屏*/
-        return context.resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
-    }
-
+    /**
+     * 设置竖屏
+     */
     fun setPortrait(activity: Activity?) {
-        /*设置竖屏*/
         activity?.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT
     }
 
+    /**
+     * 设置横屏
+     */
     fun setLandscape(activity: Activity?) {
-        /*设置横屏*/
         activity?.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE
     }
 
+
     /**
-     * dip 转 px
-     *
-     * @return 返回dp值对应的像素值
+     * dp 转 px
      */
     fun dip2px(context: Context, dipValue: Int): Int {
         val scale = context.resources.displayMetrics.density
         return (dipValue * scale + 0.5f).toInt()
     }
 
-
     /**
-     * px转 dp
-     *
-     * @return 返回像素值对应的dp值
+     * px 转 dp
      */
     fun px2dip(context: Context, pxValue: Float): Int {
         val scale = context.resources.displayMetrics.density

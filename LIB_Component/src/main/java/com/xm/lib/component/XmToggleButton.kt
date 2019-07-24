@@ -166,10 +166,25 @@ class ToggleButtonBean {
  * 对外提供接口
  */
 interface IToggleButton {
-    fun setLeftButton(beforeId: Int, afterId: Int, w: Int, h: Int): ToggleButton   //设置左边的资源
-    fun setRightButton(beforeId: Int, afterId: Int, w: Int, h: Int): ToggleButton  //设置右边的资源
-    fun build(): ToggleButton  //构建
-    fun setOnToggleButtonClickListener(listener: OnToggleButtonClickListener) //设置监听
+    /**
+     * 设置左边的资源
+     */
+    fun setLeftButton(beforeId: Int, afterId: Int, w: Int, h: Int): ToggleButton
+
+    /**
+     * 设置右边的资源
+     */
+    fun setRightButton(beforeId: Int, afterId: Int, w: Int, h: Int): ToggleButton
+
+    /**
+     * 构建
+     */
+    fun build(): ToggleButton
+
+    /**
+     * 设置监听
+     */
+    fun setOnToggleButtonClickListener(listener: OnToggleButtonClickListener)
 }
 
 /**

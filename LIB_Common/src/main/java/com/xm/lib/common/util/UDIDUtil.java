@@ -41,7 +41,7 @@ public class UDIDUtil {
                     if (!"9774d56d682e549c".equals(androidID)) {
                         uuid = UUID.nameUUIDFromBytes(androidID.getBytes("utf8"));
                     } else {
-                        if (SDKVersionUtil.hasM()) {
+                        if (SDKVersionUtil.INSTANCE.hasM()) {
                             uuid = UUID.randomUUID();
                         } else {
                             if (ActivityCompat.checkSelfPermission(cxt, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {

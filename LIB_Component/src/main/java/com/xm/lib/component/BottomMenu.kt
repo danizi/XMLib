@@ -29,14 +29,35 @@ class BottomMenu(context: Context?, attrs: AttributeSet?) : TabLayout(context, a
         const val DEFAULT = -1
     }
 
+    /**
+     * 选中下标
+     */
     var pos: Int = 0
+    /**
+     * Fragment操作工具类
+     */
     private val fragmentUitls: FragmentUitls = FragmentUitls()
+    /**
+     * item菜单布局
+     */
     private var itemLayoutId: Int = DEFAULT
+    /**
+     * 菜单装载容器
+     */
     private var layoutID: Int = DEFAULT
+    /**
+     * 颜色设置
+     */
     private var colorID: Int = DEFAULT
     private var beforeColorID: Int = DEFAULT
     private var afterColorID: Int = DEFAULT
+    /**
+     * 菜单项集合
+     */
     private var items: ArrayList<BottomMenuBean>? = ArrayList()
+    /**
+     * 选项点击监听
+     */
     private var lisenter: OnItemClickListener? = null
 
     override fun setContainer(layoutID: Int): BottomMenu {
@@ -50,7 +71,7 @@ class BottomMenu(context: Context?, attrs: AttributeSet?) : TabLayout(context, a
     }
 
     override fun setBackground(colorID: Int): BottomMenu {
-        this.colorID = layoutID
+        this.colorID = colorID
         return this
     }
 
@@ -265,14 +286,45 @@ private class BottomMenuBean {
  * 对外提供接口
  */
 interface IBottomMenu {
-    fun setContainer(layoutID: Int): BottomMenu   //设置内容装载布局id
-    fun setItemLayoutId(layoutId: Int): BottomMenu //item布局id
-    fun setBackground(colorID: Int): BottomMenu    //设置底部菜单颜色
-    fun setTitleColor(beforeColorID: Int, afterColorID: Int): BottomMenu//设置标题点击前后的颜色
-    fun addItem(fragment: Fragment?, title: String?, beforeIconID: Int, afterIconID: Int): BottomMenu//添加item
-    fun setOnItemClickListener(listener: OnItemClickListener): BottomMenu //设置监听
-    fun build() //构建
-    fun select(pos: Int): BottomMenu//默认选中位置
+    /**
+     * 设置内容装载布局
+     */
+    fun setContainer(layoutID: Int): BottomMenu
+
+    /**
+     * item布局布局
+     */
+    fun setItemLayoutId(layoutId: Int): BottomMenu
+
+    /**
+     * 设置底部菜单颜色
+     */
+    fun setBackground(colorID: Int): BottomMenu
+
+    /**
+     * 设置标题点击前后的颜色
+     */
+    fun setTitleColor(beforeColorID: Int, afterColorID: Int): BottomMenu
+
+    /**
+     * 添加菜单选项 item
+     */
+    fun addItem(fragment: Fragment?, title: String?, beforeIconID: Int, afterIconID: Int): BottomMenu
+
+    /**
+     * 设置监听
+     */
+    fun setOnItemClickListener(listener: OnItemClickListener): BottomMenu
+
+    /**
+     * 构建
+     */
+    fun build()
+
+    /**
+     * 默认选中位置
+     */
+    fun select(pos: Int): BottomMenu
 }
 
 /**

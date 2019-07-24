@@ -99,30 +99,6 @@ class XmAdView(context: Context?, builder: Builder) : Dialog(context!!) {
                 .load(picture)
                 .asBitmap() // 制Glide返回一个Bitmap对象
                 .into(TransformationUtilV2(ivAd!!, this@XmAdView))
-
-//        Glide.with(context).load(picture)
-//                .diskCacheStrategy(DiskCacheStrategy.ALL)
-//                .placeholder(R.mipmap.ic_launcher)
-//                .crossFade()
-//                .into(TransformationUtilV2(ivAd!!))
-//                .listener(object : RequestListener<String, GlideDrawable> {
-//                    override fun onException(e: Exception?, model: String?, target: Target<GlideDrawable>?, isFirstResource: Boolean): Boolean {
-//                        BKLog.e("")
-//                        return false
-//                    }
-//
-//                    override fun onResourceReady(resource: GlideDrawable?, model: String?, target: Target<GlideDrawable>?, isFromMemoryCache: Boolean, isFirstResource: Boolean): Boolean {
-//                        BKLog.e("")
-//                        return false
-//                    }
-//                })
-
-//                .into(object : SimpleTarget<GlideDrawable>() {
-//                    //ps:添加回调处理第一次不显示图片问题，但是没有动画了
-//                    override fun onResourceReady(resource: GlideDrawable?, glideAnimation: GlideAnimation<in GlideDrawable>?) {
-//                        ivAd?.setImageDrawable(resource)
-//                    }
-//                })
     }
 
     class Builder {

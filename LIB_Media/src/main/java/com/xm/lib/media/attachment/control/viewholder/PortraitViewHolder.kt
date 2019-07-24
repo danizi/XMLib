@@ -2,7 +2,6 @@ package com.xm.lib.media.attachment.control.viewholder
 
 import android.annotation.SuppressLint
 import android.app.Activity
-import android.media.midi.MidiManager
 import android.support.constraint.ConstraintLayout
 import android.view.LayoutInflater
 import android.view.View
@@ -11,7 +10,6 @@ import android.widget.*
 import com.xm.lib.common.log.BKLog
 import com.xm.lib.common.util.ScreenUtil
 import com.xm.lib.common.util.TimeUtil
-import com.xm.lib.common.util.TimerHelper
 import com.xm.lib.media.R
 import com.xm.lib.media.attachment.control.AttachmentControl
 import com.xm.lib.media.attachment.control.ControlViewHolder

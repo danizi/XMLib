@@ -38,6 +38,10 @@ android {
             }
         }
     }
+    // Temporary fix until alpha10
+    packagingOptions {
+        exclude 'META-INF/proguard/androidx-annotations.pro'
+    }
 }
 
 dependencies {
@@ -47,6 +51,7 @@ dependencies {
     api 'com.hyman:flowlayout-lib:1.1.2'
     api 'com.soundcloud.android:android-crop:1.0.1@aar' //相册拍照图片裁剪
     api 'com.robinhood.ticker:ticker:1.0.1' //数字滚动组件
+    api 'com.github.PhilJay:MPAndroidChart:v3.1.0' //画线框架
 }
 repositories {
     mavenCentral()
