@@ -18,6 +18,14 @@ class NumUtil {
             }
             return df
         }
+
+        fun getDecimalPoint(obj: Any,pattern:String): String {
+            val df = DecimalFormat(pattern).format(obj)
+            if (df.startsWith("0")) {
+                return df.replaceRange(0, 1, "")
+            }
+            return df
+        }
     }
 
 }

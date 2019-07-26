@@ -126,7 +126,7 @@ class CharActivity : AppCompatActivity() {
     /**
      * 自定义X轴提示
      */
-    inner class CustomXValueFromatter(var labels: ArrayList<String>?) : ValueFormatter() {
+    open class CustomXValueFromatter(var labels: ArrayList<String>?) : ValueFormatter() {
         override fun getFormattedValue(value: Float): String {
             Log.d("CharActivity", "value:$value size: ${labels?.size}")
             return labels?.get(value.toInt() % labels?.size!!)!!
@@ -136,7 +136,7 @@ class CharActivity : AppCompatActivity() {
     /**
      * 自定义选中点提示
      */
-    inner class CustomMarkerView(context: Context?, layoutResource: Int) : MarkerView(context, layoutResource) {
+    open  class CustomMarkerView(context: Context?, layoutResource: Int) : MarkerView(context, layoutResource) {
 
         var tv: TextView? = null
 

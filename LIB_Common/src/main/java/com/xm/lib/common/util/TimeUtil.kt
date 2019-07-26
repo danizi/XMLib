@@ -53,6 +53,78 @@ object TimeUtil {
     }
 
     /**
+     * 获取年
+     * @return
+     */
+    fun getYear(): Int {
+        val cd = Calendar.getInstance()
+        return cd.get(Calendar.YEAR)
+    }
+
+    /**
+     * 获取月
+     * @return
+     */
+    fun getMonth(): Int {
+        val cd = Calendar.getInstance()
+        return cd.get(Calendar.MONTH) + 1
+    }
+
+    /**
+     * 获取日
+     * @return
+     */
+    fun getDay(): Int {
+        val cd = Calendar.getInstance()
+        return cd.get(Calendar.DATE)
+    }
+
+    /**
+     * 获取时
+     * @return
+     */
+    fun getHour(): Int {
+        val cd = Calendar.getInstance()
+        return cd.get(Calendar.HOUR)
+    }
+
+    /**
+     * 获取分
+     * @return
+     */
+    fun getMinute(): Int {
+        val cd = Calendar.getInstance()
+        return cd.get(Calendar.MINUTE)
+    }
+
+    /**
+     * 获取当前时间的时间戳
+     * @return
+     */
+    fun getCurrentTimeMillis(): Long {
+        return System.currentTimeMillis()
+    }
+
+    /**
+     * 获取星期几
+     */
+    fun getWeek(): String {
+        val cal = Calendar.getInstance()
+        val i = cal.get(Calendar.DAY_OF_WEEK)
+        return when (i) {
+            1 -> "星期日"
+            2 -> "星期一"
+            3 -> "星期二"
+            4 -> "星期三"
+            5 -> "星期四"
+            6 -> "星期五"
+            7 -> "星期六"
+            else -> ""
+        }
+    }
+
+
+    /**
      * 测试
      */
     @JvmStatic
