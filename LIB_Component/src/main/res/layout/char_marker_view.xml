@@ -2,8 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:background="#CFA972"
-    >
+    android:background="#CFA972">
 
     <TextView
         android:id="@+id/tvContent"
@@ -11,8 +10,9 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:ellipsize="end"
+        android:padding="5dp"
         android:singleLine="true"
-        android:text=""
+        android:text="1234"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:textColor="@android:color/white"
         android:textSize="12dp" />
