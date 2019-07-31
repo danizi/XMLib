@@ -28,6 +28,7 @@ class MainActivity : AppCompatActivity() {
         data.add("SignView")
         data.add("Char")
         data.add("PopWindow")
+        data.add("Tip")       //提示相关包括 对话框 / 弹出框 / toast / 广告
 
         adapter?.data?.addAll(data)
         adapter?.addItemViewDelegate(0, ViewHolder::class.java, String::class.java, R.layout.item_select)
@@ -57,6 +58,12 @@ class MainActivity : AppCompatActivity() {
                     }
                     3 -> {
                         itemView.context.startActivity(Intent(itemView.context, CharActivity::class.java))
+                    }
+                    4 -> {
+
+                    }
+                    5 -> {
+                        itemView.context.startActivity(Intent(itemView.context, TipActivity::class.java))
                     }
                 }
             }

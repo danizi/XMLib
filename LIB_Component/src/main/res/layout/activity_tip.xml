@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:ignore="HardcodedText,ScrollViewSize">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        tools:context=".test.TipActivity">
+
+        <Switch
+            android:id="@+id/sc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:id="@+id/btn_dlg_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="标准对话框1" />
+
+        <Button
+            android:id="@+id/btn_dlg_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="标准对话框2[三个按钮]" />
+
+        <Button
+            android:id="@+id/btn_list"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="列表对话框" />
+
+        <Button
+            android:id="@+id/btn_single"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="单选对话框" />
+
+        <Button
+            android:id="@+id/btn_multiple"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="多选对话框" />
+
+        <Button
+            android:id="@+id/btn_wait"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="等待对话框" />
+
+        <Button
+            android:id="@+id/btn_progress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="进度条对话框" />
+
+        <Button
+            android:id="@+id/btn_input"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="输入对话框" />
+
+        <Button
+            android:id="@+id/btn_cus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="自定义对话框" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="10dp"
+            android:background="@color/black" />
+
+    </LinearLayout>
+</ScrollView>
