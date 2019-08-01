@@ -12,6 +12,8 @@ enum class CreateDialogType {
      * 原生ProgressDialog
      */
     NATIVE_PROGRESS_DIALOG,
+
+
     /**
      * 自定义IOS风格对话框
      */

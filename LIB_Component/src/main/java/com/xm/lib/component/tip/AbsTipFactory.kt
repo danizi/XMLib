@@ -2,8 +2,8 @@ package com.xm.lib.component.tip
 
 import android.content.Context
 import com.xm.lib.component.tip.dlg.core.CreateDialogType
-import com.xm.lib.component.tip.dlg.core.IDialog
-import com.xm.lib.component.tip.dlg.core.IProgressDialog
+import com.xm.lib.component.tip.dlg.core.IXmDialog
+import com.xm.lib.component.tip.dlg.core.IXmProgressDialog
 import com.xm.lib.component.tip.pop.IPopWindow
 import com.xm.lib.component.tip.toast.IToast
 
@@ -15,12 +15,12 @@ abstract class AbsTipFactory {
     /**
      * 对话框
      */
-    abstract fun getDialog(context: Context?, type: CreateDialogType): IDialog?
+    abstract fun getDialog(context: Context?, type: CreateDialogType): IXmDialog?
 
     /**
      * 进度对话框
      */
-    abstract fun getProgressDialog(context: Context?,type: CreateDialogType): IProgressDialog?
+    abstract fun getProgressDialog(context: Context?,type: CreateDialogType): IXmProgressDialog?
 
     /**
      * 得到广告

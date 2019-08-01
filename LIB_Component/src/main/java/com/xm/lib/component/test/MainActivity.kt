@@ -31,7 +31,11 @@ class MainActivity : AppCompatActivity() {
         data.add("Tip")       //提示相关包括 对话框 / 弹出框 / toast / 广告
 
         adapter?.data?.addAll(data)
-        adapter?.addItemViewDelegate(0, ViewHolder::class.java, String::class.java, R.layout.item_select)
+        adapter?.addItemViewDelegate(
+                0,
+                ViewHolder::class.java,
+                String::class.java,
+                R.layout.item_select)
         rv?.layoutManager = LinearLayoutManager(this)
         rv?.adapter = adapter
     }

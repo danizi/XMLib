@@ -1,72 +1,58 @@
 package com.xm.lib.component.tip.dlg
 
-import android.view.View
-import com.xm.lib.component.tip.dlg.core.IDialog
-import java.util.*
+import com.xm.lib.component.tip.dlg.core.IXmProgressDialog
+import com.xm.lib.component.tip.dlg.core.XmDialogInterface
 
 /**
- * 苹果风格对话框
+ * 苹果进度对话框
  */
-class IOSDlg : IDialog {
+class XmIOSProgressDlg : IXmProgressDialog {
 
-    private var control: ResourceBundle.Control? = null
-    private var p: P? = null
-
-    override fun setIcon(id: Int): IDialog {
+    override fun setTitle(title: String): IXmProgressDialog {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun setTitle(title: String): IDialog {
+    override fun setMessage(msg: String): IXmProgressDialog {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun setMessage(msg: String): IDialog {
+    override fun setIndeterminate(indeterminate: Boolean): IXmProgressDialog {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun setPositiveButton(): IDialog {
+    override fun setCancelable(flag: Boolean): IXmProgressDialog {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun setNeutralButton(): IDialog {
+    override fun setProgress(value: Int): IXmProgressDialog {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun setNegativeButton(): IDialog {
+    override fun setProgressStyle(): IXmProgressDialog {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun setItems(items: Any, click: Any): IDialog {
+    override fun setMax(max: Int): IXmProgressDialog {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun setSingleChoiceItems(): IDialog {
+    override fun show(): IXmProgressDialog {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun setMultiChoiceItems(): IDialog {
+    override fun cancel(): IXmProgressDialog {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun setView(view: View?): IDialog {
+    override fun setOnDismissListener(listener: XmDialogInterface.OnDismissListener) {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun show(): IDialog {
+    override fun setOnShowListener(listener: XmDialogInterface.OnShowListener) {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    /**
-     * 控制器
-     */
-    class Control {
-
-    }
-
-    /**
-     * 相关参数
-     */
-    class P {
-
+    override fun setOnCancelListener(listener: XmDialogInterface.OnCancelListener) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }

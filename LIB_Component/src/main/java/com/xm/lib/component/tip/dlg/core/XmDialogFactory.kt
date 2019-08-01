@@ -2,10 +2,10 @@ package com.xm.lib.component.tip.dlg.core
 
 import android.content.Context
 import com.xm.lib.component.tip.AbsTipFactory
-import com.xm.lib.component.tip.dlg.IOSDlg
-import com.xm.lib.component.tip.dlg.IOSProgressDlg
-import com.xm.lib.component.tip.dlg.NativeDlg
-import com.xm.lib.component.tip.dlg.NativeProgressDlg
+import com.xm.lib.component.tip.dlg.XmIOSDlg
+import com.xm.lib.component.tip.dlg.XmIOSProgressDlg
+import com.xm.lib.component.tip.dlg.XmNativeDlg
+import com.xm.lib.component.tip.dlg.XmNativeProgressDlg
 import com.xm.lib.component.tip.pop.IPopWindow
 import com.xm.lib.component.tip.toast.IToast
 
@@ -13,32 +13,32 @@ import com.xm.lib.component.tip.toast.IToast
 /**
  * 弹出框
  */
-class DialogFactory : AbsTipFactory() {
+class XmDialogFactory : AbsTipFactory() {
 
-    override fun getProgressDialog(context: Context?, type: CreateDialogType): IProgressDialog? {
+    override fun getProgressDialog(context: Context?, type: CreateDialogType): IXmProgressDialog? {
         return when (type) {
             CreateDialogType.NATIVE_PROGRESS_DIALOG -> {
-                NativeProgressDlg(context)
+                XmNativeProgressDlg(context)
             }
             CreateDialogType.CUSTOM_IOS_PROGRESS_DIALOG -> {
-                IOSProgressDlg()
+                XmIOSProgressDlg()
             }
             else -> {
-                NativeProgressDlg(context)
+                XmNativeProgressDlg(context)
             }
         }
     }
 
-    override fun getDialog(context: Context?, type: CreateDialogType): IDialog? {
+    override fun getDialog(context: Context?, type: CreateDialogType): IXmDialog? {
         return when (type) {
             CreateDialogType.NATIVE_ALERT_DIALOG -> {
-                NativeDlg(context)
+                XmNativeDlg(context)
             }
             CreateDialogType.CUSTOM_IOS_DIALOG -> {
-                IOSDlg()
+                XmIOSDlg(context)
             }
             else -> {
-                NativeDlg(context)
+                XmNativeDlg(context)
             }
         }
     }

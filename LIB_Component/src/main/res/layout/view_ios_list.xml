@@ -26,19 +26,15 @@
             android:text="提示"
             android:textColor="@color/textPrimary"
             android:textSize="18sp"
-            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <!--正文 居中-->
-        <TextView
-            android:id="@+id/tv_msg"
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:lineSpacingExtra="2dp"
-            android:padding="25dp"
             android:text="正文消息"
             android:textColor="@color/textPrimary"
             app:layout_constraintEnd_toEndOf="parent"
@@ -51,11 +47,10 @@
             android:id="@+id/cl_enter_cancel"
             android:layout_width="match_parent"
             android:layout_height="44dp"
-            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_msg">
+            app:layout_constraintTop_toBottomOf="@+id/rv">
 
             <View
                 android:id="@+id/divider_h"
@@ -105,11 +100,11 @@
             android:id="@+id/cl_enter"
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:visibility="gone"
+
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_msg">
+            app:layout_constraintTop_toBottomOf="@+id/rv">
 
             <View
                 android:id="@+id/divider_h_2"
