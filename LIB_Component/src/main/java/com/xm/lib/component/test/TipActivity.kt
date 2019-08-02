@@ -71,11 +71,13 @@ class TipActivity : AppCompatActivity() {
     }
 
     private fun createDialog(): IXmDialog {
-        return XmDialogFactory().getDialog(this, CreateDialogType.NATIVE_ALERT_DIALOG)!!
+        val type = CreateDialogType.CUSTOM_IOS_DIALOG
+        return XmDialogFactory().getDialog(this, type)!!
     }
 
     private fun createProgressDialog(): IXmProgressDialog {
-        return XmDialogFactory().getProgressDialog(this, CreateDialogType.NATIVE_PROGRESS_DIALOG)!!
+        val type = CreateDialogType.CUSTOM_IOS_PROGRESS_DIALOG
+        return XmDialogFactory().getProgressDialog(this,type)!!
     }
 
     private fun setDialogAllListener(dialog: XmDialogInterface) {
@@ -102,8 +104,16 @@ class TipActivity : AppCompatActivity() {
         dialog.setIcon(R.drawable.ic_launcher_background)
                 .setTitle("标题")
                 .setMessage("内容信息")
-                .setPositiveButton()
-                .setNegativeButton()
+                .setPositiveButton("确认", object : XmDialogInterface.OnClickListener {
+                    override fun onClick(dialog: XmDialogInterface, which: Int) {
+                        BKLog.d(TAG, "点击确认")
+                    }
+                })
+                .setNegativeButton("取消", object : XmDialogInterface.OnClickListener {
+                    override fun onClick(dialog: XmDialogInterface, which: Int) {
+                        BKLog.d(TAG, "点击取消")
+                    }
+                })
                 .show()
     }
 
@@ -112,9 +122,21 @@ class TipActivity : AppCompatActivity() {
         dialog.setIcon(R.drawable.ic_launcher_background)
                 .setTitle("标题")
                 .setMessage("内容信息")
-                .setPositiveButton()
-                .setNegativeButton()
-                .setNeutralButton()
+                .setPositiveButton("确认", object : XmDialogInterface.OnClickListener {
+                    override fun onClick(dialog: XmDialogInterface, which: Int) {
+                        BKLog.d(TAG, "点击确认")
+                    }
+                })
+                .setNegativeButton("取消", object : XmDialogInterface.OnClickListener {
+                    override fun onClick(dialog: XmDialogInterface, which: Int) {
+                        BKLog.d(TAG, "点击取消")
+                    }
+                })
+                .setNeutralButton("中立", object : XmDialogInterface.OnClickListener {
+                    override fun onClick(dialog: XmDialogInterface, which: Int) {
+                        BKLog.d(TAG, "点击中立")
+                    }
+                })
                 .show()
         setDialogAllListener(dialog)
     }
@@ -198,6 +220,7 @@ class TipActivity : AppCompatActivity() {
         val progressDialog = createProgressDialog()
         progressDialog.setTitle("标题")
                 .setTitle("我是一个进度条Dialog")
+                .setIndeterminate(true)
                 .setCancelable(true)
                 .show()
         setDialogAllListener(progressDialog)

@@ -21,7 +21,7 @@ class XmDialogFactory : AbsTipFactory() {
                 XmNativeProgressDlg(context)
             }
             CreateDialogType.CUSTOM_IOS_PROGRESS_DIALOG -> {
-                XmIOSProgressDlg()
+                XmIOSProgressDlg(context)
             }
             else -> {
                 XmNativeProgressDlg(context)

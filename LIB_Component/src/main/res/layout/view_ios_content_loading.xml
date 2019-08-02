@@ -9,7 +9,9 @@
     android:padding="14dp"
     tools:ignore="MissingConstraints,NewApi,HardcodedText">
 
-    <ProgressBar
+    <ProgressBar xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/loading"
         android:layout_width="45dp"
         android:layout_height="45dp"
@@ -20,7 +22,7 @@
         android:layout_marginRight="8dp"
         android:layout_marginBottom="8dp"
         android:indeterminateBehavior="repeat"
-        android:indeterminateDrawable="@mipmap/ios_loading"
+        android:indeterminateDrawable="@drawable/anim"
         android:indeterminateOnly="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

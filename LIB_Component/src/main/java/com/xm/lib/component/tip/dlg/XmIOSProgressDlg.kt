@@ -1,58 +1,77 @@
 package com.xm.lib.component.tip.dlg
 
+import android.app.ProgressDialog
+import android.content.Context
 import com.xm.lib.component.tip.dlg.core.IXmProgressDialog
 import com.xm.lib.component.tip.dlg.core.XmDialogInterface
 
 /**
  * 苹果进度对话框
  */
-class XmIOSProgressDlg : IXmProgressDialog {
+class XmIOSProgressDlg(context: Context?) : IXmProgressDialog {
+
+    private var p: XmIOSDlg.Control.P? = null
+    private var control: XmIOSDlg.Control? = null
+
+    init {
+        p = XmIOSDlg.Control.P(this, context)
+        control = XmIOSDlg.Control(this, context)
+    }
 
     override fun setTitle(title: String): IXmProgressDialog {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        p?.title = title
+        return this
     }
 
     override fun setMessage(msg: String): IXmProgressDialog {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        p?.message = msg
+        return this
     }
 
     override fun setIndeterminate(indeterminate: Boolean): IXmProgressDialog {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        p?.indeterminate = indeterminate
+        return this
     }
 
     override fun setCancelable(flag: Boolean): IXmProgressDialog {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        p?.cancelable = flag
+        return this
     }
 
     override fun setProgress(value: Int): IXmProgressDialog {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        p?.progressValue = value
+        return this
     }
 
     override fun setProgressStyle(): IXmProgressDialog {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        p?.progressStyle = ProgressDialog.STYLE_HORIZONTAL
+        return this
     }
 
     override fun setMax(max: Int): IXmProgressDialog {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        p?.progressMax = max
+        return this
     }
 
     override fun show(): IXmProgressDialog {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        p?.apply(control)
+        control?.show()
+        return this
     }
 
     override fun cancel(): IXmProgressDialog {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return this
     }
 
     override fun setOnDismissListener(listener: XmDialogInterface.OnDismissListener) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        p?.setOnDismissListener(listener)
     }
 
     override fun setOnShowListener(listener: XmDialogInterface.OnShowListener) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        p?.setOnShowListener(listener)
     }
 
     override fun setOnCancelListener(listener: XmDialogInterface.OnCancelListener) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        p?.setOnCancelListener(listener)
     }
 }
