@@ -9,6 +9,7 @@ import android.view.View
 import android.widget.EditText
 import com.xm.lib.common.log.BKLog
 import com.xm.lib.component.tip.dlg.core.IXmDialog
+import com.xm.lib.component.tip.dlg.core.IXmProgressDialog
 import com.xm.lib.component.tip.dlg.core.XmDialogInterface
 import java.lang.ref.WeakReference
 
@@ -94,6 +95,14 @@ class XmNativeDlg(private val context: Context?) : IXmDialog {
         return this
     }
 
+    override fun dismiss() {
+
+    }
+
+    override fun cancel() {
+
+    }
+
     private fun size() {
         //设置窗口的大小
         //val alertDialog = (dialog as XmNativeDlg).alertDialog
@@ -108,62 +117,20 @@ class XmNativeDlg(private val context: Context?) : IXmDialog {
     }
 
     override fun setOnDismissListener(listener: XmDialogInterface.OnDismissListener) {
-        //dismissMessage = listenersHandler?.obtainMessage(DISMISS, listener)
         alertDialog?.setOnDismissListener {
-            //Message.obtain(dismissMessage).sendToTarget()
             listener.onDismiss(this)
         }
     }
 
     override fun setOnShowListener(listener: XmDialogInterface.OnShowListener) {
-        //showMessage = listenersHandler?.obtainMessage(SHOW, listener)
         alertDialog?.setOnShowListener {
-            //Message.obtain(showMessage).sendToTarget()
             listener.onShow(this)
         }
     }
 
     override fun setOnCancelListener(listener: XmDialogInterface.OnCancelListener) {
-        //cancelMessage = listenersHandler?.obtainMessage(CANCEL, listener)
         alertDialog?.setOnCancelListener {
-            //Message.obtain(cancelMessage).sendToTarget()
             listener.onCancel(this)
-        }
-    }
-
-    companion object {
-        const val DISMISS = 0x01
-        const val CANCEL = 0x02
-        const val SHOW = 0x03
-    }
-
-
-    private var listenersHandler: ListenersHandler? = null
-    private var cancelMessage: Message? = null
-    private var dismissMessage: Message? = null
-    private var showMessage: Message? = null
-
-    class ListenersHandler(dialog: IXmDialog) : Handler() {
-
-        private var weakReferenceDialog: WeakReference<IXmDialog>? = null
-
-        init {
-            weakReferenceDialog = WeakReference(dialog)
-        }
-
-        override fun handleMessage(msg: Message?) {
-            super.handleMessage(msg)
-            when (msg?.what) {
-                DISMISS -> {
-                    (msg.obj as XmDialogInterface.OnDismissListener).onDismiss(weakReferenceDialog?.get()!!)
-                }
-                CANCEL -> {
-                    (msg.obj as XmDialogInterface.OnCancelListener).onCancel(weakReferenceDialog?.get()!!)
-                }
-                SHOW -> {
-                    (msg.obj as XmDialogInterface.OnShowListener).onShow(weakReferenceDialog?.get()!!)
-                }
-            }
         }
     }
 }

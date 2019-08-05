@@ -1,6 +1,7 @@
 package com.xm.lib.component.tip
 
 import android.content.Context
+import com.xm.lib.component.tip.dlg.XmAdDlg
 import com.xm.lib.component.tip.dlg.core.CreateDialogType
 import com.xm.lib.component.tip.dlg.core.IXmDialog
 import com.xm.lib.component.tip.dlg.core.IXmProgressDialog
@@ -25,7 +26,7 @@ abstract class AbsTipFactory {
     /**
      * 得到广告
      */
-    abstract fun getAdDialog(context: Context?)
+    abstract fun getAdDialog(context: Context?): XmAdDlg?
 
     /**
      * Toast提示

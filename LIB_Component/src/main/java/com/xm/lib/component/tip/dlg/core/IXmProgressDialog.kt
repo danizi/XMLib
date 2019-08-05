@@ -21,6 +21,4 @@ interface IXmProgressDialog : XmDialogInterface {
 
     fun show(): IXmProgressDialog
 
-    fun cancel(): IXmProgressDialog
-
 }

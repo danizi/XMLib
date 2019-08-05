@@ -16,6 +16,7 @@ import java.lang.Exception
 /**
  * 广告弹框 ps:布局根节点千万不用使用约束布局
  */
+@Deprecated("")
 class XmAdView(context: Context?, builder: Builder) : Dialog(context!!) {
 
     private var activity: Activity? = null

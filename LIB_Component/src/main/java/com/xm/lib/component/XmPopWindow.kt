@@ -9,6 +9,7 @@ import android.widget.PopupWindow
 /**
  * 弹出框
  */
+@Deprecated("")
 class XmPopWindow(val context: Context?) : PopupWindow(context) {
 
     fun ini(contentView: View?, width: Int = ViewGroup.LayoutParams.WRAP_CONTENT, height: Int = ViewGroup.LayoutParams.WRAP_CONTENT) {

@@ -3,6 +3,7 @@ package com.xm.lib.component.tip.dlg
 import android.content.Context
 import android.view.View
 import com.xm.lib.component.tip.dlg.core.IXmDialog
+import com.xm.lib.component.tip.dlg.core.IXmProgressDialog
 import com.xm.lib.component.tip.dlg.core.XmDialogInterface
 
 
@@ -10,6 +11,7 @@ import com.xm.lib.component.tip.dlg.core.XmDialogInterface
  * 苹果风格对话框
  */
 class XmIOSDlg(context: Context?) : IXmDialog {
+
 
     private var p: XmDialogInterface.Control.P? = null
     private var control: XmDialogInterface.Control? = null
@@ -73,6 +75,14 @@ class XmIOSDlg(context: Context?) : IXmDialog {
         p?.apply(control)
         control?.show()
         return this
+    }
+
+    override fun dismiss() {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun cancel() {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override fun setOnDismissListener(listener: XmDialogInterface.OnDismissListener) {

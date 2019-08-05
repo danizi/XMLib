@@ -23,6 +23,7 @@ import com.xm.lib.component.XmIOSDialog.ViewHolder.tvTitle
 /**
  * 各种类型弹框
  */
+@Deprecated("")
 open class XmIOSDialog(var ctx: Context?) {
 
     private var width = 0

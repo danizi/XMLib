@@ -6,17 +6,19 @@
     android:orientation="vertical">
 
     <!--头部-->
-    <FrameLayout
+    <LinearLayout
         android:id="@+id/title_container"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
         android:text="title" />
 
     <!--内容-->
-    <FrameLayout
+    <LinearLayout
         android:id="@+id/content_container"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:orientation="vertical" />
 
     <!--按钮-->
     <LinearLayout

@@ -11,10 +11,6 @@ import com.xm.lib.component.tip.dlg.core.XmDialogInterface
  */
 class XmNativeProgressDlg(private var context: Context?) : IXmProgressDialog {
 
-
-    /**
-     * 加载对话框
-     */
     private var progressDialog: ProgressDialog? = null
 
     init {
@@ -61,9 +57,12 @@ class XmNativeProgressDlg(private var context: Context?) : IXmProgressDialog {
         return this
     }
 
-    override fun cancel(): IXmProgressDialog {
+    override fun cancel() {
         progressDialog?.cancel()
-        return this
+    }
+
+    override fun dismiss() {
+
     }
 
     override fun setOnDismissListener(listener: XmDialogInterface.OnDismissListener) {

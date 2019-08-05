@@ -2,10 +2,7 @@ package com.xm.lib.component.tip.dlg.core
 
 import android.content.Context
 import com.xm.lib.component.tip.AbsTipFactory
-import com.xm.lib.component.tip.dlg.XmIOSDlg
-import com.xm.lib.component.tip.dlg.XmIOSProgressDlg
-import com.xm.lib.component.tip.dlg.XmNativeDlg
-import com.xm.lib.component.tip.dlg.XmNativeProgressDlg
+import com.xm.lib.component.tip.dlg.*
 import com.xm.lib.component.tip.pop.IPopWindow
 import com.xm.lib.component.tip.toast.IToast
 
@@ -51,7 +48,7 @@ class XmDialogFactory : AbsTipFactory() {
         return null
     }
 
-    override fun getAdDialog(context: Context?) {
-
+    override fun getAdDialog(context: Context?): XmAdDlg? {
+        return XmAdDlg(context)
     }
 }

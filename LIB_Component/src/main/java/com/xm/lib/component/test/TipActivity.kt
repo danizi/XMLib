@@ -36,9 +36,15 @@ class TipActivity : AppCompatActivity() {
         iniEvent()
     }
 
+    private var isChecked: Boolean = false
     private fun iniEvent() {
         ui?.sc?.setOnCheckedChangeListener { buttonView, isChecked ->
-
+            if (isChecked) {
+                Toast.makeText(this, "IOS风格", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(this, "原生", Toast.LENGTH_SHORT).show()
+            }
+            this.isChecked = isChecked
         }
 
         ui?.btnDlg1?.setOnClickListener {
@@ -68,16 +74,41 @@ class TipActivity : AppCompatActivity() {
         ui?.btnProgress?.setOnClickListener {
             showProgress()
         }
+        ui?.btnAd?.setOnClickListener {
+            showAd()
+        }
+    }
+
+    private fun showAd() {
+        val url="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1565007865339&di=8b7d79cc6322b953cf20baffa95baf89&imgtype=0&src=http%3A%2F%2Fimg5.duitang.com%2Fuploads%2Fblog%2F201508%2F03%2F20150803082359_NTGB5.jpeg"
+        val adDlg =    XmDialogFactory().getAdDialog(this)!!
+        adDlg.setAd(url, object : XmDialogInterface.OnClickListener {
+            override fun onClick(dialog: XmDialogInterface, which: Int) {
+                BKLog.d(TAG, "点击广告")
+                dialog.dismiss()
+            }
+        }).setClose(R.mipmap.ad_close, object : XmDialogInterface.OnClickListener {
+            override fun onClick(dialog: XmDialogInterface, which: Int) {
+                BKLog.d(TAG, "关闭广告")
+                dialog.dismiss()
+            }
+        }).show()
     }
 
     private fun createDialog(): IXmDialog {
-        val type = CreateDialogType.CUSTOM_IOS_DIALOG
+        var type = CreateDialogType.NATIVE_ALERT_DIALOG
+        if (isChecked) {
+            type = CreateDialogType.CUSTOM_IOS_DIALOG
+        }
         return XmDialogFactory().getDialog(this, type)!!
     }
 
     private fun createProgressDialog(): IXmProgressDialog {
-        val type = CreateDialogType.CUSTOM_IOS_PROGRESS_DIALOG
-        return XmDialogFactory().getProgressDialog(this,type)!!
+        var type = CreateDialogType.NATIVE_PROGRESS_DIALOG
+        if (isChecked) {
+            type = CreateDialogType.CUSTOM_IOS_PROGRESS_DIALOG
+        }
+        return XmDialogFactory().getProgressDialog(this, type)!!
     }
 
     private fun setDialogAllListener(dialog: XmDialogInterface) {
@@ -199,10 +230,8 @@ class TipActivity : AppCompatActivity() {
     @SuppressLint("InflateParams")
     private fun showCus() {
         val dialog = createDialog()
-
         dialog.setView(LayoutInflater.from(this).inflate(R.layout.activity_pop, null))
                 .show()
-
         val alertDialog = (dialog as XmNativeDlg).alertDialog
         alertDialog?.setCanceledOnTouchOutside(true) // Sets whether this dialog is
         val w = alertDialog?.window
@@ -237,7 +266,7 @@ class TipActivity : AppCompatActivity() {
                 .show()
         Thread(Runnable {
             var value = 0
-            while (value < 100) {
+            while (value <= 100) {
                 Thread.sleep(100)
                 progressDialog.setProgress(value++)
             }
@@ -246,7 +275,7 @@ class TipActivity : AppCompatActivity() {
         setDialogAllListener(progressDialog)
     }
 
-    private class TipActivityUI private constructor(val sc: Switch, val btnDlg1: Button, val btnDlg2: Button, val btnList: Button, val btnSingle: Button, val btnMultiple: Button, val btnWait: Button, val btnProgress: Button, val btnInput: Button, val btnCus: Button) {
+    private class TipActivityUI private constructor(val sc: Switch, val btnDlg1: Button, val btnDlg2: Button, val btnList: Button, val btnSingle: Button, val btnMultiple: Button, val btnWait: Button, val btnProgress: Button, val btnInput: Button, val btnCus: Button, val btnAd: Button) {
         companion object {
 
             fun create(rootView: Activity): TipActivityUI {
@@ -260,7 +289,8 @@ class TipActivity : AppCompatActivity() {
                 val btnProgress = rootView.findViewById<View>(R.id.btn_progress) as Button
                 val btnInput = rootView.findViewById<View>(R.id.btn_input) as Button
                 val btnCus = rootView.findViewById<View>(R.id.btn_cus) as Button
-                return TipActivityUI(sc, btnDlg1, btnDlg2, btnList, btnSingle, btnMultiple, btnWait, btnProgress, btnInput, btnCus)
+                val btnAd = rootView.findViewById<View>(R.id.btn_ad) as Button
+                return TipActivityUI(sc, btnDlg1, btnDlg2, btnList, btnSingle, btnMultiple, btnWait, btnProgress, btnInput, btnCus, btnAd)
             }
         }
     }

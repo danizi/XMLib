@@ -10,6 +10,7 @@ import com.xm.lib.component.tip.dlg.core.XmDialogInterface
  */
 class XmIOSProgressDlg(context: Context?) : IXmProgressDialog {
 
+
     private var p: XmDialogInterface.Control.P? = null
     private var control: XmDialogInterface.Control? = null
 
@@ -59,8 +60,12 @@ class XmIOSProgressDlg(context: Context?) : IXmProgressDialog {
         return this
     }
 
-    override fun cancel(): IXmProgressDialog {
-        return this
+    override fun cancel() {
+        control?.cancel()
+    }
+
+    override fun dismiss() {
+
     }
 
     override fun setOnDismissListener(listener: XmDialogInterface.OnDismissListener) {

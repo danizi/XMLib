@@ -5,21 +5,30 @@ import android.app.Activity
 import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.os.Build
 import android.support.v7.app.AlertDialog
 import android.support.v7.widget.RecyclerView
 import android.text.Editable
 import android.text.TextUtils
 import android.text.TextWatcher
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.annotation.RequiresApi
+import com.xm.lib.common.log.BKLog
+import com.xm.lib.common.util.ScreenUtil
 import com.xm.lib.component.R
 
 /**
  * 相关接口
  */
 interface XmDialogInterface {
+
+    fun dismiss()
+
+    fun cancel()
 
     fun setOnDismissListener(listener: XmDialogInterface.OnDismissListener)
 
@@ -47,13 +56,12 @@ interface XmDialogInterface {
         fun onClick(dialog: XmDialogInterface, which: Int, isChecked: Boolean)
     }
 
-
     class Control(private val xmDialogInterface: XmDialogInterface, val context: Context?) {
         private var builder: AlertDialog.Builder? = null
         private var dlg: AlertDialog? = null
         private var containerView: View? = null
-        private var titleContainer: FrameLayout? = null
-        private var contentContainer: FrameLayout? = null
+        private var titleContainer: LinearLayout? = null
+        private var contentContainer: LinearLayout? = null
 
         private var progressBar: ProgressBar? = null
         private var progressDes: TextView? = null
@@ -90,10 +98,13 @@ interface XmDialogInterface {
                 //设置窗口透明，保证圆角显示出来
                 if (isLoad) {
                     dlg?.window?.setDimAmount(0f)  //蒙版透明
-                    dlg?.window?.setLayout(300, 300) //等待框的大小
-                } else {
+                    dlg?.window?.setLayout(200, ViewGroup.LayoutParams.WRAP_CONTENT) //等待框的大小
                     dlg?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-                    dlg?.window?.setLayout(800, ViewGroup.LayoutParams.WRAP_CONTENT) //对话框的大小
+                    containerView?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+                } else {
+                    val maxWidth = ScreenUtil.getNormalWH(context as Activity)[0] - (2 * (ScreenUtil.getNormalWH(context as Activity)[0] * 0.1f)).toInt()
+                    dlg?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+                    dlg?.window?.setLayout(maxWidth, ViewGroup.LayoutParams.WRAP_CONTENT) //对话框的大小
                 }
                 showListener?.onShow(xmDialogInterface)
             }
@@ -102,7 +113,6 @@ interface XmDialogInterface {
             }
             dlg?.show()
         }
-
 
         private fun setContentView(dlgLayoutID: Int) {
             containerView = LayoutInflater.from(context).inflate(dlgLayoutID, null)
@@ -145,9 +155,14 @@ interface XmDialogInterface {
         private fun setMessage(msg: String?, msgLayoutID: Int) {
             //val msgView = LayoutInflater.from(context).inflate(msgLayoutID, null)
             val msgTv = TextView(context)
+            val lp = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+            msgTv.gravity = Gravity.CENTER
             msgTv.text = msg
+            msgTv.setPadding(25, 0, 25, 25)
+            msgTv.setLineSpacing(2f, 1.2f)
+
             contentContainer?.removeAllViews()
-            contentContainer?.addView(msgTv, ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT))
+            contentContainer?.addView(msgTv)
             contentContainer?.visibility = View.VISIBLE
         }
 
@@ -177,20 +192,18 @@ interface XmDialogInterface {
         private fun setTitle(title: String?, titleLayoutID: Int) {
             //val titleView = LayoutInflater.from(context).inflate(titleLayoutID, null)
             val titleView = TextView(context)
-            titleContainer?.removeAllViews()
-            titleContainer?.addView(titleView, ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT))
-            titleContainer?.visibility = View.VISIBLE
-
             //设置样式
             titleView.text = title
             titleView.textSize = 18f
             titleView.setTextColor(R.color.textPrimary)
-            val lp = RelativeLayout.LayoutParams(titleView.layoutParams)
-            lp.setMargins(0, 200, 0, 0)
-            lp.addRule(RelativeLayout.CENTER_IN_PARENT)
+            val lp = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+            lp.setMargins(0, 18, 0, 25)
+            titleView.layoutParams = lp
+            titleView.gravity = Gravity.CENTER   //调用lp.gravity无效
 
-            titleView.layoutParams.width = 500
-
+            titleContainer?.removeAllViews()
+            titleContainer?.addView(titleView)
+            titleContainer?.visibility = View.VISIBLE
         }
 
         private fun hideTitleContainer() {
@@ -266,12 +279,19 @@ interface XmDialogInterface {
         fun setProgressValue(progressValue: Int?) {
             progressBar?.progress = progressValue!!
             progressDes?.post {
+                BKLog.d("progressValue:$progressValue")
                 progressDes?.text = (progressValue * 100 / progressBar?.max!!).toString() + "%"
             }
         }
 
         private fun setMax(progressMax: Int?) {
             progressBar?.max = progressMax!!
+        }
+
+        fun cancel() {
+            if (dlg?.isShowing!!) {
+                dlg?.cancel()
+            }
         }
 
         /**
@@ -434,4 +454,5 @@ interface XmDialogInterface {
             }
         }
     }
+
 }
