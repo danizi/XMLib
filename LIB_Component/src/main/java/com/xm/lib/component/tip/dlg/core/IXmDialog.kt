@@ -28,5 +28,6 @@ interface IXmDialog : XmDialogInterface {
     fun setView(view: View?): IXmDialog
 
     fun show(): IXmDialog
+
 }
 

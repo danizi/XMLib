@@ -68,30 +68,18 @@ class XmNativeProgressDlg(private var context: Context?) : IXmProgressDialog {
 
     override fun setOnDismissListener(listener: XmDialogInterface.OnDismissListener) {
         progressDialog?.setOnDismissListener {
-            if (listener == null) {
-                BKLog.e("OnDismissListener is null ")
-                return@setOnDismissListener
-            }
             listener.onDismiss(this)
         }
     }
 
     override fun setOnShowListener(listener: XmDialogInterface.OnShowListener) {
         progressDialog?.setOnShowListener {
-            if (listener == null) {
-                BKLog.e("OnShowListener is null ")
-                return@setOnShowListener
-            }
             listener.onShow(this)
         }
     }
 
     override fun setOnCancelListener(listener: XmDialogInterface.OnCancelListener) {
         progressDialog?.setOnCancelListener {
-            if (listener == null) {
-                BKLog.e("OnCancelListener is null ")
-                return@setOnCancelListener
-            }
             listener.onCancel(this)
         }
     }

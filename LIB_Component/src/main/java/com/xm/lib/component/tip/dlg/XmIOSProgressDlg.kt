@@ -10,12 +10,12 @@ import com.xm.lib.component.tip.dlg.core.XmDialogInterface
  */
 class XmIOSProgressDlg(context: Context?) : IXmProgressDialog {
 
-    private var p: XmIOSDlg.Control.P? = null
-    private var control: XmIOSDlg.Control? = null
+    private var p: XmDialogInterface.Control.P? = null
+    private var control: XmDialogInterface.Control? = null
 
     init {
-        p = XmIOSDlg.Control.P(this, context)
-        control = XmIOSDlg.Control(this, context)
+        p = XmDialogInterface.Control.P(this, context)
+        control = XmDialogInterface.Control(this, context)
     }
 
     override fun setTitle(title: String): IXmProgressDialog {
@@ -39,7 +39,7 @@ class XmIOSProgressDlg(context: Context?) : IXmProgressDialog {
     }
 
     override fun setProgress(value: Int): IXmProgressDialog {
-        p?.progressValue = value
+        control?.setProgressValue(value)
         return this
     }
 
