@@ -83,5 +83,19 @@
             android:layout_height="10dp"
             android:background="@color/black" />
 
+
+        <!--相册、相机、电话-->
+        <Button
+            android:id="@+id/btn_sheet"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="弹出框 - Sheet" />
+
+        <Button
+            android:id="@+id/btn_share"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="弹出框 - Share" />
+
     </LinearLayout>
 </ScrollView>

@@ -14,6 +14,7 @@ import android.widget.*
  * 3 空数据
  * 4 隐藏
  */
+@Deprecated("")
 class XmStateView(context: Context, attrs: AttributeSet?) : FrameLayout(context, attrs), IXmStateView {
 
     private var progressCircular: ProgressBar? = null

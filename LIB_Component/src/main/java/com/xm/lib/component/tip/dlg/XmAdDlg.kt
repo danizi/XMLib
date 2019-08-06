@@ -7,6 +7,7 @@ import android.content.Context
 import android.content.DialogInterface
 import android.graphics.Bitmap
 import android.graphics.Matrix
+import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -98,7 +99,12 @@ class XmAdDlg(private var context: Context?) : XmDialogInterface {
         ivCover?.setOnClickListener {
             listener.onClick(this@XmAdDlg, 0)
         }
-        return this!!
+        //图片预加载
+        Glide.with(context)
+                .load(url)
+                .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                .preload()
+        return this
     }
 
     private fun setAd(url: String) {
@@ -118,7 +124,15 @@ class XmAdDlg(private var context: Context?) : XmDialogInterface {
         Glide.with(context)
                 .load(url)
                 .asBitmap() // 制Glide返回一个Bitmap对象
+                .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                 .into(AdaptationTransformation(ivCover!!, dlg))
+    }
+
+    fun preload(url: String){
+        Glide.with(context)
+                .load(url)
+                .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                .preload()
     }
 
     /**
@@ -148,8 +162,8 @@ class XmAdDlg(private var context: Context?) : XmDialogInterface {
 
                 //方式二 如果有广告关闭按钮使用下面方式设置宽高
                 target.layoutParams.height = maxHeight
-
                 target.setImageBitmap(resource)
+
             } catch (e: Exception) {
                 e.printStackTrace()
             }

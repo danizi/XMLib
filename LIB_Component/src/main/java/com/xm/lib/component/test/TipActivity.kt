@@ -10,6 +10,8 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Switch
 import android.widget.Toast
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.xm.lib.common.log.BKLog
 import com.xm.lib.component.R
 import com.xm.lib.component.tip.dlg.XmNativeDlg
@@ -46,7 +48,6 @@ class TipActivity : AppCompatActivity() {
             }
             this.isChecked = isChecked
         }
-
         ui?.btnDlg1?.setOnClickListener {
             showDlg1()
         }
@@ -77,11 +78,32 @@ class TipActivity : AppCompatActivity() {
         ui?.btnAd?.setOnClickListener {
             showAd()
         }
+
+
+
+        ui?.btnSheet?.setOnClickListener {
+            showSheet()
+        }
+        ui?.btnShare?.setOnClickListener {
+            showShare()
+        }
+    }
+
+    private fun showShare() {
+
+    }
+
+    private fun showSheet() {
+        val pop = XmDialogFactory().getPopWindow(this)
+        pop?.setView(LayoutInflater.from(this).inflate(R.layout.activity_pop, null))
+        pop?.showAtLocation()
     }
 
     private fun showAd() {
-        val url="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1565007865339&di=8b7d79cc6322b953cf20baffa95baf89&imgtype=0&src=http%3A%2F%2Fimg5.duitang.com%2Fuploads%2Fblog%2F201508%2F03%2F20150803082359_NTGB5.jpeg"
-        val adDlg =    XmDialogFactory().getAdDialog(this)!!
+        val url = "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1565007865339&di=8b7d79cc6322b953cf20baffa95baf89&imgtype=0&src=http%3A%2F%2Fimg5.duitang.com%2Fuploads%2Fblog%2F201508%2F03%2F20150803082359_NTGB5.jpeg"
+        val adDlg = XmDialogFactory().getAdDialog(this)!!
+        //图片预加载
+        adDlg.preload(url)
         adDlg.setAd(url, object : XmDialogInterface.OnClickListener {
             override fun onClick(dialog: XmDialogInterface, which: Int) {
                 BKLog.d(TAG, "点击广告")
@@ -222,7 +244,11 @@ class TipActivity : AppCompatActivity() {
         createDialog().setTitle("title")
                 .setMessage("msg")
                 .setView(EditText(this))
-                .setPositiveButton()
+                .setPositiveButton("确认", object : XmDialogInterface.OnClickListener {
+                    override fun onClick(dialog: XmDialogInterface, which: Int) {
+
+                    }
+                })
                 .show()
         setDialogAllListener(dialog)
     }
@@ -275,7 +301,7 @@ class TipActivity : AppCompatActivity() {
         setDialogAllListener(progressDialog)
     }
 
-    private class TipActivityUI private constructor(val sc: Switch, val btnDlg1: Button, val btnDlg2: Button, val btnList: Button, val btnSingle: Button, val btnMultiple: Button, val btnWait: Button, val btnProgress: Button, val btnInput: Button, val btnCus: Button, val btnAd: Button) {
+    private class TipActivityUI private constructor(val sc: Switch, val btnDlg1: Button, val btnDlg2: Button, val btnList: Button, val btnSingle: Button, val btnMultiple: Button, val btnWait: Button, val btnProgress: Button, val btnInput: Button, val btnCus: Button, val btnAd: Button, val btnSheet: Button, val btnShare: Button) {
         companion object {
 
             fun create(rootView: Activity): TipActivityUI {
@@ -290,7 +316,9 @@ class TipActivity : AppCompatActivity() {
                 val btnInput = rootView.findViewById<View>(R.id.btn_input) as Button
                 val btnCus = rootView.findViewById<View>(R.id.btn_cus) as Button
                 val btnAd = rootView.findViewById<View>(R.id.btn_ad) as Button
-                return TipActivityUI(sc, btnDlg1, btnDlg2, btnList, btnSingle, btnMultiple, btnWait, btnProgress, btnInput, btnCus, btnAd)
+                val btnSheet = rootView.findViewById<View>(R.id.btn_sheet) as Button
+                val btnShare = rootView.findViewById<View>(R.id.btn_share) as Button
+                return TipActivityUI(sc, btnDlg1, btnDlg2, btnList, btnSingle, btnMultiple, btnWait, btnProgress, btnInput, btnCus, btnAd, btnSheet, btnShare)
             }
         }
     }

@@ -10,10 +10,10 @@ interface IPopWindow {
     /**
      * 设置自定义View
      */
-    fun setView(view: View)
+    fun setView(view: View):IPopWindow
 
     /**
      * 显示
      */
-    fun showAtLocation()
+    fun showAtLocation():IPopWindow
 }

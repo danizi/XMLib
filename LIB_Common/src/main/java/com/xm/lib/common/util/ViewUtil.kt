@@ -6,6 +6,7 @@ import android.view.*
 import android.widget.RelativeLayout
 import android.graphics.Bitmap
 import android.graphics.Canvas
+import android.graphics.Matrix
 
 
 object ViewUtil {
@@ -83,5 +84,34 @@ object ViewUtil {
         val c = Canvas(shareBitmap)
         view.draw(c)
         return shareBitmap
+    }
+
+    /**
+     * view转bitmap
+     */
+    fun getViewBitmap2(view: View, scale: Float): Bitmap {
+        //375/667
+        val height =   view.measuredWidth/scale
+        view.layoutParams.height = height.toInt()
+        val shareBitmap = Bitmap.createBitmap(view.measuredWidth, view.measuredHeight, Bitmap.Config.ARGB_4444)
+        val c = Canvas(shareBitmap)
+        view.draw(c)
+        return shareBitmap
+    }
+
+
+     fun setBmp(bitmap: Bitmap): Bitmap {
+        val width = bitmap.width
+        val height = bitmap.height
+        // 设置想要的大小
+        val newWidth = width
+        val newHeight = width / (375.toFloat() / 662)
+        // 计算缩放比例
+        val scaleWidth = newWidth.toFloat() / width
+        val scaleHeight = newHeight.toFloat() / height
+        val matrix = Matrix()
+        matrix.postScale(scaleWidth, scaleHeight)
+        val mbitmap = Bitmap.createBitmap(bitmap, 0, 0, width, height, matrix, true)
+        return mbitmap
     }
 }

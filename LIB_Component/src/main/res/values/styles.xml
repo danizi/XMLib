@@ -9,9 +9,17 @@
     </style>
 
     <style name="suibowen" parent="android:Widget">
-        <item name="android:stateListAnimator" ns1:ignore="NewApi,PrivateResource">@animator/design_appbar_state_list_animator</item>
+        <item name="android:stateListAnimator" ns1:ignore="NewApi,PrivateResource">
+            @animator/design_appbar_state_list_animator
+        </item>
         <item name="android:keyboardNavigationCluster" ns1:ignore="NewApi">true</item>
         <item name="android:touchscreenBlocksFocus" ns1:ignore="NewApi">true</item>
         <item name="colorControlHighlight">@color/textPrimaryRedBk</item>
     </style>
+
+    <style name="pop_ani" parent="android:Animation">
+        <item name="android:windowEnterAnimation">@anim/pop_in</item>
+        <item name="android:windowExitAnimation">@anim/pop_out</item>
+    </style>
+
 </resources>
