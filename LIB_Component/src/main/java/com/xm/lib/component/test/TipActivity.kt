@@ -38,7 +38,7 @@ class TipActivity : AppCompatActivity() {
 
     private var isChecked: Boolean = false
     private fun iniEvent() {
-        ui?.sc?.setOnCheckedChangeListener { buttonView, isChecked ->
+        ui?.sc?.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
                 Toast.makeText(this, "IOS风格", Toast.LENGTH_SHORT).show()
             } else {

@@ -4,6 +4,7 @@ import android.content.Context
 import com.xm.lib.component.tip.AbsTipFactory
 import com.xm.lib.component.tip.dlg.*
 import com.xm.lib.component.tip.pop.IPopWindow
+import com.xm.lib.component.tip.pop.XmPopWindow
 import com.xm.lib.component.tip.toast.IToast
 
 
@@ -45,7 +46,7 @@ class XmDialogFactory : AbsTipFactory() {
     }
 
     override fun getPopWindow(context: Context?): IPopWindow? {
-        return null
+        return XmPopWindow(context)
     }
 
     override fun getAdDialog(context: Context?): XmAdDlg? {

@@ -29,6 +29,9 @@ class XmAdDlg(private var context: Context?) : XmDialogInterface {
     private var ivCover: ImageView? = null
     private var builder: AlertDialog.Builder? = null
     private var dlg: Dialog? = null
+    private var dismissListener: XmDialogInterface.OnDismissListener? = null
+    private var showListener: XmDialogInterface.OnShowListener? = null
+    private var cancelListener: XmDialogInterface.OnCancelListener? = null
 
     init {
         builder = AlertDialog.Builder(context)
@@ -40,16 +43,17 @@ class XmAdDlg(private var context: Context?) : XmDialogInterface {
         builder?.setView(adViewContainer)
     }
 
-    override fun setOnDismissListener(listener: XmDialogInterface.OnDismissListener) {
 
+    override fun setOnDismissListener(listener: XmDialogInterface.OnDismissListener) {
+        this.dismissListener = listener
     }
 
     override fun setOnShowListener(listener: XmDialogInterface.OnShowListener) {
-
+        this.showListener = listener
     }
 
     override fun setOnCancelListener(listener: XmDialogInterface.OnCancelListener) {
-
+        this.cancelListener = listener
     }
 
     fun show(): XmAdDlg {
@@ -57,6 +61,15 @@ class XmAdDlg(private var context: Context?) : XmDialogInterface {
         dlg?.window?.setBackgroundDrawableResource(android.R.color.transparent)
         dlg?.setCanceledOnTouchOutside(false)// Sets whether this dialog is
         dlg?.show()
+        dlg?.setOnDismissListener {
+            dismissListener?.onDismiss(this)
+        }
+        dlg?.setOnCancelListener {
+            cancelListener?.onCancel(this)
+        }
+        dlg?.setOnShowListener {
+            showListener?.onShow(this)
+        }
         setAd(url)
         return this
     }
@@ -140,48 +153,6 @@ class XmAdDlg(private var context: Context?) : XmDialogInterface {
             } catch (e: Exception) {
                 e.printStackTrace()
             }
-        }
-
-        private fun s(resource: Bitmap) {
-            view.setImageBitmap(resource)
-
-            //获取原图的宽高
-            val width = resource.width
-            val height = resource.height
-
-            //获取imageView的宽
-            val imageViewWidth = target.width
-
-            //计算缩放比例
-            val sy = (imageViewWidth * 0.1).toFloat() / (width * 0.1).toFloat()
-
-            //计算图片等比例放大后的高
-            val imageViewHeight = (height * sy).toInt()
-            val params = target.layoutParams
-            params.height = imageViewHeight
-            target.layoutParams = params
-
-        }
-
-        fun sy(resource: Bitmap): Float {
-            val width = resource.width
-            val height = resource.height
-            val imageViewWidth = target.width
-            return (imageViewWidth * 0.1).toFloat() / (width * 0.1).toFloat()
-        }
-
-        fun getNewBitmap(bitmap: Bitmap, newWidth: Int, newHeight: Int): Bitmap {
-            // 获得图片的宽高.
-            val width = bitmap.width
-            val height = bitmap.height
-            // 计算缩放比例.
-            val scaleWidth = newWidth.toFloat() / width
-            val scaleHeight = newHeight.toFloat() / height
-            // 取得想要缩放的matrix参数.
-            val matrix = Matrix()
-            matrix.postScale(scaleWidth, scaleHeight)
-            // 得到新的图片.
-            return Bitmap.createBitmap(bitmap, 0, 0, width, height, matrix, true)
         }
     }
 
