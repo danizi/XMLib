@@ -83,4 +83,9 @@ abstract class BaseActivity : AppCompatActivity() {
         }
         return false
     }
+
+    override fun finish() {
+        super.finish()
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
+    }
 }

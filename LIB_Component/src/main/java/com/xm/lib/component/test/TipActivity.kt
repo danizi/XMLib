@@ -4,7 +4,10 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
@@ -12,6 +15,8 @@ import android.widget.Switch
 import android.widget.Toast
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.xm.lib.common.base.rv.BaseRvAdapter
+import com.xm.lib.common.base.rv.BaseViewHolder
 import com.xm.lib.common.log.BKLog
 import com.xm.lib.component.R
 import com.xm.lib.component.tip.dlg.XmNativeDlg
@@ -89,8 +94,32 @@ class TipActivity : AppCompatActivity() {
         }
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     private fun showShare() {
+        val pop = XmDialogFactory().getPopWindow(this)
+        val view = LayoutInflater.from(this).inflate(R.layout.container_rv, null)
+        val rv = view.findViewById<RecyclerView>(R.id.rv)
+        val adapter = PopContentApt()
+        adapter.addItemViewDelegate(0, PopContentVH::class.java, Any::class.java, R.layout.item_ios_dlg)
+        for (index in 0..50) {
+            adapter.data?.add("item$index")
+        }
+        rv.adapter = adapter
+        rv?.layoutManager = LinearLayoutManager(this)
+        rv?.setOnTouchListener { v, event ->
 
+            false
+        }
+        pop?.setView(view)
+        pop?.showAtLocation()
+    }
+
+    private class PopContentApt : BaseRvAdapter()
+
+    private class PopContentVH(view: View) : BaseViewHolder(view) {
+        override fun bindData(d: Any, position: Int) {
+
+        }
     }
 
     private fun showSheet() {

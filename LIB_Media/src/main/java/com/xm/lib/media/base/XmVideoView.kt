@@ -89,6 +89,7 @@ class XmVideoView : FrameLayout {
      * 广播管理类
      */
     private var broadcastManager: BroadcastManager? = null
+
     /**
      * 记录播放的位置
      */

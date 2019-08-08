@@ -47,4 +47,11 @@ abstract class BaseFragment : Fragment() {
      * 初始化数据
      */
     abstract fun iniData()
+
+    fun clear() {
+        if (v != null) {
+            (v as ViewGroup).removeAllViews()
+            v = null
+        }
+    }
 }
