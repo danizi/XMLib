@@ -239,7 +239,8 @@ class FragmentUitls {
         val fragmentTransaction: FragmentTransaction = fragmentManager?.beginTransaction()!!
         fragmentTransaction.add(containerId, fragment, tag)
         fragmentTransaction.addToBackStack(tag)
-        fragmentTransaction.commit()
+        fragmentTransaction.commitAllowingStateLoss()
+        //fragmentTransaction.commit()
     }
 
     @SuppressLint("CommitTransaction")
@@ -251,7 +252,8 @@ class FragmentUitls {
         val fragment = fragmentManager?.findFragmentByTag(tag) ?: return
         fragmentTransaction.hide(fragment)
         fragmentTransaction.addToBackStack("hide $tag")
-        fragmentTransaction.commit()
+        fragmentTransaction.commitAllowingStateLoss()
+        //fragmentTransaction.commit()
     }
 
     @SuppressLint("CommitTransaction")
@@ -263,7 +265,8 @@ class FragmentUitls {
         val fragmentTransaction: FragmentTransaction = fragmentManager?.beginTransaction()!!
         fragmentTransaction.show(fragment)
         fragmentTransaction.addToBackStack("show $tag")
-        fragmentTransaction.commit()
+        fragmentTransaction.commitAllowingStateLoss()
+        //fragmentTransaction.commit()
     }
 
     /* detach attach 切换速度慢 方式*/

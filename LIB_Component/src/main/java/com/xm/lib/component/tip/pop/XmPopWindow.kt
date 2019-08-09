@@ -39,7 +39,7 @@ class XmPopWindow(private val context: Context?) : IPopWindow {
         }
 
         private var type: Int = TYPE_BOTTOM_SHEET_DIALOG
-        private var bottomSheetDialog: BottomSheetDialog? = null
+        private var bottomSheetDialog: SpringBackBottomSheetDialog? = null
         private var pop: PopupWindow? = null
         private var lp: WindowManager.LayoutParams? = null
 
@@ -55,7 +55,7 @@ class XmPopWindow(private val context: Context?) : IPopWindow {
         }
 
         private fun iniBottomSheetDialog() {
-            bottomSheetDialog = BottomSheetDialog(context!!)
+            bottomSheetDialog = SpringBackBottomSheetDialog(context!!)
 
 
         }
@@ -88,7 +88,7 @@ class XmPopWindow(private val context: Context?) : IPopWindow {
 
         private fun isOutsideTouchable(flag: Boolean) {
             pop?.isOutsideTouchable = flag
-            bottomSheetDialog?.setCanceledOnTouchOutside(false)
+            //bottomSheetDialog?.setCanceledOnTouchOutside(false)
         }
 
         private fun isFocusable(flag: Boolean) {
@@ -98,29 +98,31 @@ class XmPopWindow(private val context: Context?) : IPopWindow {
         fun showAtLocation() {
             when (type) {
                 TYPE_BOTTOM_SHEET_DIALOG -> {
-
+                    bottomSheetDialog?.addSpringBackDisLimit(-1)
                     bottomSheetDialog?.show()
 
                     //以下设置是为了解决：下滑隐藏dialog后，再次调用show方法显示时，不能弹出Dialog----在真机测试时不写下面的方法也未发现问题
                     val delegateView = bottomSheetDialog?.delegate?.findViewById<View>(android.support.design.R.id.design_bottom_sheet)
-                    val sheetBehavior = BottomSheetBehavior.from<View>(delegateView)
-                    sheetBehavior.setBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
-                        //在下滑隐藏结束时才会触发
-                        override fun onStateChanged(@NonNull bottomSheet: View, newState: Int) {
-                            if (newState == BottomSheetBehavior.STATE_HIDDEN) {
-                                bottomSheetDialog?.dismiss()
-                                sheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+                    if (delegateView != null) {
+                        val sheetBehavior = BottomSheetBehavior.from<View>(delegateView)
+                        sheetBehavior.setBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
+                            //在下滑隐藏结束时才会触发
+                            override fun onStateChanged(@NonNull bottomSheet: View, newState: Int) {
+                                if (newState == BottomSheetBehavior.STATE_HIDDEN) {
+                                    bottomSheetDialog?.dismiss()
+                                    sheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+                                }
                             }
-                        }
 
-                        //每次滑动都会触发
-                        override fun onSlide(@NonNull bottomSheet: View, slideOffset: Float) {
-                            println("onSlide = [$bottomSheet], slideOffset = [$slideOffset]")
-                        }
-                    })
-                    sheetBehavior.isHideable = true
-                    sheetBehavior.skipCollapsed = true
-                    sheetBehavior.peekHeight = 500
+                            //每次滑动都会触发
+                            override fun onSlide(@NonNull bottomSheet: View, slideOffset: Float) {
+                                println("onSlide = [$bottomSheet], slideOffset = [$slideOffset]")
+                            }
+                        })
+                        sheetBehavior.isHideable = true
+                        sheetBehavior.skipCollapsed = true
+                        sheetBehavior.peekHeight = 500
+                    }
                 }
                 TYPE_POPUP_WINDOW -> {
                     //设置弹出框动画

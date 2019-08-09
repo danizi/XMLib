@@ -21,6 +21,7 @@ import com.xm.lib.common.log.BKLog
 import com.xm.lib.component.R
 import com.xm.lib.component.tip.dlg.XmNativeDlg
 import com.xm.lib.component.tip.dlg.core.*
+import com.xm.lib.component.tip.pop.BottomSheetDialogRv
 
 /**
  * 弹出相关组件测试
@@ -97,8 +98,8 @@ class TipActivity : AppCompatActivity() {
     @SuppressLint("ClickableViewAccessibility")
     private fun showShare() {
         val pop = XmDialogFactory().getPopWindow(this)
-        val view = LayoutInflater.from(this).inflate(R.layout.container_rv, null)
-        val rv = view.findViewById<RecyclerView>(R.id.rv)
+        val view = LayoutInflater.from(this).inflate(R.layout.container_rv, null,false)
+        val rv = view.findViewById<BottomSheetDialogRv>(R.id.rv)
         val adapter = PopContentApt()
         adapter.addItemViewDelegate(0, PopContentVH::class.java, Any::class.java, R.layout.item_ios_dlg)
         for (index in 0..50) {
@@ -106,11 +107,9 @@ class TipActivity : AppCompatActivity() {
         }
         rv.adapter = adapter
         rv?.layoutManager = LinearLayoutManager(this)
-        rv?.setOnTouchListener { v, event ->
-
-            false
-        }
         pop?.setView(view)
+
+        rv?.bindBottomSheetDialog(view)
         pop?.showAtLocation()
     }
 
