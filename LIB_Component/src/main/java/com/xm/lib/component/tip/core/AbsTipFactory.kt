@@ -1,11 +1,11 @@
-package com.xm.lib.component.tip
+package com.xm.lib.component.tip.core
 
 import android.content.Context
-import com.xm.lib.component.tip.dlg.XmAdDlg
-import com.xm.lib.component.tip.dlg.core.CreateDialogType
-import com.xm.lib.component.tip.dlg.core.IXmDialog
-import com.xm.lib.component.tip.dlg.core.IXmProgressDialog
-import com.xm.lib.component.tip.pop.IPopWindow
+import com.xm.lib.component.tip.dlg.ad.XmAdDlg
+import com.xm.lib.component.tip.core.CreateDialogType
+import com.xm.lib.component.tip.core.IXmDialog
+import com.xm.lib.component.tip.core.IXmProgressDialog
+import com.xm.lib.component.tip.core.IPopWindow
 import com.xm.lib.component.tip.toast.IToast
 
 /**

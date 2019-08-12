@@ -16,10 +16,12 @@
     <color name="textPrimaryRedBk">#2ee4393c</color>
     <color name="textPrimaryViolet">#b384c4</color>
     <color name="textPrimaryGreen">#61ec8f</color>
+
     <!--一般-->
     <color name="textSecondary">#666666</color>
     <color name="textSecondary2">#999999</color>
     <color name="textSecondary3">#d7d7d7</color>
+
     <!--较弱-->
     <color name="textWeak">#f2f5f7</color>
     <color name="textWeak2">#f8f8f8</color>

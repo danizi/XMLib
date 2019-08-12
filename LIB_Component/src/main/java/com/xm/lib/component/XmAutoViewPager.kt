@@ -12,6 +12,9 @@ import com.xm.lib.common.util.ScreenUtil
 
 import java.util.HashMap
 
+/**
+ * ScrollView + ViewPager
+ */
 class XmAutoViewPager : ViewPager {
 
     private val map = HashMap<Int, Int>(2)

@@ -1,17 +1,11 @@
-package com.xm.lib.component.tip.dlg
+package com.xm.lib.component.tip.dlg._native
 
 import android.content.Context
-import android.content.DialogInterface
-import android.os.Handler
-import android.os.Message
 import android.support.v7.app.AlertDialog
 import android.view.View
 import android.widget.EditText
-import com.xm.lib.common.log.BKLog
-import com.xm.lib.component.tip.dlg.core.IXmDialog
-import com.xm.lib.component.tip.dlg.core.IXmProgressDialog
-import com.xm.lib.component.tip.dlg.core.XmDialogInterface
-import java.lang.ref.WeakReference
+import com.xm.lib.component.tip.core.IXmDialog
+import com.xm.lib.component.tip.core.XmDialogInterface
 
 /**
  * 原生对话框

@@ -1,4 +1,4 @@
-package com.xm.lib.component.tip.pop
+package com.xm.lib.component.tip.core
 
 import android.view.View
 
@@ -10,10 +10,10 @@ interface IPopWindow {
     /**
      * 设置自定义View
      */
-    fun setView(view: View):IPopWindow
+    fun setView(view: View): IPopWindow
 
     /**
      * 显示
      */
-    fun showAtLocation():IPopWindow
+    fun showAtLocation(): IPopWindow
 }

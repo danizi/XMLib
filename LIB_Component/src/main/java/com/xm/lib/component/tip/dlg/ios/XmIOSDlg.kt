@@ -1,10 +1,9 @@
-package com.xm.lib.component.tip.dlg
+package com.xm.lib.component.tip.dlg.ios
 
 import android.content.Context
 import android.view.View
-import com.xm.lib.component.tip.dlg.core.IXmDialog
-import com.xm.lib.component.tip.dlg.core.IXmProgressDialog
-import com.xm.lib.component.tip.dlg.core.XmDialogInterface
+import com.xm.lib.component.tip.core.IXmDialog
+import com.xm.lib.component.tip.core.XmDialogInterface
 
 
 /**

@@ -1,4 +1,4 @@
-package com.xm.lib.component.tip.pop;
+package com.xm.lib.component.tip.dlg.sheet;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -149,7 +149,7 @@ public class SpringBackBottomSheetDialog extends AppCompatDialog {
                                     limitH = targetLimitH;
 //                                if (r.top <= limitH + 100)
 //                                    if (mBehavior != null)
-                                        mBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+                                mBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
                                 break;
                         }
                         return false;
@@ -207,13 +207,14 @@ public class SpringBackBottomSheetDialog extends AppCompatDialog {
                 return super.performAccessibilityAction(host, action, args);
             }
         });
-//        bottomSheet.setOnTouchListener(new View.OnTouchListener() {
-//            @Override
-//            public boolean onTouch(View view, MotionEvent event) {
-//                // coordinator intecept, 这没用
-//                return true;
-//            }
-//        });
+        bottomSheet.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent event) {
+                // coordinator intecept, 这没用
+                Log.d("123", "");
+                return true;
+            }
+        });
         return container;
     }
 

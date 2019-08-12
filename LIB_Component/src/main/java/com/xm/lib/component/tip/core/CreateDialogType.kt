@@ -1,4 +1,4 @@
-package com.xm.lib.component.tip.dlg.core
+package com.xm.lib.component.tip.core
 
 /**
  * 对话框创建类型

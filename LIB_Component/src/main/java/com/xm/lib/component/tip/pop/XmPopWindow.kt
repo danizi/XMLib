@@ -5,13 +5,14 @@ import android.app.Activity
 import android.content.Context
 import android.graphics.drawable.ColorDrawable
 import android.support.annotation.NonNull
-import android.support.design.widget.BottomSheetDialog
 import android.view.*
 import android.widget.PopupWindow
 import com.xm.lib.common.log.BKLog
 import com.xm.lib.component.R
 import android.support.design.widget.BottomSheetBehavior
 import android.view.ViewGroup
+import com.xm.lib.component.tip.core.IPopWindow
+import com.xm.lib.component.tip.dlg.sheet.SpringBackBottomSheetDialog
 
 
 class XmPopWindow(private val context: Context?) : IPopWindow {

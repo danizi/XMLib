@@ -1,9 +1,11 @@
-package com.xm.lib.component.tip.dlg.core
+package com.xm.lib.component.tip.core
 
 import android.content.Context
-import com.xm.lib.component.tip.AbsTipFactory
-import com.xm.lib.component.tip.dlg.*
-import com.xm.lib.component.tip.pop.IPopWindow
+import com.xm.lib.component.tip.dlg._native.XmNativeDlg
+import com.xm.lib.component.tip.dlg._native.XmNativeProgressDlg
+import com.xm.lib.component.tip.dlg.ad.XmAdDlg
+import com.xm.lib.component.tip.dlg.ios.XmIOSDlg
+import com.xm.lib.component.tip.dlg.ios.XmIOSProgressDlg
 import com.xm.lib.component.tip.pop.XmPopWindow
 import com.xm.lib.component.tip.toast.IToast
 

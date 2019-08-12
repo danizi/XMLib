@@ -1,27 +1,20 @@
-package com.xm.lib.component.tip.dlg
+package com.xm.lib.component.tip.dlg.ad
 
 import android.app.Activity
 import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Context
-import android.content.DialogInterface
 import android.graphics.Bitmap
-import android.graphics.Matrix
-import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.Window
 import android.widget.ImageView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.bumptech.glide.load.resource.drawable.GlideDrawable
-import com.bumptech.glide.request.animation.GlideAnimation
 import com.bumptech.glide.request.target.ImageViewTarget
-import com.bumptech.glide.request.target.SimpleTarget
 import com.xm.lib.common.util.ScreenUtil
 import com.xm.lib.component.R
-import com.xm.lib.component.tip.dlg.core.XmDialogInterface
+import com.xm.lib.component.tip.core.XmDialogInterface
 import java.lang.Exception
 
 class XmAdDlg(private var context: Context?) : XmDialogInterface {

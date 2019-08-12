@@ -1,9 +1,9 @@
-package com.xm.lib.component.tip.dlg
+package com.xm.lib.component.tip.dlg.ios
 
 import android.app.ProgressDialog
 import android.content.Context
-import com.xm.lib.component.tip.dlg.core.IXmProgressDialog
-import com.xm.lib.component.tip.dlg.core.XmDialogInterface
+import com.xm.lib.component.tip.core.IXmProgressDialog
+import com.xm.lib.component.tip.core.XmDialogInterface
 
 /**
  * 苹果进度对话框

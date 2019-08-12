@@ -9,17 +9,14 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:text="@string/app_name" />
-    <!--android:nestedScrollingEnabled="false"-->
-    <com.xm.lib.component.tip.pop.BottomSheetDialogRv
-        android:id="@+id/rv"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:focusable="false"
-        android:focusableInTouchMode="false"
-        android:overScrollMode="always">
+        android:text="1111111111111111" />
 
-    </com.xm.lib.component.tip.pop.BottomSheetDialogRv>
+        <com.xm.lib.component.tip.dlg.sheet.BottomSheetDialogRv
+            android:id="@+id/rv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:overScrollMode="always">
 
+        </com.xm.lib.component.tip.dlg.sheet.BottomSheetDialogRv>
 
 </LinearLayout>

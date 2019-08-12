@@ -1,4 +1,4 @@
-package com.xm.lib.component.tip.pop
+package com.xm.lib.component.tip.dlg.sheet
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView
 import android.util.AttributeSet
 import android.util.Log
 import android.view.MotionEvent
+import android.view.VelocityTracker
 import android.view.View
 import android.widget.FrameLayout
 import com.xm.lib.common.log.BKLog
@@ -39,13 +40,6 @@ class BottomSheetDialogRv : RecyclerView {
             val parentOne = contentView.parent as FrameLayout
             this.bottomCoordinator = parentOne.parent as CoordinatorLayout
             setOnTouchListener(OnTouchListener { v, event ->
-                if (canScrollVertically(-1)) {
-                    requestDisallowInterceptTouchEvent(false)
-                } else {
-                    requestDisallowInterceptTouchEvent(true)
-                }
-                false
-
                 if (bottomCoordinator == null)
                     return@OnTouchListener false
                 val firstVisiblePos = (layoutManager as LinearLayoutManager).findFirstVisibleItemPosition()

@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import java.text.DecimalFormat
 
 
+@Deprecated("")
 class CommonUtil {
 
     companion object {
