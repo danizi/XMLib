@@ -173,7 +173,7 @@ class Control {
     @SuppressLint("InflateParams")
     fun getView(context: Context, layoutID: Int): View {
         if (isCustomLayout) {
-            baseView = LayoutInflater.from(context).inflate(R.layout.act_base, null, false)
+            baseView = LayoutInflater.from(context).inflate(R.layout.base_act, null, false)
             contentView = baseView.findViewById(R.id.fl_content)
             toolbar = baseView.findViewById(R.id.tb)
             appBarLayout = baseView.findViewById(R.id.appbar)
@@ -183,6 +183,20 @@ class Control {
         }
         return LayoutInflater.from(context).inflate(layoutID, null, false)
     }
+}
+
+/**
+ * 刷新
+ */
+interface IRefresh {
+
+}
+
+/**
+ * 加载
+ */
+interface ILoad {
+
 }
 
 interface IState {
