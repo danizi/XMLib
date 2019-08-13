@@ -14,10 +14,11 @@ import com.xm.lib.common.log.BKLog
 /**
  * 刷新加载帮助类
  */
+@Deprecated("")
 class RefreshLoadHelp {
 
-    private var ui: ViewHolder? = null
-    private var adapter: BaseRvAdapter? = object : BaseRvAdapter() {}
+    var ui: ViewHolder? = null
+    var adapter: BaseRvAdapter? = object : BaseRvAdapter() {}
     /**
      * 是否第一次加载
      */
@@ -28,33 +29,36 @@ class RefreshLoadHelp {
      */
     var page = 1
 
-    /**
-     * 禁止刷新
-     */
-    var disableRefresh = false
-
-    /**
-     * 禁止加载
-     */
-    var disableLoad = false
+//    /**
+//     * 禁止刷新
+//     */
+//    var disableRefresh = false
+//
+//    /**
+//     * 禁止加载
+//     */
+//    var disableLoad = false
 
     fun bind(view: View) {
         ui = ViewHolder.create(view)
-        ini()
     }
 
     fun bind(act: AppCompatActivity) {
         ui = ViewHolder.create(act)
-        ini()
     }
 
-    fun ini() {
+    fun ini(disableRefresh: Boolean, disableLoad: Boolean) {
+
         if (!disableRefresh) {
             ui?.srl?.isEnableRefresh = true
         }
+
         if (!disableLoad) {
-            ui?.isCanLoad(ui?.rv, ui?.srl) //判断RecyclerView内容的长度是否可以触发上拉加载
+            //判断RecyclerView内容的长度是否可以触发上拉加载
+            ui?.isCanLoad(ui?.rv, ui?.srl)
         }
+
+
     }
 
     /**
@@ -108,6 +112,7 @@ class RefreshLoadHelp {
      * 加载失败
      */
     fun loadFailure() {
+        showStatePage("ErrorPage")
         ui?.srl?.finishLoadMore()
     }
 

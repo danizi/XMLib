@@ -18,6 +18,7 @@ abstract class ControlViewHolder {
     private var controlViewHideTimer: TimerHelper? = TimerHelper()
     var attachmentControl: AttachmentControl? = null //播放器控制页面
     var isHorizontalSlide = false //是否处于水平滑动
+    //var isCanHorizontalSlide = true //是否处于水平滑动
     var isClick = false //是否处理点击状态
     var progress = 0    //保存用户拖动进度 单位:%
     var rootView: View? = null

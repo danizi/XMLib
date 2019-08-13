@@ -410,7 +410,7 @@ class XmVideoView : FrameLayout {
             sh = surfaceView?.holder
             sh?.addCallback(object : SurfaceHolder.Callback {
                 override fun surfaceChanged(holder: SurfaceHolder?, format: Int, width: Int, height: Int) {
-                    TimerHelper().start(object : TimerHelper.OnDelayTimerListener{
+                    TimerHelper().start(object : TimerHelper.OnDelayTimerListener {
                         override fun onDelayTimerFinish() {
                             if (ScreenUtil.isLandscape(context)) {
                                 //横屏
@@ -448,7 +448,7 @@ class XmVideoView : FrameLayout {
                                 BKLog.d(TAG, "竖屏 surfaceChanged w:$w h:$h")
                             }
                         }
-                    },500)
+                    }, 500)
                 }
 
                 override fun surfaceDestroyed(holder: SurfaceHolder?) {
@@ -460,6 +460,8 @@ class XmVideoView : FrameLayout {
                         if (mediaPlayer == null) {
                             initMediaPlayer()
                         } else {
+                            //保存状态
+                            this@XmVideoView.pos = mediaPlayer?.getCurrentPosition()!!
                             mediaPlayer?.reset()
                         }
                         mediaPlayer?.setDisplay(holder)
@@ -539,11 +541,19 @@ class XmVideoView : FrameLayout {
         mediaPlayer?.start()
     }
 
+//    private var timer: TimerHelper? = null
     /**
      * 窗口不可见处理
      */
     fun onPause() {
-        pos = mediaPlayer?.getCurrentPosition()!!
+//        if (timer == null) {
+//            timer = TimerHelper()
+//            timer?.start(object : TimerHelper.OnPeriodListener {
+//                override fun onPeriod() {
+//                    pos = mediaPlayer?.getCurrentPosition()!!
+//                }
+//            }, 1000)
+//        }
         val conn = object : ServiceConnection {
 
             override fun onServiceConnected(name: ComponentName, service: IBinder) {

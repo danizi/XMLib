@@ -27,31 +27,6 @@ abstract class BaseFragment : Fragment(), IBaseFrg, IState {
         return v
     }
 
-//    /**
-//     * 布局ID
-//     */
-//    abstract fun getLayoutId(): Int
-//
-//    /**
-//     * 查找view
-//     */
-//    abstract fun findViews(view: View)
-//
-//    /**
-//     * 初始化控件展示样式
-//     */
-//    abstract fun initDisplay()
-//
-//    /**
-//     * 初始化监听
-//     */
-//    abstract fun iniEvent()
-//
-//    /**
-//     * 初始化数据
-//     */
-//    abstract fun iniData()
-
     override fun clear() {
         if (v != null) {
             (v as ViewGroup).removeAllViews()
