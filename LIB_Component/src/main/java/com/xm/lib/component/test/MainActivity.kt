@@ -7,8 +7,8 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.widget.TextView
-import com.xm.lib.common.base.rv.BaseRvAdapter
-import com.xm.lib.common.base.rv.BaseViewHolder
+import com.xm.lib.common.base.rv.v1.BaseRvAdapter
+import com.xm.lib.common.base.rv.v1.BaseViewHolder
 import com.xm.lib.component.R
 import java.util.*
 
@@ -28,7 +28,8 @@ class MainActivity : AppCompatActivity() {
         data.add("SignView")
         data.add("Char")
         data.add("PopWindow")
-        data.add("Tip")       //提示相关包括 对话框 / 弹出框 / toast / 广告
+        data.add("Tip")          //提示相关包括 对话框 / 弹出框 / toast / 广告
+        data.add("RecyclerView")
 
         adapter?.data?.addAll(data)
         adapter?.addItemViewDelegate(
@@ -68,6 +69,10 @@ class MainActivity : AppCompatActivity() {
                     }
                     5 -> {
                         itemView.context.startActivity(Intent(itemView.context, TipActivity::class.java))
+                    }
+
+                    6 -> {
+                        itemView.context.startActivity(Intent(itemView.context, RvActivity::class.java))
                     }
                 }
             }

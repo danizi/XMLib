@@ -1,5 +1,9 @@
 apply plugin: 'com.android.application'
 
+//kotlin
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+
 android {
     compileSdkVersion rootProject.compileSdkVersion
 
@@ -24,4 +28,5 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     implementation project(':LIB_Common')
+    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
 }

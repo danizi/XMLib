@@ -11,8 +11,8 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Switch
 import android.widget.Toast
-import com.xm.lib.common.base.rv.BaseRvAdapter
-import com.xm.lib.common.base.rv.BaseViewHolder
+import com.xm.lib.common.base.rv.v1.BaseRvAdapter
+import com.xm.lib.common.base.rv.v1.BaseViewHolder
 import com.xm.lib.common.log.BKLog
 import com.xm.lib.component.R
 import com.xm.lib.component.tip.dlg._native.XmNativeDlg

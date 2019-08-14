@@ -1,4 +1,4 @@
-package com.xm.lib.common.base.rv
+package com.xm.lib.common.base.rv.v1
 
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
@@ -7,7 +7,10 @@ import android.view.ViewGroup
 
 /**
  * RecyclerView 适配器
+ * 痛点：
+ *     1 创建ViewHolder使用的反射的方式，并且传递构造参数是有局限的。
  */
+@Deprecated("")
 abstract class BaseRvAdapter : RecyclerView.Adapter<BaseViewHolder>() {
     /**
      * 数据集合
@@ -71,9 +74,9 @@ abstract class BaseRvAdapter : RecyclerView.Adapter<BaseViewHolder>() {
     private fun bindVH(holder: BaseViewHolder, position: Int) {
         /*绑定数据*/
         if (data?.get(position) != null) {
-            holder.bindData(data!![position]!!, position)
+            holder.bindData(data!![position], position)
             holder.bindData(this, data!![position], position)
-            onBindDataListener?.onBindData(holder.itemView, data!![position]!!, position)
+            onBindDataListener?.onBindData(holder.itemView, data!![position], position)
         }
     }
 

@@ -23,7 +23,7 @@
         <activity android:name=".test.TreeViewActivity" />
         <activity android:name=".test.SignViewActivity" />
         <activity android:name=".test.CharActivity" />
-        <activity android:name=".test.TipActivity"></activity>
+        <activity android:name=".test.TipActivity" />
     </application>
 
 </manifest>

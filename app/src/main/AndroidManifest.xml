@@ -9,13 +9,21 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        <activity android:name=".ui.act.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".ui.act.CommonAct" />
+        <activity android:name=".ui.act.ComponentAct" />
+        <activity android:name=".DownloaderAct" />
+        <activity android:name=".ui.act.MediaAct" />
+        <activity android:name=".ui.act.PayAct" />
+        <activity android:name=".ui.act.ShareAct" />
+        <activity android:name=".ui.act.WebAct" />
+        <activity android:name=".ui.act.StatisticsAct"></activity>
     </application>
 
 </manifest>

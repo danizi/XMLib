@@ -8,7 +8,7 @@ import android.view.View
 import android.view.ViewTreeObserver
 import com.scwang.smartrefresh.layout.SmartRefreshLayout
 import com.xm.lib.common.R
-import com.xm.lib.common.base.rv.BaseRvAdapter
+import com.xm.lib.common.base.rv.v1.BaseRvAdapter
 import com.xm.lib.common.log.BKLog
 
 /**
