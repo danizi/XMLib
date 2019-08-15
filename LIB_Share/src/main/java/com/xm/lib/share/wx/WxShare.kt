@@ -166,7 +166,7 @@ class WxShare(act: Activity) : AbsShare(act) {
     }
 
     /**
-     * 微信授權,獲取唯一標識，唯一標識獲取請定位到 resp.getType() == ConstantsAPI.COMMAND_SENDAUTH
+     * 微信授權,獲取唯一標識，唯一標識獲取請定位到 resp.getItemViewType() == ConstantsAPI.COMMAND_SENDAUTH
      */
     override fun oauth() {
         val req = SendAuth.Req()

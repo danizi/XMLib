@@ -72,7 +72,7 @@ class MainActivity : AppCompatActivity() {
                     }
 
                     6 -> {
-                        itemView.context.startActivity(Intent(itemView.context, RvActivity::class.java))
+                        //itemView.context.startActivity(Intent(itemView.context, RvActivity::class.java))
                     }
                 }
             }
