@@ -38,7 +38,7 @@ class VPAdapter private constructor(val builder: Builder?, val fm: FragmentManag
     }
 
     class Builder {
-        var addTabIndex = 0
+        private var addTabIndex = 0
         var tabs: HashMap<Pair<Int, String>, Fragment> = HashMap()
         var fm: FragmentManager? = null
 

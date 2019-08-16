@@ -17,7 +17,7 @@ import com.xm.lib.test.holder.Holder3
 import java.util.ArrayList
 
 /**
- * RecyclerView 多item测试
+ * RecyclerView 多类型
  */
 class FrgRvMultiType : MvpFragment<FrgRvMultiTypeContract.P>(), FrgRvMultiTypeContract.V {
 
@@ -48,7 +48,6 @@ class FrgRvMultiType : MvpFragment<FrgRvMultiTypeContract.P>(), FrgRvMultiTypeCo
         rv?.adapter = getRvAdapter()
     }
 
-
     private fun getRvAdapter(): BaseRvAdapterV2 {
         return BaseRvAdapterV2.Builder
                 .addDataResouce(getData())
@@ -67,6 +66,4 @@ class FrgRvMultiType : MvpFragment<FrgRvMultiTypeContract.P>(), FrgRvMultiTypeCo
         data.add(TypeBean3())
         return data
     }
-
-
 }
