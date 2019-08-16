@@ -2,6 +2,9 @@ package com.xm.lib.downloader.v2.imp
 
 import com.xm.lib.downloader.v2.XmRealCall
 
+/**
+ * 分发器
+ */
 interface IXmDownDispatcher {
 
     /**

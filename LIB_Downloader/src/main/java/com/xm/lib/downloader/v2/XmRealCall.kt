@@ -2,6 +2,7 @@ package com.xm.lib.downloader.v2
 
 import com.xm.lib.downloader.v2.imp.Call
 import com.xm.lib.downloader.v2.imp.XmDownInterface
+import com.xm.lib.downloader.v2.state.XmDownError
 import java.io.*
 import java.net.HttpURLConnection
 import java.net.URL
@@ -45,7 +46,7 @@ class XmRealCall(var client: XmDownClient, val request: XmDownRequest) : Call {
     class DownRunnable(
             private val call: XmRealCall,
             private val client: XmDownClient,
-            private val request: XmDownRequest,
+            val request: XmDownRequest,
             private val callback: XmDownInterface.Callback?) : Runnable {
 
         private var cancel = false
@@ -65,21 +66,30 @@ class XmRealCall(var client: XmDownClient, val request: XmDownRequest) : Call {
                  */
                 conn.setRequestProperty("Range", "")
                 inputStream = conn.inputStream
-
-                conn.contentLength
+                val contentLength = conn.contentLength
 
                 /**
                  *  1xx: Informational
                  *  2xx: Success
                  *  3xx: Redirection
-                 *  4xx: Client Error
-                 *  5xx: Server Error
+                 *  4xx: Client XmDownError
+                 *  5xx: Server XmDownError
                  */
-                if (conn.responseCode % 100 == 2 || conn.responseCode % 100 == 3) {
-
+                when (conn.responseCode % 100) {
+                    2 or 3 -> {
+                        val raf = RandomAccessFile(File(""), "rw")
+                        writeIntoLocal(inputStream, raf)
+                    }
+                    4 -> {
+                        callback?.onDownloadFailed(XmDownError.CLIENT)
+                    }
+                    5 -> {
+                        callback?.onDownloadFailed(XmDownError.SERVER)
+                    }
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
+                callback?.onDownloadFailed(XmDownError.UNKNOWN)
             } finally {
                 inputStream?.close()
             }
