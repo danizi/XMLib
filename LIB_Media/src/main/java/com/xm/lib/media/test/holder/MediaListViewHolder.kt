@@ -79,16 +79,21 @@ class MediaListViewHolder private constructor(val context: Context?, val rv: Rec
     }
 
     private fun requestSuccess(response: Response) {
-        val body = response.body()?.string()
-        val mediaListEnt = Gson().fromJson(body, MediaListEnt::class.java)
-        val sections = ArrayList<MediaListEnt.ChaptersBean.SectionsBean>()
-        for (ent in mediaListEnt.chapters) {
-            sections.addAll(ent.sections)
+        try {
+            val body = response.body()?.string()
+            val mediaListEnt = Gson().fromJson(body, MediaListEnt::class.java)
+            val sections = ArrayList<MediaListEnt.ChaptersBean.SectionsBean>()
+            for (ent in mediaListEnt.chapters) {
+                sections.addAll(ent.sections)
+            }
+            (context as Activity).runOnUiThread {
+                rv?.adapter = MediaListAdapter(sections)
+            }
+            Log.d("", "body:$body-$mediaListEnt")
+        }catch (e:Exception){
+
         }
-        (context as Activity).runOnUiThread {
-            rv?.adapter = MediaListAdapter(sections)
-        }
-        Log.d("", "body:$body-$mediaListEnt")
+
     }
 }
 

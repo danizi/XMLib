@@ -2,7 +2,7 @@ package com.xm.lib.test.utils
 
 import android.app.Activity
 import android.content.Intent
-import com.xm.lib.test.DownloaderAct
+import com.xm.lib.test.ui.act.downloader.DownloaderAct
 import com.xm.lib.test.ui.act.*
 
 /**

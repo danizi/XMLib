@@ -1,16 +1,16 @@
-package com.xm.lib.downloader.test.m3u8down
+package com.xm.lib.test.ui.act.downloader
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Environment
 import com.xm.lib.common.log.BKLog
 import com.xm.lib.downloader.DownManager
-import com.xm.lib.downloader.R
 import com.xm.lib.downloader.enum_.DownErrorType
 import com.xm.lib.downloader.event.DownObserver
 import com.xm.lib.downloader.task.DownTask
 import com.xm.lib.downloader.task.DownTasker
 import com.xm.lib.downloader.utils.FileUtil
+import com.xm.lib.test.R
 import okhttp3.*
 import java.io.*
 
@@ -18,7 +18,7 @@ class M3u8DownActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_m3u8_down)
+        setContentView(R.layout.activity_down_m3u8)
         /*
          * 需求：
          *     缓存m3u8文件，让播放器能够本地播放

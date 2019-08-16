@@ -1,4 +1,4 @@
-package com.xm.lib.downloader.test
+package com.xm.lib.test.holder
 
 import android.annotation.SuppressLint
 import android.content.Intent
@@ -10,11 +10,11 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import com.xm.lib.common.log.BKLog
 import com.xm.lib.downloader.DownManager
-import com.xm.lib.downloader.R
 import com.xm.lib.downloader.enum_.DownStateType
 import com.xm.lib.downloader.task.DownTask
 import com.xm.lib.downloader.task.DownTasker
 import com.xm.lib.downloader.utils.FileUtil.getSizeUnit
+import com.xm.lib.test.R
 import java.io.File
 
 class DownViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

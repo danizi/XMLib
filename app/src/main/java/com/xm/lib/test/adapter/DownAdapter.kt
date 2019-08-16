@@ -1,11 +1,12 @@
-package com.xm.lib.downloader.test
+package com.xm.lib.test.adapter
 
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.xm.lib.downloader.DownManager
-import com.xm.lib.downloader.R
 import com.xm.lib.downloader.task.DownTasker
+import com.xm.lib.test.R
+import com.xm.lib.test.holder.DownViewHolder
 
 class DownAdapter(var downManager: DownManager?, var data: ArrayList<Any>? = ArrayList()) : RecyclerView.Adapter<DownViewHolder>() {
 
