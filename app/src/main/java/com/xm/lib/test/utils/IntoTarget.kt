@@ -5,6 +5,9 @@ import android.content.Intent
 import com.xm.lib.test.ui.act.downloader.DownloaderAct
 import com.xm.lib.test.ui.act.*
 
+/**
+ * 跳转
+ */
 object IntoTarget {
     fun start(target: String?, act: Activity?) {
         when (target) {

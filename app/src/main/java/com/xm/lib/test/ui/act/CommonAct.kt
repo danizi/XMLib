@@ -30,12 +30,6 @@ class CommonAct : AppCompatActivity() {
         return VPAdapter.Builder()
                 .addTab("多类型RecyclerView", FrgRvMultiType())
                 .addTab("2", FrgRvMultiType())
-                .addTab("3", FrgRvMultiType())
-                .addTab("4", FrgRvMultiType())
-                .addTab("5", FrgRvMultiType())
-                .addTab("6", FrgRvMultiType())
-                .addTab("7", FrgRvMultiType())
-                .addTab("8", FrgRvMultiType())
                 .setFragmentManager(supportFragmentManager)
                 .builder()
     }
