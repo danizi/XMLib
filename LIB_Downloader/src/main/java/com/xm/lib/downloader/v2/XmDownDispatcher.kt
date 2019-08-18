@@ -52,14 +52,13 @@ class XmDownDispatcher : IXmDownDispatcher {
                  */
                 val task = readyQueue.poll()
                 if (task != null) {
+                    runningQueue.remove(downRunnable)
+                    finishedQueue.add(downRunnable)
                     enqueue(task)
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
                 BKLog.e(TAG, "准备队列提交到线程池中失败 ${e.message}")
-            } finally {
-                runningQueue.remove(downRunnable)
-                finishedQueue.add(downRunnable)
             }
         } else {
             BKLog.e(TAG, "运行任务移除失败")

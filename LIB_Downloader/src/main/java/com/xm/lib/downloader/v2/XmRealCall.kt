@@ -1,14 +1,19 @@
 package com.xm.lib.downloader.v2
 
+import com.xm.lib.common.log.BKLog
+import com.xm.lib.common.util.file.FileUtil
+import com.xm.lib.downloader.enum_.DownStateType
 import com.xm.lib.downloader.v2.imp.Call
 import com.xm.lib.downloader.v2.imp.XmDownInterface
 import com.xm.lib.downloader.v2.state.XmDownError
+import okhttp3.OkHttpClient
 import java.io.*
 import java.net.HttpURLConnection
 import java.net.URL
 
-class XmRealCall(var client: XmDownClient, val request: XmDownRequest) : Call {
+class XmRealCall(private var client: XmDownClient, val request: XmDownRequest) : Call {
 
+    private var callback: XmDownInterface.Callback? = null
     private var isExecuted = false
     private lateinit var downRunnable: DownRunnable
 
@@ -23,13 +28,16 @@ class XmRealCall(var client: XmDownClient, val request: XmDownRequest) : Call {
     }
 
     override fun enqueue(callback: XmDownInterface.Callback?) {
-        downRunnable = DownRunnable(this, client, request, callback)
-        client.builder.dispatcher?.enqueue(downRunnable)
-        isExecuted = true
+        this.downRunnable = DownRunnable(this, client, request, callback)
+        this.client.builder.dispatcher?.enqueue(downRunnable)
+        this.isExecuted = true
+        this.callback = callback
+        callback?.onDownloadStart()
     }
 
     override fun cancel() {
-        downRunnable.cancel()
+        this.downRunnable.cancel()
+        this.callback?.onDownloadCancle()
     }
 
     override fun isCanceled(): Boolean {
@@ -49,9 +57,33 @@ class XmRealCall(var client: XmDownClient, val request: XmDownRequest) : Call {
             val request: XmDownRequest,
             private val callback: XmDownInterface.Callback?) : Runnable {
 
+        private var downStateType: DownStateType? = null
+
+        companion object {
+            const val TAG = "DownRunnable"
+        }
+
+        private var total = 0L
+        private var unDownLoadedData = 0L
         private var cancel = false
 
         override fun run() {
+
+            //创建文件
+            val downFile = File(client.builder.dir + File.separator + request.b.fileName)
+            val downFileExists = downFile.exists()
+            if (downFileExists) {
+                BKLog.d(TAG, "${downFile.absolutePath} 已存在，直接读取缓存文件当前的长度")
+            } else {
+                if (!FileUtil.createNewFile(downFile)) {
+                    call.callback?.onDownloadFailed(XmDownError.CREATE_FILE_ERROR)
+                    downStateType = DownStateType.ERROR
+                    return
+                }
+            }
+            val downRaf = RandomAccessFile(downFile, "rw")
+            progress = downRaf.length()
+
             val conn = URL(request.b.url).openConnection() as HttpURLConnection
             var inputStream: InputStream? = null
             try {
@@ -60,13 +92,30 @@ class XmRealCall(var client: XmDownClient, val request: XmDownRequest) : Call {
                 conn.connectTimeout = 15000
                 conn.doInput = true
                 conn.setRequestProperty("Accept-Encoding", "identity")
+                conn.connect()
                 /**
                  *  "bytes=$rangeStartIndex-"
                  *  "bytes=$rangeStartIndex-$rangeEndIndex"
                  */
-                conn.setRequestProperty("Range", "")
+                //conn.setRequestProperty("Range", "")
                 inputStream = conn.inputStream
-                val contentLength = conn.contentLength
+                if (!downFileExists) {
+                    total = conn.contentLength.toLong()
+
+                    BKLog.d(TAG, "*********************************************************")
+                    BKLog.d(TAG, "文件总大小 : ${FileUtil.getSizeUnit(total)}")
+                    BKLog.d(TAG, "                                                         ")
+
+                } else {
+                    unDownLoadedData = conn.contentLength.toLong()
+
+                    BKLog.d(TAG, "*********************************************************")
+                    BKLog.d(TAG, "文件总大小 : ${FileUtil.getSizeUnit(total)}")
+                    BKLog.d(TAG, "剩余未下载文件大小 : ${FileUtil.getSizeUnit(unDownLoadedData)}")
+                    BKLog.d(TAG, "                                                         ")
+                }
+
+                downStateType = DownStateType.START
 
                 /**
                  *  1xx: Informational
@@ -75,10 +124,9 @@ class XmRealCall(var client: XmDownClient, val request: XmDownRequest) : Call {
                  *  4xx: Client XmDownError
                  *  5xx: Server XmDownError
                  */
-                when (conn.responseCode % 100) {
-                    2 or 3 -> {
-                        val raf = RandomAccessFile(File(""), "rw")
-                        writeIntoLocal(inputStream, raf)
+                when (conn.responseCode) {
+                    -1/* or 2 or 3 */ -> {
+                        writeIntoLocal(inputStream, downRaf)
                     }
                     4 -> {
                         callback?.onDownloadFailed(XmDownError.CLIENT)
@@ -87,6 +135,7 @@ class XmRealCall(var client: XmDownClient, val request: XmDownRequest) : Call {
                         callback?.onDownloadFailed(XmDownError.SERVER)
                     }
                 }
+                writeIntoLocal(inputStream, downRaf)
             } catch (e: Exception) {
                 e.printStackTrace()
                 callback?.onDownloadFailed(XmDownError.UNKNOWN)
@@ -95,6 +144,7 @@ class XmRealCall(var client: XmDownClient, val request: XmDownRequest) : Call {
             }
         }
 
+        var progress = 0L
         private fun writeIntoLocal(inputStream: InputStream?, raf: RandomAccessFile?) {
             if (inputStream == null) {
                 throw NullPointerException("inputStream is null ,writeIntoLocal failure")
@@ -109,9 +159,19 @@ class XmRealCall(var client: XmDownClient, val request: XmDownRequest) : Call {
                         break
                     }
                     raf?.write(buff, 0, length)
+                    progress += length
+                    call.callback?.onDownloadProgress(progress, 100)
+                    downStateType = DownStateType.RUNNING
                 }
+
+                call.callback?.onDownloadSuccess()
+                client.builder.dispatcher?.finished(call.downRunnable)
+                downStateType = DownStateType.COMPLETE
+
             } catch (e: Exception) {
                 e.printStackTrace()
+                call.callback?.onDownloadFailed(XmDownError.UNKNOWN)
+
             } finally {
                 bis?.close()
                 raf?.close()
@@ -121,7 +181,7 @@ class XmRealCall(var client: XmDownClient, val request: XmDownRequest) : Call {
         fun cancel() {
             cancel = true
             client.builder.dispatcher?.cancel(call.downRunnable)
+            downStateType = DownStateType.PAUSE
         }
     }
-
 }

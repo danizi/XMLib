@@ -17,6 +17,11 @@ interface XmDownInterface {
         fun onDownloadStart()
 
         /**
+         * 下载取消
+         */
+        fun onDownloadCancle()
+
+        /**
          * 下载进度
          */
         fun onDownloadProgress(progress: Long, total: Long)

@@ -47,7 +47,7 @@ object FileUtil : IFileAndroid(), IFileSize, IFileCommon, IFileZip {
             createNewDirs(target)
         }
 
-        var tempTarget: File? = null
+        var tempTarget: File?
         if (resource.isDirectory) {
             val resourceChild = resource.listFiles() ?: return false
             for (res in resourceChild) {
@@ -73,7 +73,7 @@ object FileUtil : IFileAndroid(), IFileSize, IFileCommon, IFileZip {
         FileUtil.println(res.absolutePath)
         val bos = BufferedOutputStream(FileOutputStream(target))
         val bis = BufferedInputStream(FileInputStream(res))
-        var length = 0
+        var length: Int
         val buf = ByteArray(1024)
         try {
             while (true) {
@@ -106,11 +106,11 @@ object FileUtil : IFileAndroid(), IFileSize, IFileCommon, IFileZip {
         if (file == null) {
             throw NullPointerException("createNewDirs failure,file is null")
         }
-        val dirs = file.absolutePath.split("\\")
+        val dirs = file.absolutePath.split(File.separator)
         var dir = ""
         var index = 0
         while (index < dirs.size) {
-            dir += "/" + dirs[index]
+            dir += File.separator + dirs[index]
             val tempFile = File(dir)
             if (tempFile.exists() && tempFile.isDirectory) {
                 index++
@@ -139,10 +139,10 @@ object FileUtil : IFileAndroid(), IFileSize, IFileCommon, IFileZip {
 
         //创建目录操作，首先先将文件的目录创建出来
         //为什么要逐级创建，因为在某些android系统上面直接使用 mkdirs 创建多级目录会失败，所以才“逐级创建”
-        val path = file.absolutePath.split("\\")
+        val path = file.absolutePath.split(File.separator)
         var dir = ""
         for (i in 0..(path.size - 2)) {
-            dir += "/" + path[i]
+            dir += File.separator+ path[i]
         }
 
         //创建文件
@@ -158,6 +158,7 @@ object FileUtil : IFileAndroid(), IFileSize, IFileCommon, IFileZip {
             }
         } catch (e: Exception) {
             e.printStackTrace()
+            return false
         }
         return false
     }
@@ -315,7 +316,7 @@ abstract class IFileAndroid {
 interface IFileSize {
     /**
      * 字节转 KB MB GB 单位
-     * @param 返回单位
+     * @param
      */
     fun getSizeUnit(size: Long, unit: SpaceUnit? = null): String
 }

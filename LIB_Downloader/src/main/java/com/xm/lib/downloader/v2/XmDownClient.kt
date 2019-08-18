@@ -90,6 +90,12 @@ class XmDownClient private constructor(val builder: Builder) : Call.Factory {
                 runMaxQueuesNum = 1
             }
 
+            //创建分发器
+            dispatcher = XmDownDispatcher(runMaxQueuesNum)
+
+            //创建数据库
+
+
             //创建
             return XmDownClient(this)
         }
