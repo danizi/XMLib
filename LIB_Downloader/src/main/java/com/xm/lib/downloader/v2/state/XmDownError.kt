@@ -27,6 +27,10 @@ enum class XmDownError {
     /**
      * 请求服务器错误
      */
-    SERVER
+    SERVER,
+    /**
+     * 网络错误
+     */
+    NETWORK
 }
 

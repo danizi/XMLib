@@ -1,7 +1,5 @@
 package com.xm.lib.downloader.v2.db
 
-import com.xm.lib.downloader.v2.state.XmDownState
-
 /**
  * 数据库契约类
  */
@@ -40,11 +38,13 @@ object XmDownDaoContract {
     /**
      * 更新数据
      */
-    const val SQL_UPDATE = "update $tableName set ($column_progress=?,$column_state=?) where $column_url;"
+    const val SQL_UPDATE = "update $tableName set ($column_progress=?,$column_state=?) where $column_url=?;"
+    const val SQL_UPDATE_STATE = "update $tableName set ($column_state=?) where $column_url=?;"
 
     /**
      * 提取所有数据
      */
     const val SQL_SELECT_ALL = "select * from $tableName;"
+    const val SQL_SELECT_BY_URL = "select * from $tableName where $column_url=?;"
 
 }

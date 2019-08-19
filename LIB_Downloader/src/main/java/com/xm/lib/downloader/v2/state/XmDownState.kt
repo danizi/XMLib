@@ -11,21 +11,26 @@ object XmDownState {
     const val COMPLETE = "完成"
     const val ERROR = "下载错误"
 
-    const val ERROR_CARETE_FILE = 0x01
-    const val ERROR_NETWORK = 0x02
-    const val ERROR_NO_SPACE = 0x03
-
-    fun getError(type: Int): String {
+    fun getError(type: XmDownError): String {
         var subError = ""
         when (type) {
-            ERROR_CARETE_FILE -> {
+            XmDownError.CREATE_FILE_ERROR -> {
                 subError = "创建文件目录失败"
             }
-            ERROR_NETWORK -> {
-                subError = "网络未连接"
+            XmDownError.NETWORK -> {
+                subError = "网络连接失败"
             }
-            ERROR_NO_SPACE -> {
+            XmDownError.NO_SPACE -> {
                 subError = "手机空间不足"
+            }
+            XmDownError.UNKNOWN -> {
+                subError = "未知错误"
+            }
+            XmDownError.CLIENT -> {
+                subError = "服务端请求端错误"
+            }
+            XmDownError.SERVER -> {
+                subError = "服务端请求端错误"
             }
         }
         return "下载错误 - $subError"

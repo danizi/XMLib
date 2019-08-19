@@ -12,6 +12,24 @@ import java.io.File
  */
 class XmDownClient private constructor(val builder: Builder) : Call.Factory {
 
+    var dispatcher: XmDownDispatcher? = null
+    var dao: XmDownDao? = null
+    var ctx: Context? = null
+    var dir: String = ""
+    var runMaxQueuesNum: Int = 1
+    var breakpoint: Boolean = true
+    var overSameTask: Boolean = true
+
+    init {
+        this.dispatcher = dispatcher
+        this.dao = dao
+        this.ctx = ctx
+        this.dir = dir
+        this.runMaxQueuesNum = runMaxQueuesNum
+        this.breakpoint = breakpoint
+        this.overSameTask = overSameTask
+    }
+
     override fun newCall(request: XmDownRequest): Call {
         return XmRealCall.newXmRealDown(this, request)
     }

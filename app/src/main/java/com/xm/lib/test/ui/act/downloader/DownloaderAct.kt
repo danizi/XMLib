@@ -43,6 +43,7 @@ class DownloaderAct : AppCompatActivity() {
         )
 
         for (url in downUrls) {
+
             val call = downClient.newCall(XmDownRequest.Builder()
                     .url(url)
                     .fileName(CommonUtil.getFileName(url))
@@ -61,15 +62,17 @@ class DownloaderAct : AppCompatActivity() {
 
                 override fun onDownloadProgress(request: XmDownRequest, progress: Long, total: Long) {
                     BKLog.d(TAG, "onDownloadProgress progress : $progress total : $total")
-                    downClient.builder.dao?.update(request.url!!, progress.toInt(), XmDownState.RUNNING)
+                    downClient.builder.dao?.updateProgress(request.url, progress.toInt())
                 }
 
                 override fun onDownloadComplete(request: XmDownRequest) {
                     BKLog.d(TAG, "onDownloadSuccess")
+                    downClient.builder.dao?.updateComplete(request.url)
                 }
 
                 override fun onDownloadFailed(request: XmDownRequest, error: XmDownError) {
                     BKLog.d(TAG, "onDownloadFailed $error")
+                    downClient.builder.dao?.updateFailed(request.url,error)
                 }
             })
         }

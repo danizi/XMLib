@@ -133,7 +133,6 @@ class DownloaderActivity : AppCompatActivity() {
                     }
                     xmDownTest?.add("http://hls.videocc.net/26de49f8c2/5/26de49f8c253b3715148ea0ebbb2ad95_1.key")
                 }
-
             }
         })
     }
