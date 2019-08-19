@@ -3,6 +3,7 @@ package com.xm.lib.downloader.v2
 import android.content.Context
 import android.os.Environment
 import android.text.TextUtils
+import com.xm.lib.downloader.v2.db.XmDownDao
 import com.xm.lib.downloader.v2.imp.Call
 import java.io.File
 
@@ -24,7 +25,7 @@ class XmDownClient private constructor(val builder: Builder) : Call.Factory {
         /**
          * 数据库
          */
-        var dao: Any? = null
+        var dao: XmDownDao? = null
 
         /**
          * 上下文对象
@@ -94,7 +95,7 @@ class XmDownClient private constructor(val builder: Builder) : Call.Factory {
             dispatcher = XmDownDispatcher(runMaxQueuesNum)
 
             //创建数据库
-
+            dao = XmDownDao(100, "xmDown", ctx)
 
             //创建
             return XmDownClient(this)

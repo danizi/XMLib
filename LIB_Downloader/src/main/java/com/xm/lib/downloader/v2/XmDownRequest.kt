@@ -7,7 +7,17 @@ import java.io.IOException
 /**
  * 下载请求
  */
-open class XmDownRequest private constructor(val b: Builder) : IRequest() {
+open class XmDownRequest private constructor(private val b: Builder) : IRequest() {
+
+    var id: String = ""
+    var url: String? = ""
+    var fileName: String? = ""
+
+    init {
+        id = b.id
+        url = b.url
+        fileName = b.fileName
+    }
 
     class Builder {
         /**

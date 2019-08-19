@@ -32,12 +32,12 @@ class XmRealCall(private var client: XmDownClient, val request: XmDownRequest) :
         this.client.builder.dispatcher?.enqueue(downRunnable)
         this.isExecuted = true
         this.callback = callback
-        callback?.onDownloadStart()
+        callback?.onDownloadStart(request)
     }
 
     override fun cancel() {
         this.downRunnable.cancel()
-        this.callback?.onDownloadCancle()
+        this.callback?.onDownloadCancel(request)
     }
 
     override fun isCanceled(): Boolean {
@@ -70,13 +70,13 @@ class XmRealCall(private var client: XmDownClient, val request: XmDownRequest) :
         override fun run() {
 
             //创建文件
-            val downFile = File(client.builder.dir + File.separator + request.b.fileName)
+            val downFile = File(client.builder.dir + File.separator + request.fileName)
             val downFileExists = downFile.exists()
             if (downFileExists) {
                 BKLog.d(TAG, "${downFile.absolutePath} 已存在，直接读取缓存文件当前的长度")
             } else {
                 if (!FileUtil.createNewFile(downFile)) {
-                    call.callback?.onDownloadFailed(XmDownError.CREATE_FILE_ERROR)
+                    call.callback?.onDownloadFailed(request,XmDownError.CREATE_FILE_ERROR)
                     downStateType = DownStateType.ERROR
                     return
                 }
@@ -84,7 +84,7 @@ class XmRealCall(private var client: XmDownClient, val request: XmDownRequest) :
             val downRaf = RandomAccessFile(downFile, "rw")
             progress = downRaf.length()
 
-            val conn = URL(request.b.url).openConnection() as HttpURLConnection
+            val conn = URL(request.url).openConnection() as HttpURLConnection
             var inputStream: InputStream? = null
             try {
                 conn.requestMethod = "GET"
@@ -129,16 +129,16 @@ class XmRealCall(private var client: XmDownClient, val request: XmDownRequest) :
                         writeIntoLocal(inputStream, downRaf)
                     }
                     4 -> {
-                        callback?.onDownloadFailed(XmDownError.CLIENT)
+                        callback?.onDownloadFailed(request,XmDownError.CLIENT)
                     }
                     5 -> {
-                        callback?.onDownloadFailed(XmDownError.SERVER)
+                        callback?.onDownloadFailed(request,XmDownError.SERVER)
                     }
                 }
                 writeIntoLocal(inputStream, downRaf)
             } catch (e: Exception) {
                 e.printStackTrace()
-                callback?.onDownloadFailed(XmDownError.UNKNOWN)
+                callback?.onDownloadFailed(request,XmDownError.UNKNOWN)
             } finally {
                 inputStream?.close()
             }
@@ -160,17 +160,18 @@ class XmRealCall(private var client: XmDownClient, val request: XmDownRequest) :
                     }
                     raf?.write(buff, 0, length)
                     progress += length
-                    call.callback?.onDownloadProgress(progress, 100)
+                    call.callback?.onDownloadProgress(request,progress, total)
                     downStateType = DownStateType.RUNNING
                 }
 
-                call.callback?.onDownloadSuccess()
-                client.builder.dispatcher?.finished(call.downRunnable)
+                call.callback?.onDownloadComplete(request)
+                //client.builder.dispatcher?.finished(call.downRunnable)
+                client.builder.dispatcher?.finished(this)
                 downStateType = DownStateType.COMPLETE
 
             } catch (e: Exception) {
                 e.printStackTrace()
-                call.callback?.onDownloadFailed(XmDownError.UNKNOWN)
+                call.callback?.onDownloadFailed(request,XmDownError.UNKNOWN)
 
             } finally {
                 bis?.close()
@@ -180,7 +181,8 @@ class XmRealCall(private var client: XmDownClient, val request: XmDownRequest) :
 
         fun cancel() {
             cancel = true
-            client.builder.dispatcher?.cancel(call.downRunnable)
+            //client.builder.dispatcher?.cancel(call.downRunnable)
+            client.builder.dispatcher?.cancel(this)
             downStateType = DownStateType.PAUSE
         }
     }

@@ -1,5 +1,6 @@
 package com.xm.lib.downloader.v2.imp
 
+import com.xm.lib.downloader.v2.XmDownRequest
 import com.xm.lib.downloader.v2.state.XmDownError
 
 /**
@@ -14,26 +15,26 @@ interface XmDownInterface {
         /**
          * 下载开始
          */
-        fun onDownloadStart()
+        fun onDownloadStart(request: XmDownRequest)
 
         /**
          * 下载取消
          */
-        fun onDownloadCancle()
+        fun onDownloadCancel(request: XmDownRequest)
 
         /**
          * 下载进度
          */
-        fun onDownloadProgress(progress: Long, total: Long)
+        fun onDownloadProgress(request: XmDownRequest,progress: Long, total: Long)
 
         /**
          * 下载成功
          */
-        fun onDownloadSuccess()
+        fun onDownloadComplete(request: XmDownRequest)
 
         /**
          * 下载错误
          */
-        fun onDownloadFailed(error: XmDownError)
+        fun onDownloadFailed(request: XmDownRequest, error: XmDownError)
     }
 }

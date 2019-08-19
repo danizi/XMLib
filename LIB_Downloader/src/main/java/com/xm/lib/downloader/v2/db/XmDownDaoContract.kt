@@ -1,18 +1,50 @@
 package com.xm.lib.downloader.v2.db
 
+import com.xm.lib.downloader.v2.state.XmDownState
+
+/**
+ * 数据库契约类
+ */
 object XmDownDaoContract {
+
+    private const val tableName = "xmDownloader"
+    private const val column_id = "id"
+    private const val column_url = "url"
+    private const val column_fileName = "fileName"
+    private const val column_total = "total"
+    private const val column_progress = "progress"
+    private const val column_state = "state"
 
     /**
      * 创建表
      */
-    val createTable = "create XmDown( " +
-            "id 类型          ," +
-            "url 类型         ," +
-            "fileName 类型    ," +
-            "total 类型       ," +
-            "progress 类型    , " +
-            "state 类型" +
-            ")"
+    const val SQL_CREATE_TABLE = "create $tableName( " +
+            "$column_id integer primary key autoincrement," +
+            "$column_url varchar(255) not null," +
+            "$column_fileName varchar(255) not null," +
+            "$column_total integer not null default 0," +
+            "$column_progress integer not null default 0, " +
+            "$column_state varchar(255) not null" +
+            ");"
 
+    /**
+     * 插入数据
+     */
+    const val SQL_INSERT = "insert into $tableName values (?,?,?,?,?);"
+
+    /**
+     * 删除所有数据
+     */
+    const val SQL_DELETE = "delete * from $tableName where $column_url=?;"
+
+    /**
+     * 更新数据
+     */
+    const val SQL_UPDATE = "update $tableName set ($column_progress=?,$column_state=?) where $column_url;"
+
+    /**
+     * 提取所有数据
+     */
+    const val SQL_SELECT_ALL = "select * from $tableName;"
 
 }

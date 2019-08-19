@@ -7,8 +7,10 @@ import com.xm.lib.common.log.BKLog
 import com.xm.lib.downloader.utils.CommonUtil
 import com.xm.lib.downloader.v2.XmDownClient
 import com.xm.lib.downloader.v2.XmDownRequest
+import com.xm.lib.downloader.v2.db.XmDownDaoBean
 import com.xm.lib.downloader.v2.imp.XmDownInterface
 import com.xm.lib.downloader.v2.state.XmDownError
+import com.xm.lib.downloader.v2.state.XmDownState
 import com.xm.lib.test.R
 import java.io.File
 
@@ -47,23 +49,26 @@ class DownloaderAct : AppCompatActivity() {
                     .build())
 
             call.enqueue(object : XmDownInterface.Callback {
-                override fun onDownloadCancle() {
-                    BKLog.d(TAG, "onDownloadCancle")
-                }
-
-                override fun onDownloadStart() {
+                override fun onDownloadStart(request: XmDownRequest) {
                     BKLog.d(TAG, "onDownloadStart")
+                    downClient.builder.dao?.insert(XmDownDaoBean.newXmDownDaoBean(XmDownState.START, request))
                 }
 
-                override fun onDownloadProgress(progress: Long, total: Long) {
+                override fun onDownloadCancel(request: XmDownRequest) {
+                    BKLog.d(TAG, "onDownloadCancel")
+                    downClient.builder.dao?.delete(request.url!!)
+                }
+
+                override fun onDownloadProgress(request: XmDownRequest, progress: Long, total: Long) {
                     BKLog.d(TAG, "onDownloadProgress progress : $progress total : $total")
+                    downClient.builder.dao?.update(request.url!!, progress.toInt(), XmDownState.RUNNING)
                 }
 
-                override fun onDownloadSuccess() {
+                override fun onDownloadComplete(request: XmDownRequest) {
                     BKLog.d(TAG, "onDownloadSuccess")
                 }
 
-                override fun onDownloadFailed(error: XmDownError) {
+                override fun onDownloadFailed(request: XmDownRequest, error: XmDownError) {
                     BKLog.d(TAG, "onDownloadFailed $error")
                 }
             })

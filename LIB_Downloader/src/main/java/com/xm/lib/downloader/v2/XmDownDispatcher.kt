@@ -39,11 +39,14 @@ class XmDownDispatcher : IXmDownDispatcher {
             BKLog.d(TAG, "进入运行队列 : ${downRunnable.request.b.url}")
         } else {
             readyQueue.add(downRunnable)
+            BKLog.d(TAG, "进入准备队列 : ${downRunnable.request.b.url}")
         }
     }
 
     override fun finished(downRunnable: XmRealCall.DownRunnable) {
+
         if (runningQueue.contains(downRunnable)) {
+            BKLog.d(TAG, "任务完成 : ${downRunnable.request.b.url}")
             try {
                 /**
                  * poll -->【若队列为空，返回null】
@@ -52,10 +55,14 @@ class XmDownDispatcher : IXmDownDispatcher {
                  */
                 val task = readyQueue.poll()
                 if (task != null) {
+                    //BKLog.d(TAG, "准备任务提取 :  ${task.request.b.url}")
                     runningQueue.remove(downRunnable)
                     finishedQueue.add(downRunnable)
                     enqueue(task)
+                } else {
+                    BKLog.d(TAG, "任务全部完成...")
                 }
+
             } catch (e: Exception) {
                 e.printStackTrace()
                 BKLog.e(TAG, "准备队列提交到线程池中失败 ${e.message}")
