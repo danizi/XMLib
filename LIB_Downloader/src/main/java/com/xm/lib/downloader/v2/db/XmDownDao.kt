@@ -28,22 +28,21 @@ class XmDownDao(private var version: Int, private var name: String, private var 
         }
         if (exist(bean?.url!!)) {
             daoHelp?.writableDatabase?.execSQL(XmDownDaoContract.SQL_INSERT, arrayOf(
-                    bean?.url,
-                    bean?.fileName,
-                    bean?.total,
-                    bean?.progress,
-                    bean?.state
+                    bean.url,
+                    bean.fileName,
+                    bean.total,
+                    bean.progress,
+                    bean.state
             ))
         }
-
     }
 
     override fun delete(url: String?) {
         daoHelp?.writableDatabase?.execSQL(XmDownDaoContract.SQL_DELETE, arrayOf(url))
     }
 
-    override fun updateProgress(url: String?, progress: Int) {
-        daoHelp?.writableDatabase?.execSQL(XmDownDaoContract.SQL_UPDATE, arrayOf(progress, XmDownState.RUNNING, url))
+    override fun updateProgress(url: String?, progress: Long) {
+        daoHelp?.writableDatabase?.execSQL(XmDownDaoContract.SQL_UPDATE_PROGRESS, arrayOf(progress, XmDownState.RUNNING, url))
     }
 
     override fun updateComplete(url: String?) {
@@ -52,6 +51,21 @@ class XmDownDao(private var version: Int, private var name: String, private var 
 
     override fun updateFailed(url: String?, error: XmDownError) {
         daoHelp?.writableDatabase?.execSQL(XmDownDaoContract.SQL_UPDATE_STATE, arrayOf(XmDownState.getError(error), url))
+    }
+
+    override fun updateAllState(state: String) {
+        val xmDownDaoBeans = selectAll()
+        if (xmDownDaoBeans.isNotEmpty()) {
+            for (bean in xmDownDaoBeans) {
+                daoHelp?.writableDatabase?.execSQL(XmDownDaoContract.SQL_UPDATE_STATE, arrayOf(XmDownState.COMPLETE, bean.url))
+            }
+        } else {
+            BKLog.e(TAG, "更新所有任务状态失败 : $state")
+        }
+    }
+
+    override fun updateTotal(url: String?, total: Long) {
+        daoHelp?.writableDatabase?.execSQL(XmDownDaoContract.SQL_UPDATE_TOTAL, arrayOf(total, url))
     }
 
     @SuppressLint("Recycle")
@@ -76,13 +90,13 @@ class XmDownDao(private var version: Int, private var name: String, private var 
         return downDaoBeans
     }
 
-    override fun exist(url: String): Boolean {
+    override fun select(url: String): List<XmDownDaoBean> {
         val downDaoBeans = ArrayList<XmDownDaoBean>()
         val cursor = daoHelp?.writableDatabase?.rawQuery(XmDownDaoContract.SQL_SELECT_BY_URL, arrayOf(url))
 
         if (cursor == null) {
             BKLog.e(TAG, "exist failure, cursor is null")
-            return false
+            return downDaoBeans
         }
 
         while (cursor.moveToNext()) {
@@ -94,6 +108,14 @@ class XmDownDao(private var version: Int, private var name: String, private var 
             downDaoBean.state = cursor.getString(5)
             downDaoBeans.add(downDaoBean)
         }
+        if (downDaoBeans.size > 1) {
+            throw IllegalArgumentException("查询${url}记录，同时存在两个。")
+        }
+        return downDaoBeans
+    }
+
+    override fun exist(url: String): Boolean {
+        val downDaoBeans = select(url)
         return if (downDaoBeans.size == 1) {
             true
         } else {
@@ -101,5 +123,4 @@ class XmDownDao(private var version: Int, private var name: String, private var 
             false
         }
     }
-
 }

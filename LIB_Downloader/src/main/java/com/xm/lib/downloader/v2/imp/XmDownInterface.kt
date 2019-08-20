@@ -15,7 +15,7 @@ interface XmDownInterface {
         /**
          * 下载开始
          */
-        fun onDownloadStart(request: XmDownRequest)
+        fun onDownloadStart(request: XmDownRequest, path: String)
 
         /**
          * 下载取消
@@ -25,7 +25,7 @@ interface XmDownInterface {
         /**
          * 下载进度
          */
-        fun onDownloadProgress(request: XmDownRequest,progress: Long, total: Long)
+        fun onDownloadProgress(request: XmDownRequest, progress: Long, total: Long)
 
         /**
          * 下载成功

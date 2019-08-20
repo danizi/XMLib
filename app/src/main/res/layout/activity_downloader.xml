@@ -6,35 +6,53 @@
     android:layout_height="match_parent"
     tools:context=".ui.act.downloader.DownloaderAct">
 
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginBottom="8dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         tools:ignore="HardcodedText">
 
         <Button
             android:id="@+id/btn_insert"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="insert" />
+            android:text="添加任务" />
 
         <Button
-            android:id="@+id/btn_delete"
+            android:id="@+id/btn_pause_all"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="delete" />
+            android:text="暂停所有" />
 
         <Button
-            android:id="@+id/btn_update"
+            android:id="@+id/btn_edit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="update" />
+            android:text="编辑" />
 
         <Button
-            android:id="@+id/btn_select"
+            android:id="@+id/btn_jump"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="select" />
+            android:text="跳转下个页面" />
+
     </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>

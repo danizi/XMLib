@@ -14,6 +14,9 @@ class XmDownDaoBean {
     var total = 0L
     var progress = 0L
     var state = XmDownState.NOT_STARTED
+    var path = ""
+    var isEdit = false
+    var isSelect = false
 
     companion object {
         fun newXmDownDaoBean(state: String, request: XmDownRequest): XmDownDaoBean {

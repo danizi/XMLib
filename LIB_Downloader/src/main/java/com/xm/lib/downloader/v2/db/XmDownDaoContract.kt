@@ -38,7 +38,8 @@ object XmDownDaoContract {
     /**
      * 更新数据
      */
-    const val SQL_UPDATE = "update $tableName set ($column_progress=?,$column_state=?) where $column_url=?;"
+    const val SQL_UPDATE_PROGRESS = "update $tableName set ($column_progress=?,$column_state=?) where $column_url=?;"
+    const val SQL_UPDATE_TOTAL = "update $tableName set ($column_total=?,$column_state=?) where $column_url=?;"
     const val SQL_UPDATE_STATE = "update $tableName set ($column_state=?) where $column_url=?;"
 
     /**

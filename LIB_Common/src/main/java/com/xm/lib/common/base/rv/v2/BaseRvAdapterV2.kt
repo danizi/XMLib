@@ -63,7 +63,7 @@ class BaseRvAdapterV2 private constructor(val builder: Builder?) : RecyclerView.
     }
 
 
-    object Builder {
+    class Builder {
         val holderFactory: HashMap<Int, BaseViewHolderV2.Factory> = HashMap()
         val dataSource: ArrayList<Any> = ArrayList()
 

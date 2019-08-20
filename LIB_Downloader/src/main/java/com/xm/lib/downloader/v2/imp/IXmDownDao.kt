@@ -25,7 +25,7 @@ interface IXmDownDao {
      * @param url 删除条件
      * @param progress 进度 单位(B)
      */
-    fun updateProgress(url: String?, progress: Int)
+    fun updateProgress(url: String?, progress: Long)
 
     /**
      * 更新下载完成数据
@@ -40,9 +40,24 @@ interface IXmDownDao {
     fun updateFailed(url: String?, error: XmDownError)
 
     /**
+     * 统一更新状态
+     */
+    fun updateAllState(state: String)
+
+    /**
+     * 更新下载总大小数据
+     */
+    fun updateTotal(url: String?, total: Long)
+
+    /**
      * 查询所有数据
      */
     fun selectAll(): List<XmDownDaoBean>
+
+    /**
+     * 查询记录
+     */
+    fun select(url: String): List<XmDownDaoBean>
 
     /**
      * 是否存在

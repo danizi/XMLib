@@ -1,5 +1,6 @@
 package com.xm.lib.downloader.enum_
 
+@Deprecated("")
 enum class DownStateType {
     NOT_STARTED,   //未下载
     RUNNING,//运行
