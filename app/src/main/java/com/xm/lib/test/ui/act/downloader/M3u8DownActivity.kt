@@ -14,6 +14,7 @@ import com.xm.lib.test.R
 import okhttp3.*
 import java.io.*
 
+@Deprecated("")
 class M3u8DownActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -63,7 +64,7 @@ class M3u8DownActivity : AppCompatActivity() {
                 //进度
                 downManager.downObserverable()?.registerObserver(object : DownObserver {
                     override fun onComplete(tasker: DownTasker, total: Long) {
-                        BKLog.d(task.fileName+"total:$total")
+                        BKLog.d(task.fileName + "total:$total")
                     }
 
                     override fun onError(tasker: DownTasker, typeError: DownErrorType, s: String) {
@@ -71,7 +72,7 @@ class M3u8DownActivity : AppCompatActivity() {
                     }
 
                     override fun onProcess(tasker: DownTasker, process: Long, total: Long, present: Float) {
-                       // BKLog.d(task.fileName+"process:$process")
+                        // BKLog.d(task.fileName+"process:$process")
                     }
 
                     override fun onPause(tasker: DownTasker) {
@@ -116,8 +117,8 @@ class M3u8DownActivity : AppCompatActivity() {
                 return Pair(key, ts)
             }
 
-            private fun writeLocal(inputStream: InputStream?, url:String) {
-                val outFile = FileUtil.createNewFile(Environment.getExternalStorageDirectory().canonicalPath,"xmDown/${m3u8FileName(url)}",m3u8FileName(url))
+            private fun writeLocal(inputStream: InputStream?, url: String) {
+                val outFile = FileUtil.createNewFile(Environment.getExternalStorageDirectory().canonicalPath, "xmDown/${m3u8FileName(url)}", m3u8FileName(url))
 
                 val outputStream = outFile?.outputStream()
                 var length = 0
@@ -142,6 +143,7 @@ class M3u8DownActivity : AppCompatActivity() {
     }
 }
 
+@Deprecated("")
 fun main(args: Array<String>) {
     val line = "#EXT-X-KEY:METHOD=AES-128,URI=\"http://hls.videocc.net/26de49f8c2/6/26de49f8c22abafd8adc1b49246262c6_1.key\",IV=0x67a8ba97a8a8ea61fca434869eb9c8ed"
     if (line.startsWith("#EXT-X-KEY")) {

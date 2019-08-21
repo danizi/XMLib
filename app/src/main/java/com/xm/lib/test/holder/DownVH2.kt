@@ -9,6 +9,7 @@ import android.widget.TextView
 import com.xm.lib.common.base.rv.v2.BaseViewHolderV2
 import com.xm.lib.common.log.BKLog
 import com.xm.lib.downloader.v2.db.XmDownDaoBean
+import com.xm.lib.downloader.v2.state.XmDownState
 import com.xm.lib.test.R
 
 class DownVH2(itemView: View) : BaseViewHolderV2(itemView) {
@@ -39,11 +40,17 @@ class DownVH2(itemView: View) : BaseViewHolderV2(itemView) {
             ui?.tvState?.text = ent.state
 
             //下载进度 & 下載总大小
-            ui?.progressBar?.max = ent.total.toInt()
-            ui?.progressBar?.progress = ent.progress.toInt()
-            ui?.tvProgress?.text = ent.progress.toString()
-            ui?.tvTotal?.text = ent.total.toString()
-
+            if(ent.state==XmDownState.COMPLETE){
+                ui?.progressBar?.max = ent.total.toInt()
+                ui?.progressBar?.progress = ent.total.toInt()
+                ui?.tvProgress?.text = ent.total.toString()
+                ui?.tvTotal?.text = ent.total.toString()
+            }else{
+                ui?.progressBar?.max = ent.total.toInt()
+                ui?.progressBar?.progress = ent.progress.toInt()
+                ui?.tvProgress?.text = ent.progress.toString()
+                ui?.tvTotal?.text = ent.total.toString()
+            }
         } else {
             BKLog.e("data not XmDownDaoBean")
         }

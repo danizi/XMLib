@@ -113,7 +113,7 @@ class XmDownClient private constructor(private val builder: Builder) : Call.Fact
             dispatcher = XmDownDispatcher(runMaxQueuesNum)
 
             //创建数据库
-            dao = XmDownDao(100, "xmDownloader.db", ctx)
+            dao = XmDownDao(100, "xmDownloader", ctx)
 
             //创建
             return XmDownClient(this)

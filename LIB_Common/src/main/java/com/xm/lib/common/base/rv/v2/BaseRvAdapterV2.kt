@@ -20,7 +20,7 @@ class BaseRvAdapterV2 private constructor(val builder: Builder?) : RecyclerView.
 
     override fun getItemCount(): Int {
         return if (builder?.dataSource?.isEmpty()!!) {
-            BKLog.e(TAG, "dataSource is null")
+            BKLog.e(TAG, "dataSource is null getItemCount 0")
             0
         } else {
             BKLog.d(TAG, "getItemCount: ${builder.dataSource.size}")
@@ -51,7 +51,7 @@ class BaseRvAdapterV2 private constructor(val builder: Builder?) : RecyclerView.
             }
 
         }
-        BKLog.e(TAG, "super.getItemViewType(position)")
+        //BKLog.e(TAG, "super.getItemViewType(position)")
         return super.getItemViewType(position)
     }
 

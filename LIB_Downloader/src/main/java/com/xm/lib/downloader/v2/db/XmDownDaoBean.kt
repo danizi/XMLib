@@ -1,5 +1,6 @@
 package com.xm.lib.downloader.v2.db
 
+import com.xm.lib.downloader.v2.state.XmDownError
 import com.xm.lib.downloader.v2.state.XmDownState
 
 /**
@@ -20,5 +21,6 @@ class XmDownDaoBean {
      */
     var isEdit = false
     var isSelect = false
+    var error = XmDownError.UNKNOWN
 
 }

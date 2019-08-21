@@ -72,37 +72,36 @@ class XmRealCall(private var client: XmDownClient, val request: XmDownRequest) :
         var progress = 0L
 
         override fun run() {
-
             downStateType = DownStateType.START
-
             //判断缓存是否完成
             val downFile = File(client.dir + File.separator + request.fileName)
             var downRaf: RandomAccessFile? = null
             var downFileExists = false
             val downDaoBeans = client.dao?.select(request.url!!)
-            if (downDaoBeans?.size!! > 0) {
-                if (downDaoBeans[0].state == XmDownState.COMPLETE) {
-                    callback?.onDownloadComplete(request)
-                    client.dispatcher?.finished(this)
-                    return
-                }
+            if (downDaoBeans?.size!! > 1) {
+                throw IllegalArgumentException("${request.url}数据库中超过两个任务")
+            }
 
-                if (!downFile.exists()) {
-                    throw IllegalArgumentException()
-                }
+            if (downDaoBeans[0].state == XmDownState.COMPLETE) {
+                callback?.onDownloadComplete(request)
+                client.dispatcher?.finished(call.downRunnable)
+                return
+            }
 
-                downFileExists = true
-                BKLog.d(TAG, "${downFile.absolutePath} 已存在，直接读取缓存文件当前的长度")
-                progress = downRaf?.length()!!
-            } else {
-                //新任务，创建文件
+            //创建任务缓存文件
+            if (!downFile.exists()) {
+                downFileExists = false
                 if (!FileUtil.createNewFile(downFile)) {
                     call.callback?.onDownloadFailed(request, XmDownError.CREATE_FILE_ERROR)
                     downStateType = DownStateType.ERROR
                     return
                 }
+
             }
+            downFileExists = true
             downRaf = RandomAccessFile(downFile, "rw")
+            progress = downRaf.length()
+            BKLog.d(TAG, "${downFile.absolutePath} 已存在，直接读取缓存文件当前的长度$progress")
 
             //请求网络数据
             val conn = URL(request.url).openConnection() as HttpURLConnection
@@ -169,9 +168,9 @@ class XmRealCall(private var client: XmDownClient, val request: XmDownRequest) :
             } catch (e: Exception) {
                 e.printStackTrace()
                 callback?.onDownloadFailed(request, XmDownError.UNKNOWN)
+                client.dispatcher?.finished(call.downRunnable)
             } finally {
                 inputStream?.close()
-                client.dispatcher?.finished(this)
             }
         }
 
@@ -196,8 +195,8 @@ class XmRealCall(private var client: XmDownClient, val request: XmDownRequest) :
                 }
 
                 call.callback?.onDownloadComplete(request)
-                //client.builder.dispatcher?.finished(call.downRunnable)
-                client.dispatcher?.finished(this)
+                client.dispatcher?.finished(call.downRunnable)
+                //client.dispatcher?.finished(this)
                 downStateType = DownStateType.COMPLETE
 
             } catch (e: Exception) {
@@ -212,8 +211,8 @@ class XmRealCall(private var client: XmDownClient, val request: XmDownRequest) :
 
         fun cancel() {
             cancel = true
-            //client.builder.dispatcher?.cancel(call.downRunnable)
-            client.dispatcher?.cancel(this)
+            client.dispatcher?.cancel(call.downRunnable)
+            //client.dispatcher?.cancel(this)
             downStateType = DownStateType.PAUSE
         }
     }

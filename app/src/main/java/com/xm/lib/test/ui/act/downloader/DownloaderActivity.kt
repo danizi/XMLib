@@ -30,7 +30,7 @@ import com.xm.lib.test.holder.DownViewHolder
 import okhttp3.*
 import java.io.File
 import java.io.IOException
-
+@Deprecated("")
 class DownloaderActivity : AppCompatActivity() {
     private var rv: RecyclerView? = null
     private var btnAdd: Button? = null

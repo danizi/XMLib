@@ -78,8 +78,12 @@ class XmDownDispatcher : IXmDownDispatcher {
     override fun cancel(downRunnable: XmRealCall.DownRunnable) {
         if (runningQueue.contains(downRunnable)) {
             runningQueue.remove(downRunnable)
+            pool?.remove(downRunnable)
         }
-        pool?.remove(downRunnable)
+
+        if (readyQueue.contains(downRunnable)) {
+            readyQueue.remove(downRunnable)
+        }
     }
 
     override fun cancelAll() {

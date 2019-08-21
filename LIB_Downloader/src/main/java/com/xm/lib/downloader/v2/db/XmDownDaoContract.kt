@@ -38,7 +38,7 @@ object XmDownDaoContract {
     /**
      * 删除所有数据
      */
-    const val SQL_DELETE = "delete * from $tableName where $column_url=?;"
+    const val SQL_DELETE = "delete from $tableName where $column_url=?;"
     const val SQL_DELETE_ALL = "delete from $tableName;"
 
     /**
