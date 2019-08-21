@@ -140,7 +140,8 @@ class BottomMenu(context: Context?, attrs: AttributeSet?) : TabLayout(context, a
                     val tab = this.newTab()
                     tab.tag = index
                     (tab.view as ViewGroup).setBackgroundColor(Color.TRANSPARENT)
-                    val itemView: ViewGroup = LayoutInflater.from(context).inflate(this.itemLayoutId, this, false) as ViewGroup
+                    // 注意版本 如果itemLayoutId设置属性与当前版本不符，会出现 Resources$NotFoundException: Resource is not a Drawable (color or path)? 错误
+                    val itemView: ViewGroup = LayoutInflater.from(context).inflate(itemLayoutId, this, false) as ViewGroup
                     val tabImg: ImageView = itemView.getChildAt(0) as ImageView
                     val tabTv: TextView = itemView.getChildAt(1) as TextView
                     if (tabImg != null || tabTv != null) {

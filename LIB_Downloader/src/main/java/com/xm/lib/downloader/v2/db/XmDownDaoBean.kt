@@ -1,6 +1,5 @@
 package com.xm.lib.downloader.v2.db
 
-import com.xm.lib.downloader.v2.XmDownRequest
 import com.xm.lib.downloader.v2.state.XmDownState
 
 /**
@@ -15,15 +14,11 @@ class XmDownDaoBean {
     var progress = 0L
     var state = XmDownState.NOT_STARTED
     var path = ""
+
+    /**
+     * 扩展的字段
+     */
     var isEdit = false
     var isSelect = false
 
-    companion object {
-        fun newXmDownDaoBean(state: String, request: XmDownRequest): XmDownDaoBean {
-            val daoBean = XmDownDaoBean()
-            daoBean.url = request.url!!
-            daoBean.fileName = request.fileName!!
-            return daoBean
-        }
-    }
 }

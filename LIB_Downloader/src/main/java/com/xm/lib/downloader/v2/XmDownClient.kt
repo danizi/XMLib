@@ -10,7 +10,7 @@ import java.io.File
 /**
  * 下载管理器
  */
-class XmDownClient private constructor(val builder: Builder) : Call.Factory {
+class XmDownClient private constructor(private val builder: Builder) : Call.Factory {
 
     var dispatcher: XmDownDispatcher? = null
     var dao: XmDownDao? = null
@@ -21,13 +21,13 @@ class XmDownClient private constructor(val builder: Builder) : Call.Factory {
     var overSameTask: Boolean = true
 
     init {
-        this.dispatcher = dispatcher
-        this.dao = dao
-        this.ctx = ctx
-        this.dir = dir
-        this.runMaxQueuesNum = runMaxQueuesNum
-        this.breakpoint = breakpoint
-        this.overSameTask = overSameTask
+        this.dispatcher = builder.dispatcher
+        this.dao = builder.dao
+        this.ctx = builder.ctx
+        this.dir = builder.dir
+        this.runMaxQueuesNum = builder.runMaxQueuesNum
+        this.breakpoint = builder.breakpoint
+        this.overSameTask = builder.overSameTask
     }
 
     override fun newCall(request: XmDownRequest): Call {
@@ -113,7 +113,7 @@ class XmDownClient private constructor(val builder: Builder) : Call.Factory {
             dispatcher = XmDownDispatcher(runMaxQueuesNum)
 
             //创建数据库
-            dao = XmDownDao(100, "xmDown", ctx)
+            dao = XmDownDao(100, "xmDownloader.db", ctx)
 
             //创建
             return XmDownClient(this)

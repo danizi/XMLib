@@ -49,7 +49,7 @@ class FrgRvMultiType : MvpFragment<FrgRvMultiTypeContract.P>(), FrgRvMultiTypeCo
     }
 
     private fun getRvAdapter(): BaseRvAdapterV2 {
-        return BaseRvAdapterV2.Builder
+        return BaseRvAdapterV2.Builder()
                 .addDataResouce(getData())
                 .addHolderFactory(Holder1.Factory1())
                 .addHolderFactory(Holder2.Factory2())

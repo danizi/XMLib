@@ -15,7 +15,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         val rv = findViewById<RecyclerView>(R.id.rv)
-        rv.adapter = BaseRvAdapterV2.Builder
+        rv.adapter = BaseRvAdapterV2.Builder()
                 .addDataResouce(getDataResouce())
                 .addHolderFactory(ItemVH.Factory())
                 .build()

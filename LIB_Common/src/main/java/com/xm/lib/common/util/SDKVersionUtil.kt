@@ -44,4 +44,9 @@ object SDKVersionUtil {
         return Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
     }
 
+    fun hasL(): Boolean {
+        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP
+    }
+
+
 }

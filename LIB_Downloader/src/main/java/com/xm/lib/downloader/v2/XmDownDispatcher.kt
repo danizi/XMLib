@@ -2,7 +2,10 @@ package com.xm.lib.downloader.v2
 
 import com.xm.lib.common.log.BKLog
 import com.xm.lib.downloader.v2.imp.IXmDownDispatcher
-import java.util.concurrent.*
+import java.util.concurrent.ArrayBlockingQueue
+import java.util.concurrent.LinkedBlockingQueue
+import java.util.concurrent.ThreadPoolExecutor
+import java.util.concurrent.TimeUnit
 
 /**
  * 任务调度
@@ -36,17 +39,17 @@ class XmDownDispatcher : IXmDownDispatcher {
         if (runningQueue.size < runningQueueNum) {
             runningQueue.add(downRunnable)
             pool?.submit(downRunnable)
-            BKLog.d(TAG, "进入运行队列 : ${downRunnable.request.b.url}")
+            BKLog.d(TAG, "进入运行队列 : ${downRunnable.request.url}")
         } else {
             readyQueue.add(downRunnable)
-            BKLog.d(TAG, "进入准备队列 : ${downRunnable.request.b.url}")
+            BKLog.d(TAG, "进入准备队列 : ${downRunnable.request.url}")
         }
     }
 
     override fun finished(downRunnable: XmRealCall.DownRunnable) {
 
         if (runningQueue.contains(downRunnable)) {
-            BKLog.d(TAG, "任务完成 : ${downRunnable.request.b.url}")
+            BKLog.d(TAG, "任务完成 : ${downRunnable.request.url}")
             try {
                 /**
                  * poll -->【若队列为空，返回null】

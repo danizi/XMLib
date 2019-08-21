@@ -26,7 +26,7 @@ class XmDownDao(private var version: Int, private var name: String, private var 
             BKLog.d(TAG, "url is null")
             return
         }
-        if (exist(bean?.url!!)) {
+        if (!exist(bean?.url!!)) {
             daoHelp?.writableDatabase?.execSQL(XmDownDaoContract.SQL_INSERT, arrayOf(
                     bean.url,
                     bean.fileName,
@@ -41,9 +41,18 @@ class XmDownDao(private var version: Int, private var name: String, private var 
         daoHelp?.writableDatabase?.execSQL(XmDownDaoContract.SQL_DELETE, arrayOf(url))
     }
 
-    override fun updateProgress(url: String?, progress: Long) {
+    override fun deleteAll() {
+        daoHelp?.writableDatabase?.execSQL(XmDownDaoContract.SQL_DELETE_ALL, arrayOf())
+    }
+
+    override fun updateProgress(url: String?, progress: Long, total: Long) {
+        if (exist(url!!)) {
+            daoHelp?.writableDatabase?.execSQL(XmDownDaoContract.SQL_UPDATE_TOTAL, arrayOf(total, url))
+        }
         daoHelp?.writableDatabase?.execSQL(XmDownDaoContract.SQL_UPDATE_PROGRESS, arrayOf(progress, XmDownState.RUNNING, url))
     }
+
+    override fun updateTotal(url: String?, total: Long) {}
 
     override fun updateComplete(url: String?) {
         daoHelp?.writableDatabase?.execSQL(XmDownDaoContract.SQL_UPDATE_STATE, arrayOf(XmDownState.COMPLETE, url))
@@ -64,52 +73,65 @@ class XmDownDao(private var version: Int, private var name: String, private var 
         }
     }
 
-    override fun updateTotal(url: String?, total: Long) {
-        daoHelp?.writableDatabase?.execSQL(XmDownDaoContract.SQL_UPDATE_TOTAL, arrayOf(total, url))
-    }
 
     @SuppressLint("Recycle")
     override fun selectAll(): List<XmDownDaoBean> {
         val downDaoBeans = ArrayList<XmDownDaoBean>()
         val cursor = daoHelp?.writableDatabase?.rawQuery(XmDownDaoContract.SQL_SELECT_ALL, arrayOf())
+        try {
+            if (cursor == null) {
+                BKLog.e(TAG, "selectAll failure, cursor is null")
+                return downDaoBeans
+            }
 
-        if (cursor == null) {
-            BKLog.e(TAG, "selectAll failure, cursor is null")
-            return downDaoBeans
+            while (cursor.moveToNext()) {
+                val downDaoBean = XmDownDaoBean()
+                downDaoBean.url = cursor.getString(1)
+                downDaoBean.fileName = cursor.getString(2)
+                downDaoBean.total = cursor.getLong(3)
+                downDaoBean.progress = cursor.getLong(4)
+                downDaoBean.state = cursor.getString(5)
+                downDaoBeans.add(downDaoBean)
+            }
+
+        } catch (e: Exception) {
+            e.printStackTrace()
+        } finally {
+            if (!cursor?.isClosed!!) {
+                cursor.close()
+            }
         }
 
-        while (cursor.moveToNext()) {
-            val downDaoBean = XmDownDaoBean()
-            downDaoBean.url = cursor.getString(1)
-            downDaoBean.fileName = cursor.getString(2)
-            downDaoBean.total = cursor.getLong(3)
-            downDaoBean.progress = cursor.getLong(4)
-            downDaoBean.state = cursor.getString(5)
-            downDaoBeans.add(downDaoBean)
-        }
         return downDaoBeans
     }
 
     override fun select(url: String): List<XmDownDaoBean> {
         val downDaoBeans = ArrayList<XmDownDaoBean>()
         val cursor = daoHelp?.writableDatabase?.rawQuery(XmDownDaoContract.SQL_SELECT_BY_URL, arrayOf(url))
+        try {
+            if (cursor == null) {
+                BKLog.e(TAG, "exist failure, cursor is null")
+                return downDaoBeans
+            }
 
-        if (cursor == null) {
-            BKLog.e(TAG, "exist failure, cursor is null")
-            return downDaoBeans
-        }
-
-        while (cursor.moveToNext()) {
-            val downDaoBean = XmDownDaoBean()
-            downDaoBean.url = cursor.getString(1)
-            downDaoBean.fileName = cursor.getString(2)
-            downDaoBean.total = cursor.getLong(3)
-            downDaoBean.progress = cursor.getLong(4)
-            downDaoBean.state = cursor.getString(5)
-            downDaoBeans.add(downDaoBean)
-        }
-        if (downDaoBeans.size > 1) {
-            throw IllegalArgumentException("查询${url}记录，同时存在两个。")
+            while (cursor.moveToNext()) {
+                val downDaoBean = XmDownDaoBean()
+                downDaoBean.url = cursor.getString(1)
+                downDaoBean.fileName = cursor.getString(2)
+                downDaoBean.total = cursor.getLong(3)
+                downDaoBean.progress = cursor.getLong(4)
+                downDaoBean.state = cursor.getString(5)
+                downDaoBeans.add(downDaoBean)
+            }
+            if (downDaoBeans.size > 1) {
+                throw IllegalArgumentException("查询${url}记录，同时存在两个。")
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        } finally {
+            if (!cursor?.isClosed!!) {
+                cursor.close()
+            }
         }
         return downDaoBeans
     }

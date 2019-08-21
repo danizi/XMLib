@@ -30,10 +30,10 @@ class XmRealCall(private var client: XmDownClient, val request: XmDownRequest) :
 
     override fun enqueue(callback: XmDownInterface.Callback?) {
         this.downRunnable = DownRunnable(this, client, request, callback)
-        this.client.builder.dispatcher?.enqueue(downRunnable)
+        this.client.dispatcher?.enqueue(downRunnable)
         this.isExecuted = true
         this.callback = callback
-        callback?.onDownloadStart(request, (client.builder.dir + File.separator + request.fileName))
+        callback?.onDownloadStart(request, (client.dir + File.separator + request.fileName))
     }
 
     override fun cancel() {
@@ -76,14 +76,15 @@ class XmRealCall(private var client: XmDownClient, val request: XmDownRequest) :
             downStateType = DownStateType.START
 
             //判断缓存是否完成
-            val downFile = File(client.builder.dir + File.separator + request.fileName)
+            val downFile = File(client.dir + File.separator + request.fileName)
             var downRaf: RandomAccessFile? = null
             var downFileExists = false
             val downDaoBeans = client.dao?.select(request.url!!)
-
             if (downDaoBeans?.size!! > 0) {
                 if (downDaoBeans[0].state == XmDownState.COMPLETE) {
                     callback?.onDownloadComplete(request)
+                    client.dispatcher?.finished(this)
+                    return
                 }
 
                 if (!downFile.exists()) {
@@ -92,16 +93,16 @@ class XmRealCall(private var client: XmDownClient, val request: XmDownRequest) :
 
                 downFileExists = true
                 BKLog.d(TAG, "${downFile.absolutePath} 已存在，直接读取缓存文件当前的长度")
-                downRaf = RandomAccessFile(downFile, "rw")
-                progress = downRaf.length()
+                progress = downRaf?.length()!!
             } else {
-                //创建文件
+                //新任务，创建文件
                 if (!FileUtil.createNewFile(downFile)) {
                     call.callback?.onDownloadFailed(request, XmDownError.CREATE_FILE_ERROR)
                     downStateType = DownStateType.ERROR
                     return
                 }
             }
+            downRaf = RandomAccessFile(downFile, "rw")
 
             //请求网络数据
             val conn = URL(request.url).openConnection() as HttpURLConnection
@@ -112,12 +113,14 @@ class XmRealCall(private var client: XmDownClient, val request: XmDownRequest) :
                 conn.connectTimeout = connectTimeout
                 conn.doInput = true
                 conn.setRequestProperty("Accept-Encoding", "identity")
-                conn.connect()
+
                 /**
                  *  "bytes=$rangeStartIndex-"
                  *  "bytes=$rangeStartIndex-$rangeEndIndex"
                  */
                 conn.setRequestProperty("Range", "bytes=$progress-")
+                conn.connect()
+
                 inputStream = conn.inputStream
 
                 //contentLength获取必须在conn.inputStream之后
@@ -127,18 +130,16 @@ class XmRealCall(private var client: XmDownClient, val request: XmDownRequest) :
                     }
                     total = conn.contentLength.toLong()
                     client.dao?.updateTotal(request.url, total)
+                } else {
+                    total = progress + conn.contentLength.toLong()
                 }
 
                 if (!downFileExists) {
-                    total = conn.contentLength.toLong()
-
                     BKLog.d(TAG, "*********************************************************")
                     BKLog.d(TAG, "文件总大小 : ${FileUtil.getSizeUnit(total)}")
                     BKLog.d(TAG, "                                                         ")
-
                 } else {
                     unDownLoadedData = conn.contentLength.toLong()
-
                     BKLog.d(TAG, "*********************************************************")
                     BKLog.d(TAG, "文件总大小 : ${FileUtil.getSizeUnit(total)}")
                     BKLog.d(TAG, "剩余未下载文件大小 : ${FileUtil.getSizeUnit(unDownLoadedData)}")
@@ -170,6 +171,7 @@ class XmRealCall(private var client: XmDownClient, val request: XmDownRequest) :
                 callback?.onDownloadFailed(request, XmDownError.UNKNOWN)
             } finally {
                 inputStream?.close()
+                client.dispatcher?.finished(this)
             }
         }
 
@@ -180,7 +182,7 @@ class XmRealCall(private var client: XmDownClient, val request: XmDownRequest) :
             }
             val bis: BufferedInputStream? = BufferedInputStream(inputStream)
             try {
-                val buff = ByteArray(1024)
+                val buff = ByteArray(1024 * 4)
                 var length = 0
                 while (true) {
                     length = bis?.read(buff)!!
@@ -195,7 +197,7 @@ class XmRealCall(private var client: XmDownClient, val request: XmDownRequest) :
 
                 call.callback?.onDownloadComplete(request)
                 //client.builder.dispatcher?.finished(call.downRunnable)
-                client.builder.dispatcher?.finished(this)
+                client.dispatcher?.finished(this)
                 downStateType = DownStateType.COMPLETE
 
             } catch (e: Exception) {
@@ -211,7 +213,7 @@ class XmRealCall(private var client: XmDownClient, val request: XmDownRequest) :
         fun cancel() {
             cancel = true
             //client.builder.dispatcher?.cancel(call.downRunnable)
-            client.builder.dispatcher?.cancel(this)
+            client.dispatcher?.cancel(this)
             downStateType = DownStateType.PAUSE
         }
     }

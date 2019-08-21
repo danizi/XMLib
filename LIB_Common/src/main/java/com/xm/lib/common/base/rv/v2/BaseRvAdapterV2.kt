@@ -56,10 +56,10 @@ class BaseRvAdapterV2 private constructor(val builder: Builder?) : RecyclerView.
     }
 
     fun getDataSource(): ArrayList<Any> {
-        if (builder?.dataSource.isNullOrEmpty()) {
+        if (builder?.dataSource == null) {
             throw NullPointerException("dataSource is null")
         }
-        return builder?.dataSource!!
+        return builder.dataSource
     }
 
 

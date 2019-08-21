@@ -1,7 +1,6 @@
 package com.xm.lib.test.ui.act.downloader
 
-import android.os.Bundle
-import android.os.Environment
+import android.os.*
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
@@ -12,6 +11,7 @@ import android.widget.Toast
 import com.xm.lib.common.base.rv.v2.BaseRvAdapterV2
 import com.xm.lib.common.log.BKLog
 import com.xm.lib.downloader.utils.CommonUtil
+import com.xm.lib.downloader.utils.FileUtil
 import com.xm.lib.downloader.v2.XmDownClient
 import com.xm.lib.downloader.v2.XmDownRequest
 import com.xm.lib.downloader.v2.db.XmDownDaoBean
@@ -45,11 +45,12 @@ class DownloaderAct : AppCompatActivity() {
     private var downIndex = 0
     private val downUrls = arrayOf(
             "http://e.hiphotos.baidu.com/image/pic/item/4610b912c8fcc3cef70d70409845d688d53f20f7.jpg",
+            "https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=2867164189,4027291360&fm=11&gp=0.jpg",
+            "https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=1778670421,3855406236&fm=26&gp=0.jpg",
+            "https://cavedl.leiting.com/full/caveonline_M141859.apk",
             "https://apk.apk.xgdown.com/down/1hd.apk",
-            "https://dl.hz.37.com.cn/upload/1_1002822_10664/shikongzhiyiH5_10664.apk",
-            "https://cavedl.leiting.com/full/caveonline_M141859.apk"
+            "https://dl.hz.37.com.cn/upload/1_1002822_10664/shikongzhiyiH5_10664.apk"
     )
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -69,6 +70,14 @@ class DownloaderAct : AppCompatActivity() {
         btnJump = findViewById<View>(R.id.btn_jump) as Button
     }
 
+    private fun parseInt(str: String): Int {
+        var value = 0
+        for (s in str) {
+            value += s.toInt()
+        }
+        return value
+    }
+
     private fun initEvent() {
         btnInsert?.setOnClickListener {
             if (downIndex < downUrls.size) {
@@ -77,40 +86,111 @@ class DownloaderAct : AppCompatActivity() {
                         .url(url)
                         .fileName(CommonUtil.getFileName(url))
                         .build())
-
                 call?.enqueue(object : XmDownInterface.Callback {
 
                     override fun onDownloadStart(request: XmDownRequest, path: String) {
                         BKLog.d(TAG, "onDownloadStart")
-                        downClient?.builder?.dao?.insert(XmDownDaoBean.newXmDownDaoBean(XmDownState.START, request))
-                        for (i in rvAdapter?.getDataSource()!!) {
-                            val d = data as XmDownDaoBean
-                            if(d.url==request.url){
-                                rvAdapter?.notifyItemChanged()
-                                break
+                        //插入缓存数据库，注意：任务不存在才插入
+                        val xmDownDaoBean = XmDownDaoBean()
+                        xmDownDaoBean.progress = 0
+                        xmDownDaoBean.url = request.url!!
+                        xmDownDaoBean.fileName = request.fileName!!
+                        xmDownDaoBean.path = path
+                        xmDownDaoBean.state = XmDownState.START
+                        xmDownDaoBean.isEdit = false
+                        xmDownDaoBean.isSelect = false
+                        downClient?.dao?.insert(xmDownDaoBean)
+
+                        //更新任务状态UI界面
+                        val data = rvAdapter?.getDataSource()
+                        data?.add(xmDownDaoBean)
+                        rv?.post {
+                            for (i in 0 until data?.size!!) {
+                                val xmDownDaoBean = data[i] as XmDownDaoBean
+                                if (xmDownDaoBean.url == request.url) {
+                                    xmDownDaoBean.state = XmDownState.START
+                                    rvAdapter?.notifyItemChanged(i)
+                                    break
+                                }
                             }
                         }
-
                     }
 
                     override fun onDownloadCancel(request: XmDownRequest) {
                         BKLog.d(TAG, "onDownloadCancel")
-                        downClient?.builder?.dao?.delete(request.url!!)
+                        //从数据库中删除任务
+                        downClient?.dao?.delete(request.url!!)
+
+                        //更新任务状态UI界面
+                        rv?.post {
+                            val data = rvAdapter?.getDataSource()
+                            for (i in 0 until data?.size!!) {
+                                val xmDownDaoBean = data[i] as XmDownDaoBean
+                                if (xmDownDaoBean.url == request.url) {
+                                    xmDownDaoBean.state = XmDownState.CANCLE
+                                    rvAdapter?.notifyItemChanged(i)
+                                    break
+                                }
+                            }
+                        }
                     }
 
                     override fun onDownloadProgress(request: XmDownRequest, progress: Long, total: Long) {
                         BKLog.d(TAG, "onDownloadProgress progress : $progress total : $total")
-                        downClient?.builder?.dao?.updateProgress(request.url, progress)
+                        //从数据库中更新任务下载进度
+                        downClient?.dao?.updateProgress(request.url, progress, total)
+                        rv?.post {
+                            //更新任务状态UI界面
+                            val data = rvAdapter?.getDataSource()
+                            for (i in 0 until data?.size!!) {
+                                val xmDownDaoBean = data[i] as XmDownDaoBean
+                                if (xmDownDaoBean.url == request.url) {
+                                    xmDownDaoBean.progress = progress
+                                    xmDownDaoBean.total = total
+                                    rvAdapter?.notifyItemChanged(i)
+                                    break
+                                }
+                            }
+                        }
                     }
 
                     override fun onDownloadComplete(request: XmDownRequest) {
                         BKLog.d(TAG, "onDownloadSuccess")
-                        downClient?.builder?.dao?.updateComplete(request.url)
+                        //数据库中更新任务下载完成状态
+                        downClient?.dao?.updateComplete(request.url)
+
+                        //刷新UI界面
+                        rv?.post {
+                            val data = rvAdapter?.getDataSource()
+                            for (i in 0 until data?.size!!) {
+                                val xmDownDaoBean = data[i] as XmDownDaoBean
+                                if (xmDownDaoBean.url == request.url) {
+                                    xmDownDaoBean.state = XmDownState.COMPLETE
+                                    xmDownDaoBean.progress = xmDownDaoBean.total
+                                    rvAdapter?.notifyItemChanged(i)
+                                    break
+                                }
+                            }
+                        }
                     }
 
                     override fun onDownloadFailed(request: XmDownRequest, error: XmDownError) {
                         BKLog.d(TAG, "onDownloadFailed $error")
-                        downClient?.builder?.dao?.updateFailed(request.url, error)
+                        //数据库中更新任务下载错误状态
+                        downClient?.dao?.updateFailed(request.url, error)
+
+                        //刷新UI界面
+                        rv?.post {
+                            val data = rvAdapter?.getDataSource()
+                            for (i in 0 until data?.size!!) {
+                                val xmDownDaoBean = data[i] as XmDownDaoBean
+                                if (xmDownDaoBean.url == request.url) {
+                                    xmDownDaoBean.state = XmDownState.getError(error)
+                                    rvAdapter?.notifyItemChanged(i)
+                                    break
+                                }
+                            }
+                        }
                     }
 
                 })
@@ -129,21 +209,28 @@ class DownloaderAct : AppCompatActivity() {
         }
 
         btnJump?.setOnClickListener {
-
+            downClient?.dao?.updateAllState(XmDownState.NOT_STARTED)
+            downClient?.dao?.deleteAll()
+            if (com.xm.lib.common.util.file.FileUtil.delAll(File(downClient?.dir))) {
+                Toast.makeText(this, "删除成功", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 
     private fun iniData() {
-        downIndex = 0
         downClient = XmDownClient.Builder()
                 .context(this)
                 .breakpoint(true)
                 .dir(Environment.getExternalStorageDirectory().absolutePath + File.separator + "XmDown")
                 .runMaxQueuesNum(1)
                 .build()
-        //从数据库中读取缓存记录
-        dataResource.addAll(downClient?.dao?.selectAll()!!)
 
+        //从数据库中读取缓存记录
+        val cache = downClient?.dao?.selectAll()!!
+        downIndex = cache.size + 1
+        dataResource.addAll(cache)
+
+        //初始化RecyclerView
         rvAdapter = BaseRvAdapterV2.Builder()
                 .addDataResouce(dataResource)
                 .addHolderFactory(DownVH2.Factory())
@@ -155,6 +242,6 @@ class DownloaderAct : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        downClient?.dao?.updateAllState(XmDownState.NOT_STARTED)
+
     }
 }

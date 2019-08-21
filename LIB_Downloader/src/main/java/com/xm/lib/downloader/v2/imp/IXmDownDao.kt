@@ -20,12 +20,14 @@ interface IXmDownDao {
      */
     fun delete(url: String?)
 
+    fun deleteAll()
+
     /**
      * 更新进度数据
      * @param url 删除条件
      * @param progress 进度 单位(B)
      */
-    fun updateProgress(url: String?, progress: Long)
+    fun updateProgress(url: String?, progress: Long,total: Long)
 
     /**
      * 更新下载完成数据
