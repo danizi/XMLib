@@ -12,7 +12,7 @@ import java.util.concurrent.TimeUnit
  */
 class XmDownDispatcher : IXmDownDispatcher {
 
-    private var runningQueueNum = 5
+    private var runningQueueNum = 1
     private var pool: ThreadPoolExecutor? = null
     private val runningQueue = LinkedBlockingQueue<XmRealCall.DownRunnable>()
     private val readyQueue = LinkedBlockingQueue<XmRealCall.DownRunnable>()
@@ -20,7 +20,7 @@ class XmDownDispatcher : IXmDownDispatcher {
 
     constructor(runningQueueNum: Int) {
         this.runningQueueNum = runningQueueNum
-        pool = ThreadPoolExecutor(this.runningQueueNum, this.runningQueueNum, 30, TimeUnit.SECONDS, ArrayBlockingQueue(2000))
+        pool = ThreadPoolExecutor(runningQueueNum, runningQueueNum, 30, TimeUnit.SECONDS, ArrayBlockingQueue(2000))
     }
 
     constructor(pool: ThreadPoolExecutor?) {
@@ -39,17 +39,16 @@ class XmDownDispatcher : IXmDownDispatcher {
         if (runningQueue.size < runningQueueNum) {
             runningQueue.add(downRunnable)
             pool?.submit(downRunnable)
-            BKLog.d(TAG, "进入运行队列 : ${downRunnable.request.url}")
+            BKLog.d(TAG, "进入运行队列 : ${downRunnable.getRequestUrl()}")
         } else {
             readyQueue.add(downRunnable)
-            BKLog.d(TAG, "进入准备队列 : ${downRunnable.request.url}")
+            BKLog.d(TAG, "进入准备队列 : ${downRunnable.getRequestUrl()}")
         }
     }
 
     override fun finished(downRunnable: XmRealCall.DownRunnable) {
-
         if (runningQueue.contains(downRunnable)) {
-            BKLog.d(TAG, "任务完成 : ${downRunnable.request.url}")
+            BKLog.d(TAG, "任务完成 : ${downRunnable.getRequestUrl()}")
             try {
                 /**
                  * poll -->【若队列为空，返回null】
@@ -71,7 +70,7 @@ class XmDownDispatcher : IXmDownDispatcher {
                 BKLog.e(TAG, "准备队列提交到线程池中失败 ${e.message}")
             }
         } else {
-            BKLog.e(TAG, "运行任务移除失败")
+            BKLog.e(TAG, "运行任务移除失败${downRunnable.getRequestUrl()}")
         }
     }
 

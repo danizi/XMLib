@@ -3,8 +3,11 @@ package com.xm.lib.downloader.v2
 import android.content.Context
 import android.os.Environment
 import android.text.TextUtils
+import com.xm.lib.downloader.v2.abs.AbsRequest
 import com.xm.lib.downloader.v2.db.XmDownDao
 import com.xm.lib.downloader.v2.imp.Call
+import com.xm.lib.downloader.v2.imp.IXmDownDao
+import com.xm.lib.downloader.v2.imp.IXmDownDispatcher
 import java.io.File
 
 /**
@@ -12,11 +15,10 @@ import java.io.File
  */
 class XmDownClient private constructor(private val builder: Builder) : Call.Factory {
 
-    var dispatcher: XmDownDispatcher? = null
-    var dao: XmDownDao? = null
+    var dispatcher: IXmDownDispatcher? = null
+    var dao: IXmDownDao? = null
     var ctx: Context? = null
     var dir: String = ""
-    var runMaxQueuesNum: Int = 1
     var breakpoint: Boolean = true
     var overSameTask: Boolean = true
 
@@ -25,12 +27,11 @@ class XmDownClient private constructor(private val builder: Builder) : Call.Fact
         this.dao = builder.dao
         this.ctx = builder.ctx
         this.dir = builder.dir
-        this.runMaxQueuesNum = builder.runMaxQueuesNum
         this.breakpoint = builder.breakpoint
         this.overSameTask = builder.overSameTask
     }
 
-    override fun newCall(request: XmDownRequest): Call {
+    override fun newCall(request: AbsRequest): Call {
         return XmRealCall.newXmRealDown(this, request)
     }
 
@@ -38,12 +39,12 @@ class XmDownClient private constructor(private val builder: Builder) : Call.Fact
         /**
          * 任务分发器
          */
-        var dispatcher: XmDownDispatcher? = null
+        var dispatcher: IXmDownDispatcher? = null
 
         /**
          * 数据库
          */
-        var dao: XmDownDao? = null
+        var dao: IXmDownDao? = null
 
         /**
          * 上下文对象
@@ -54,11 +55,6 @@ class XmDownClient private constructor(private val builder: Builder) : Call.Fact
          * 下载路径
          */
         var dir: String = ""
-
-        /**
-         * 下载最大任务数量
-         */
-        var runMaxQueuesNum: Int = 1
 
         /**
          * true 断点下载
@@ -80,11 +76,6 @@ class XmDownClient private constructor(private val builder: Builder) : Call.Fact
             return this
         }
 
-        fun runMaxQueuesNum(runMaxQueuesNum: Int): Builder {
-            this.runMaxQueuesNum = runMaxQueuesNum
-            return this
-        }
-
         fun breakpoint(breakpoint: Boolean): Builder {
             this.breakpoint = breakpoint
             return this
@@ -93,6 +84,15 @@ class XmDownClient private constructor(private val builder: Builder) : Call.Fact
         fun overSameTask(overSameTask: Boolean): Builder {
             this.overSameTask = overSameTask
             return this
+        }
+
+        fun dao(dao: IXmDownDao): Builder {
+            this.dao = dao
+            return this
+        }
+
+        fun dispatcher(dispatcher: XmDownDispatcher) {
+            this.dispatcher = dispatcher
         }
 
         fun build(): XmDownClient {
@@ -105,15 +105,15 @@ class XmDownClient private constructor(private val builder: Builder) : Call.Fact
                 dir = Environment.getExternalStorageState() + File.separator
             }
 
-            if (runMaxQueuesNum < 1) {
-                runMaxQueuesNum = 1
+            //任务分发器
+            if (dispatcher == null) {
+                dispatcher = XmDownDispatcher(1)
             }
 
-            //创建分发器
-            dispatcher = XmDownDispatcher(runMaxQueuesNum)
-
-            //创建数据库
-            dao = XmDownDao(100, "xmDownloader", ctx)
+            //任务数据库
+            if (dao == null) {
+                dao = XmDownDao(100, "xmDownloader", ctx)
+            }
 
             //创建
             return XmDownClient(this)

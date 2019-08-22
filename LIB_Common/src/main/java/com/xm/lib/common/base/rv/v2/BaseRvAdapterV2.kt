@@ -10,6 +10,10 @@ class BaseRvAdapterV2 private constructor(val builder: Builder?) : RecyclerView.
         private const val TAG = "BaseRvAdapterV2"
     }
 
+    private fun log(msg:String){
+        BKLog.d(TAG, msg)
+    }
+
     override fun onCreateViewHolder(p0: ViewGroup, viewType: Int): BaseViewHolderV2 {
         val holderFactory = builder?.holderFactory!![viewType]
                 ?: throw IllegalAccessException("holderFactory is null")
@@ -20,10 +24,9 @@ class BaseRvAdapterV2 private constructor(val builder: Builder?) : RecyclerView.
 
     override fun getItemCount(): Int {
         return if (builder?.dataSource?.isEmpty()!!) {
-            BKLog.e(TAG, "dataSource is null getItemCount 0")
             0
         } else {
-            BKLog.d(TAG, "getItemCount: ${builder.dataSource.size}")
+            log("getItemCount: ${builder.dataSource.size}")
             builder.dataSource.size
         }
     }
@@ -39,17 +42,16 @@ class BaseRvAdapterV2 private constructor(val builder: Builder?) : RecyclerView.
     }
 
     override fun getItemViewType(position: Int): Int {
-        if (!builder?.holderFactory.isNullOrEmpty()) {
-            val beanCls = builder?.dataSource!![position].javaClass
+        if (!builder?.holderFactory?.isEmpty()!!) {
+            val beanCls = builder.dataSource[position].javaClass
             for (ent in builder.holderFactory.entries) {
                 val factory = ent.value
                 val contrastCls = factory.getItemViewType().first
                 if (beanCls == contrastCls) {
-                    BKLog.d(TAG, "getItemViewType: ${ent.key} - ${factory.getItemViewType().second}")
+                    log("getItemViewType: ${ent.key} - ${factory.getItemViewType().second}")
                     return ent.key // Holder Type 字符串转化的Int值
                 }
             }
-
         }
         //BKLog.e(TAG, "super.getItemViewType(position)")
         return super.getItemViewType(position)
@@ -61,7 +63,6 @@ class BaseRvAdapterV2 private constructor(val builder: Builder?) : RecyclerView.
         }
         return builder.dataSource
     }
-
 
     class Builder {
         val holderFactory: HashMap<Int, BaseViewHolderV2.Factory> = HashMap()
@@ -93,7 +94,7 @@ class BaseRvAdapterV2 private constructor(val builder: Builder?) : RecyclerView.
             for (s in str) {
                 value += s.toInt()
             }
-            BKLog.d(TAG, "viewType : $str viewTypeInt : $value")
+            //BKLog.d(TAG, "viewType : $str viewTypeInt : $value")
             return value
         }
 

@@ -7,7 +7,6 @@ import com.xm.lib.downloader.v2.state.XmDownState
  * 数据库操作实体bean
  */
 class XmDownDaoBean {
-
     var id = 0
     var url = ""
     var fileName = ""
@@ -16,11 +15,14 @@ class XmDownDaoBean {
     var state = XmDownState.NOT_STARTED
     var path = ""
 
-    /**
-     * 扩展的字段
-     */
+    /**************************/
+    /**以下字段不会存入数据库**/
+    /**************************/
+
+    //扩展的字段,在编辑是需要的
     var isEdit = false
     var isSelect = false
-    var error = XmDownError.UNKNOWN
 
+    //下载错误提示
+    var error = XmDownError.UNKNOWN
 }

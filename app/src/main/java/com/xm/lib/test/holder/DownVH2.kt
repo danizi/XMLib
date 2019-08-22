@@ -40,12 +40,12 @@ class DownVH2(itemView: View) : BaseViewHolderV2(itemView) {
             ui?.tvState?.text = ent.state
 
             //下载进度 & 下載总大小
-            if(ent.state==XmDownState.COMPLETE){
+            if (ent.state == XmDownState.COMPLETE) {
                 ui?.progressBar?.max = ent.total.toInt()
                 ui?.progressBar?.progress = ent.total.toInt()
                 ui?.tvProgress?.text = ent.total.toString()
                 ui?.tvTotal?.text = ent.total.toString()
-            }else{
+            } else {
                 ui?.progressBar?.max = ent.total.toInt()
                 ui?.progressBar?.progress = ent.progress.toInt()
                 ui?.tvProgress?.text = ent.progress.toString()

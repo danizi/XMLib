@@ -9,6 +9,7 @@ interface IXmDownDispatcher {
 
     /**
      * 加入队列
+     * @param downRunnable 下载接口
      */
     fun enqueue(downRunnable: XmRealCall.DownRunnable)
 
