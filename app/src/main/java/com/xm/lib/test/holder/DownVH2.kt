@@ -9,6 +9,7 @@ import android.widget.TextView
 import com.xm.lib.common.base.rv.v2.BaseViewHolderV2
 import com.xm.lib.common.log.BKLog
 import com.xm.lib.downloader.v2.db.XmDownDaoBean
+import com.xm.lib.downloader.v2.imp.Call
 import com.xm.lib.downloader.v2.state.XmDownState
 import com.xm.lib.test.R
 
@@ -60,6 +61,16 @@ class DownVH2(itemView: View) : BaseViewHolderV2(itemView) {
 
     }
 
+    class Factory : BaseViewHolderV2.Factory() {
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolderV2 {
+            return DownVH2(getView(parent.context, parent, R.layout.item_down_2))
+        }
+
+        override fun getItemViewType(): Pair<Class<*>, String> {
+            return Pair(Any::class.java, "DownVH2")
+        }
+    }
+
     private class UI private constructor(val ivSelect: CheckBox, val ivIcon: ImageView, val progressBar: ProgressBar, val tvName: TextView, val tvState: TextView, val tvProgress: TextView, val tvTotal: TextView) {
         companion object {
 
@@ -73,16 +84,6 @@ class DownVH2(itemView: View) : BaseViewHolderV2(itemView) {
                 val tvTotal = rootView.findViewById<View>(R.id.tv_total) as TextView
                 return UI(ivSelect, ivIcon, progressBar, tvName, tvState, tvProgress, tvTotal)
             }
-        }
-    }
-
-    class Factory : BaseViewHolderV2.Factory() {
-        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolderV2 {
-            return DownVH2(getView(parent.context, parent, R.layout.item_down_2))
-        }
-
-        override fun getItemViewType(): Pair<Class<*>, String> {
-            return Pair(Any::class.java, "DownVH2")
         }
     }
 }

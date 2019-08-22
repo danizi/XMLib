@@ -39,6 +39,10 @@ class DownloaderActContract {
 
         fun onDownloadFailed(obj: XmDownDaoBean)
 
+        /**
+         * 是否为编辑模式
+         */
+        fun edite(editMode: Boolean)
     }
 
     class M
@@ -58,21 +62,20 @@ class DownloaderActContract {
         )
         private val rvUpdateHandler = @SuppressLint("HandlerLeak")
         object : Handler() {
-
             override fun handleMessage(msg: Message?) {
                 super.handleMessage(msg)
                 when (msg?.what) {
 
                     parseInt(XmDownState.START) -> {
                         val obj = getXmDownDaoBean(msg.obj)
-                        downClient?.dao?.insert(obj)  //插入缓存数据库，注意：任务不存在才插入
+                        //downClient?.dao?.insert(obj)  //插入缓存数据库，注意：任务不存在才插入
                         v.onDownloadStart(obj)  //更新任务状态UI界面
                         BKLog.d(DownloaderAct.TAG, "${obj.fileName}任务开始...")
                     }
 
                     parseInt(XmDownState.CANCLE) -> {
                         val obj = getXmDownDaoBean(msg.obj)
-                        downClient?.dao?.delete(obj.url) //从数据库中删除任务
+                        //downClient?.dao?.delete(obj.url) //从数据库中删除任务
                         v.onDownloadCancel(obj)
                         BKLog.d(DownloaderAct.TAG, "${obj.fileName}任务取消...")
                     }
@@ -89,14 +92,14 @@ class DownloaderActContract {
 
                     parseInt(XmDownState.COMPLETE) -> {
                         val obj = getXmDownDaoBean(msg.obj)
-                        downClient?.dao?.updateComplete(obj.url) //数据库中更新任务下载完成状态
+                        //downClient?.dao?.updateComplete(obj.url) //数据库中更新任务下载完成状态
                         v.onDownloadComplete(obj)
                         BKLog.d(DownloaderAct.TAG, "${obj.fileName}任务完成...")
                     }
 
                     parseInt(XmDownState.ERROR) -> {
                         val obj = getXmDownDaoBean(msg.obj)
-                        downClient?.dao?.updateFailed(obj.url, obj.error)  //数据库中更新任务下载错误状态
+                        //downClient?.dao?.updateFailed(obj.url, obj.error)  //数据库中更新任务下载错误状态
                         v.onDownloadFailed(obj)
                         BKLog.d(DownloaderAct.TAG, "${obj.fileName}任务错误... error:${obj.error}")
                     }
@@ -143,10 +146,18 @@ class DownloaderActContract {
             }
         }
 
+        private var editMode = false
         fun clickEdit() {
+            editMode = !editMode
+            v?.edite(editMode)
         }
 
-        fun clickJump() {
+        fun clickDelete() {
+
+        }
+
+        fun clickDeleteAll() {
+
         }
 
         /**
@@ -197,7 +208,7 @@ class DownloaderActContract {
             if (state == XmDownState.RUNNING) {
                 // todo 进度刷新
                 val obj = request
-                downClient?.dao?.updateProgress(obj.url, obj.progress, obj.total)
+                //downClient?.dao?.updateProgress(obj.url, obj.progress, obj.total)
                 v.onDownloadProgress(request)
                 BKLog.d(DownloaderAct.TAG, "进度 : ${obj.progress} total : ${obj.total}")
             } else {

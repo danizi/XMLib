@@ -50,6 +50,7 @@ class XmDownDispatcher : IXmDownDispatcher {
         if (runningQueue.contains(downRunnable)) {
             BKLog.d(TAG, "任务完成 : ${downRunnable.getRequestUrl()}")
             try {
+                runningQueue.remove(downRunnable)
                 /**
                  * poll -->【若队列为空，返回null】
                  * remove >【若队列为空，抛出NoSuchElementException异常】
@@ -57,14 +58,11 @@ class XmDownDispatcher : IXmDownDispatcher {
                  */
                 val task = readyQueue.poll()
                 if (task != null) {
-                    //BKLog.d(TAG, "准备任务提取 :  ${task.request.b.url}")
-                    runningQueue.remove(downRunnable)
                     finishedQueue.add(downRunnable)
                     enqueue(task)
                 } else {
                     BKLog.d(TAG, "任务全部完成...")
                 }
-
             } catch (e: Exception) {
                 e.printStackTrace()
                 BKLog.e(TAG, "准备队列提交到线程池中失败 ${e.message}")

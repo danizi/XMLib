@@ -6,7 +6,7 @@ package com.xm.lib.downloader.v2.state
 object XmDownState {
     const val START = "队列中..."
     const val NOT_STARTED = "未下载"
-    const val RUNNING = "运行"
+    const val RUNNING = "下载中..."
     const val CANCLE = "取消"
     const val PAUSE = "暂停"
     const val COMPLETE = "完成"

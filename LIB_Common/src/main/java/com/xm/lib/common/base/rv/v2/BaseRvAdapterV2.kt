@@ -11,7 +11,7 @@ class BaseRvAdapterV2 private constructor(val builder: Builder?) : RecyclerView.
     }
 
     private fun log(msg:String){
-        BKLog.d(TAG, msg)
+        //BKLog.d(TAG, msg)
     }
 
     override fun onCreateViewHolder(p0: ViewGroup, viewType: Int): BaseViewHolderV2 {

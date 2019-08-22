@@ -1,6 +1,5 @@
 package com.xm.lib.downloader.v2.imp
 
-import com.xm.lib.downloader.v2.XmDownRequest
 import com.xm.lib.downloader.v2.abs.AbsRequest
 import com.xm.lib.downloader.v2.state.XmDownError
 
@@ -45,5 +44,19 @@ interface XmDownInterface {
         fun onDownloadFailed(request: AbsRequest, error: XmDownError)
     }
 
+    /**
+     * 下载接口回调
+     */
+    interface IXmRealCallListener : Callback {
+        /**
+         * 检查call是否已经完成
+         */
+        fun checkComplete(): Boolean
+
+        /**
+         * 检查下载空间
+         */
+        fun checkSpace(): Boolean
+    }
 
 }

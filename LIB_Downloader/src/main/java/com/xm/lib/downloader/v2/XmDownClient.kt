@@ -11,7 +11,7 @@ import com.xm.lib.downloader.v2.imp.IXmDownDispatcher
 import java.io.File
 
 /**
- * 下载管理器
+ * 下载客户端
  */
 class XmDownClient private constructor(private val builder: Builder) : Call.Factory {
 

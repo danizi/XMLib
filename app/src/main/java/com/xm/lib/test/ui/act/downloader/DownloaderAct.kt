@@ -20,6 +20,7 @@ import com.xm.lib.test.holder.DownVH2
 
 class DownloaderAct : MvpActivity<DownloaderActContract.P>(), DownloaderActContract.V {
 
+
     companion object {
         const val TAG = DownloaderActContract.TAG
     }
@@ -28,7 +29,8 @@ class DownloaderAct : MvpActivity<DownloaderActContract.P>(), DownloaderActContr
     private var btnInsert: Button? = null
     private var btnPauseAll: Button? = null
     private var btnEdit: Button? = null
-    private var btnJump: Button? = null
+    private var btnDeleteAll: Button? = null
+    private var btnDelete: Button? = null
     private var rvAdapter: BaseRvAdapterV2? = null
 
     override fun presenter(): DownloaderActContract.P {
@@ -50,7 +52,38 @@ class DownloaderAct : MvpActivity<DownloaderActContract.P>(), DownloaderActContr
         btnInsert = findViewById<View>(R.id.btn_insert) as Button
         btnPauseAll = findViewById<View>(R.id.btn_pause_all) as Button
         btnEdit = findViewById<View>(R.id.btn_edit) as Button
-        btnJump = findViewById<View>(R.id.btn_jump) as Button
+        btnDeleteAll = findViewById<View>(R.id.btn_delete_all) as Button
+        btnDelete = findViewById<View>(R.id.btn_delete) as Button
+    }
+
+    override fun iniData() {
+        rvAdapter = BaseRvAdapterV2.Builder()
+                .addDataResouce(ArrayList<Any>())
+                .addHolderFactory(DownVH2.Factory())
+                .build()
+        rv?.adapter = rvAdapter
+        rv?.layoutManager = LinearLayoutManager(this)
+        rv?.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
+    }
+
+    override fun iniEvent() {
+        btnInsert?.setOnClickListener {
+            p?.clickInsert()
+        }
+
+        btnPauseAll?.setOnClickListener {
+            p?.clickPauseAll()
+        }
+
+        btnEdit?.setOnClickListener {
+            p?.clickEdit()
+        }
+        btnDelete?.setOnClickListener {
+            p?.clickDelete()
+        }
+        btnDeleteAll?.setOnClickListener {
+            p?.clickDeleteAll()
+        }
     }
 
     override fun showToast(s: String) {
@@ -109,6 +142,7 @@ class DownloaderAct : MvpActivity<DownloaderActContract.P>(), DownloaderActContr
                     xmDownDaoBean.progress = progress
                     xmDownDaoBean.total = total
                 }
+                xmDownDaoBean.state = XmDownState.RUNNING
                 this@DownloaderAct.runOnUiThread {
                     rvAdapter?.notifyItemChanged(i)
                 }
@@ -142,32 +176,16 @@ class DownloaderAct : MvpActivity<DownloaderActContract.P>(), DownloaderActContr
         }
     }
 
-    override fun iniData() {
-        rvAdapter = BaseRvAdapterV2.Builder()
-                .addDataResouce(ArrayList<Any>())
-                .addHolderFactory(DownVH2.Factory())
-                .build()
-        rv?.adapter = rvAdapter
-        rv?.layoutManager = LinearLayoutManager(this)
-        rv?.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
-    }
-
-    override fun iniEvent() {
-        btnInsert?.setOnClickListener {
-            p?.clickInsert()
+    override fun edite(editMode: Boolean) {
+        val dataSource = rvAdapter?.getDataSource()
+        if (dataSource?.isEmpty()!!) {
+            return
         }
-
-        btnPauseAll?.setOnClickListener {
-            p?.clickPauseAll()
+        for (data in dataSource) {
+            val d = data as XmDownDaoBean
+            d.isEdit = editMode
         }
-
-        btnEdit?.setOnClickListener {
-            p?.clickEdit()
-        }
-
-        btnJump?.setOnClickListener {
-            p?.clickJump()
-        }
+        rvAdapter?.notifyDataSetChanged()
     }
 
     override fun onDestroy() {
