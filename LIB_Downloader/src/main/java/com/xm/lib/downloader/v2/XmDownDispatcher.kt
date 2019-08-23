@@ -68,7 +68,7 @@ class XmDownDispatcher : IXmDownDispatcher {
                 BKLog.e(TAG, "准备队列提交到线程池中失败 ${e.message}")
             }
         } else {
-            BKLog.e(TAG, "运行任务移除失败${downRunnable.getRequestUrl()}")
+            BKLog.e(TAG, "运行队列中不存在该任务 : ${downRunnable.getRequestUrl()}")
         }
     }
 
@@ -78,9 +78,9 @@ class XmDownDispatcher : IXmDownDispatcher {
             pool?.remove(downRunnable)
         }
 
-        if (readyQueue.contains(downRunnable)) {
-            readyQueue.remove(downRunnable)
-        }
+//        if (readyQueue.contains(downRunnable)) {
+//            readyQueue.remove(downRunnable)
+//        }
     }
 
     override fun cancelAll() {

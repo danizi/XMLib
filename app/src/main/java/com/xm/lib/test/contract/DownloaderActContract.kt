@@ -42,13 +42,24 @@ class DownloaderActContract {
         /**
          * 是否为编辑模式
          */
-        fun edite(editMode: Boolean)
+        fun edit(editMode: Boolean)
+
+        /**
+         * 删除选中任务项
+         */
+        fun deleteSelectItem()
+
+        /**
+         * 刷新
+         */
+        fun notification()
     }
 
     class M
 
     class P(private val context: Context, private val v: V) {
         val m = M()
+        private var editMode = false
         private var calls = ArrayList<Call>()
         private var downClient: XmDownClient? = null
         private var downIndex = 0
@@ -68,14 +79,12 @@ class DownloaderActContract {
 
                     parseInt(XmDownState.START) -> {
                         val obj = getXmDownDaoBean(msg.obj)
-                        //downClient?.dao?.insert(obj)  //插入缓存数据库，注意：任务不存在才插入
                         v.onDownloadStart(obj)  //更新任务状态UI界面
                         BKLog.d(DownloaderAct.TAG, "${obj.fileName}任务开始...")
                     }
 
                     parseInt(XmDownState.CANCLE) -> {
                         val obj = getXmDownDaoBean(msg.obj)
-                        //downClient?.dao?.delete(obj.url) //从数据库中删除任务
                         v.onDownloadCancel(obj)
                         BKLog.d(DownloaderAct.TAG, "${obj.fileName}任务取消...")
                     }
@@ -92,14 +101,12 @@ class DownloaderActContract {
 
                     parseInt(XmDownState.COMPLETE) -> {
                         val obj = getXmDownDaoBean(msg.obj)
-                        //downClient?.dao?.updateComplete(obj.url) //数据库中更新任务下载完成状态
                         v.onDownloadComplete(obj)
                         BKLog.d(DownloaderAct.TAG, "${obj.fileName}任务完成...")
                     }
 
                     parseInt(XmDownState.ERROR) -> {
                         val obj = getXmDownDaoBean(msg.obj)
-                        //downClient?.dao?.updateFailed(obj.url, obj.error)  //数据库中更新任务下载错误状态
                         v.onDownloadFailed(obj)
                         BKLog.d(DownloaderAct.TAG, "${obj.fileName}任务错误... error:${obj.error}")
                     }
@@ -139,25 +146,36 @@ class DownloaderActContract {
         }
 
         fun clickPauseAll() {
+            for (call in downClient?.calls!!) {
+                call.pause()
+            }
+        }
+
+        fun clickResumeAll() {
+            val cache = downClient?.dao?.selectAll()!!
+            if (cache.isNotEmpty()) {
+                for (ent in cache) {
+                    enqueue(ent.url)
+                }
+            }
+        }
+
+        fun clickEdit() {
+            editMode = !editMode
+            v.edit(editMode)
+        }
+
+        fun clickDelete() {
+            v.deleteSelectItem()
+        }
+
+        fun clickDeleteAll() {
             downClient?.dao?.updateAllState(XmDownState.NOT_STARTED)
             downClient?.dao?.deleteAll()
             if (com.xm.lib.common.util.file.FileUtil.delAll(File(downClient?.dir))) {
                 v.showToast("删除成功")
+                v.notification()
             }
-        }
-
-        private var editMode = false
-        fun clickEdit() {
-            editMode = !editMode
-            v?.edite(editMode)
-        }
-
-        fun clickDelete() {
-
-        }
-
-        fun clickDeleteAll() {
-
         }
 
         /**
@@ -208,7 +226,6 @@ class DownloaderActContract {
             if (state == XmDownState.RUNNING) {
                 // todo 进度刷新
                 val obj = request
-                //downClient?.dao?.updateProgress(obj.url, obj.progress, obj.total)
                 v.onDownloadProgress(request)
                 BKLog.d(DownloaderAct.TAG, "进度 : ${obj.progress} total : ${obj.total}")
             } else {
@@ -265,13 +282,24 @@ class DownloaderActContract {
             return xmDownDaoBean
         }
 
+        fun getDownClient(): XmDownClient? {
+            return downClient
+        }
+
         /**
          * 窗口退出暂停所有线程，这里通过一个flag来停止线程的，是在写入文件处停止的
          */
         fun onDestroy() {
-            for (call in calls) {
-                call.pause()
-            }
+
         }
+
+        /**
+         * 删除记录
+         */
+        fun deleteDao(url: String) {
+            downClient?.dao?.delete(url)
+        }
+
+
     }
 }

@@ -66,6 +66,7 @@ class XmRealCall(private var client: XmDownClient, private val request: AbsReque
         override fun onDownloadPause(request: AbsRequest) {
             callback?.onDownloadPause(request)
             client.dispatcher?.finished(downRunnable)
+            client.removeCall(this@XmRealCall)
         }
 
         override fun onDownloadProgress(request: AbsRequest, progress: Long, total: Long) {
@@ -78,12 +79,14 @@ class XmRealCall(private var client: XmDownClient, private val request: AbsReque
             callback?.onDownloadComplete(request)
             client.dao?.updateComplete(request.url)
             client.dispatcher?.finished(downRunnable)
+            client.removeCall(this@XmRealCall)
         }
 
         override fun onDownloadFailed(request: AbsRequest, error: XmDownError) {
             callback?.onDownloadFailed(request, error)
             client.dao?.updateFailed(request.url, error)
             client.dispatcher?.finished(downRunnable)
+            client.removeCall(this@XmRealCall)
         }
     }
 
@@ -247,7 +250,7 @@ class XmRealCall(private var client: XmDownClient, private val request: AbsReque
                 callbackHandler.onDownloadFailed(request, XmDownError.UNKNOWN)
             } finally {
                 inputStream?.close()
-                client.dispatcher?.finished(call.downRunnable)
+                //client.dispatcher?.finished(call.downRunnable)
             }
         }
 
@@ -286,7 +289,7 @@ class XmRealCall(private var client: XmDownClient, private val request: AbsReque
 
         fun cancel() {
             cancel = true
-            client.dispatcher?.cancel(this)
+            //client.dispatcher?.cancel(this)
         }
     }
 }

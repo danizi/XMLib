@@ -3,18 +3,21 @@ package com.xm.lib.downloader.v2
 import android.content.Context
 import android.os.Environment
 import android.text.TextUtils
+import com.xm.lib.common.log.BKLog
 import com.xm.lib.downloader.v2.abs.AbsRequest
 import com.xm.lib.downloader.v2.db.XmDownDao
 import com.xm.lib.downloader.v2.imp.Call
 import com.xm.lib.downloader.v2.imp.IXmDownDao
 import com.xm.lib.downloader.v2.imp.IXmDownDispatcher
 import java.io.File
+import java.util.concurrent.LinkedBlockingQueue
 
 /**
  * 下载客户端
  */
 class XmDownClient private constructor(private val builder: Builder) : Call.Factory {
 
+    var calls = LinkedBlockingQueue<XmRealCall>()
     var dispatcher: IXmDownDispatcher? = null
     var dao: IXmDownDao? = null
     var ctx: Context? = null
@@ -32,7 +35,17 @@ class XmDownClient private constructor(private val builder: Builder) : Call.Fact
     }
 
     override fun newCall(request: AbsRequest): Call {
-        return XmRealCall.newXmRealDown(this, request)
+        val call = XmRealCall.newXmRealDown(this, request)
+        calls.add(call)
+        return call
+    }
+
+    override fun removeCall(call: XmRealCall) {
+        if (calls.contains(call)) {
+            if (calls.remove(call)) {
+                BKLog.d("${call.request().fileName}删除成功...")
+            }
+        }
     }
 
     class Builder {
@@ -107,7 +120,7 @@ class XmDownClient private constructor(private val builder: Builder) : Call.Fact
 
             //任务分发器
             if (dispatcher == null) {
-                dispatcher = XmDownDispatcher(1)
+                dispatcher = XmDownDispatcher(3)
             }
 
             //任务数据库

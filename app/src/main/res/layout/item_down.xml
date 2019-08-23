@@ -64,7 +64,7 @@
         android:id="@+id/tv_state"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="state"
+        android:text="xmDownState"
         app:layout_constraintBottom_toBottomOf="@+id/iv_icon"
         app:layout_constraintStart_toStartOf="@+id/tv_name" />
 

@@ -20,7 +20,6 @@ import com.xm.lib.test.holder.DownVH2
 
 class DownloaderAct : MvpActivity<DownloaderActContract.P>(), DownloaderActContract.V {
 
-
     companion object {
         const val TAG = DownloaderActContract.TAG
     }
@@ -28,9 +27,11 @@ class DownloaderAct : MvpActivity<DownloaderActContract.P>(), DownloaderActContr
     private var rv: RecyclerView? = null
     private var btnInsert: Button? = null
     private var btnPauseAll: Button? = null
+    private var btnResumeAll: Button? = null
     private var btnEdit: Button? = null
     private var btnDeleteAll: Button? = null
     private var btnDelete: Button? = null
+
     private var rvAdapter: BaseRvAdapterV2? = null
 
     override fun presenter(): DownloaderActContract.P {
@@ -51,6 +52,7 @@ class DownloaderAct : MvpActivity<DownloaderActContract.P>(), DownloaderActContr
         rv = findViewById<View>(R.id.rv) as RecyclerView
         btnInsert = findViewById<View>(R.id.btn_insert) as Button
         btnPauseAll = findViewById<View>(R.id.btn_pause_all) as Button
+        btnResumeAll = findViewById<View>(R.id.btn_resume_all) as Button
         btnEdit = findViewById<View>(R.id.btn_edit) as Button
         btnDeleteAll = findViewById<View>(R.id.btn_delete_all) as Button
         btnDelete = findViewById<View>(R.id.btn_delete) as Button
@@ -59,7 +61,7 @@ class DownloaderAct : MvpActivity<DownloaderActContract.P>(), DownloaderActContr
     override fun iniData() {
         rvAdapter = BaseRvAdapterV2.Builder()
                 .addDataResouce(ArrayList<Any>())
-                .addHolderFactory(DownVH2.Factory())
+                .addHolderFactory(DownVH2.Factory(p?.getDownClient()))
                 .build()
         rv?.adapter = rvAdapter
         rv?.layoutManager = LinearLayoutManager(this)
@@ -75,12 +77,18 @@ class DownloaderAct : MvpActivity<DownloaderActContract.P>(), DownloaderActContr
             p?.clickPauseAll()
         }
 
+        btnResumeAll?.setOnClickListener {
+            p?.clickResumeAll()
+        }
+
         btnEdit?.setOnClickListener {
             p?.clickEdit()
         }
+
         btnDelete?.setOnClickListener {
             p?.clickDelete()
         }
+
         btnDeleteAll?.setOnClickListener {
             p?.clickDeleteAll()
         }
@@ -176,15 +184,45 @@ class DownloaderAct : MvpActivity<DownloaderActContract.P>(), DownloaderActContr
         }
     }
 
-    override fun edite(editMode: Boolean) {
+    override fun edit(editMode: Boolean) {
         val dataSource = rvAdapter?.getDataSource()
         if (dataSource?.isEmpty()!!) {
             return
         }
         for (data in dataSource) {
             val d = data as XmDownDaoBean
+
+            if (!editMode) {
+                d.isSelect = false
+            }
+
             d.isEdit = editMode
         }
+
+        rvAdapter?.notifyDataSetChanged()
+    }
+
+    override fun deleteSelectItem() {
+        val dataSource = rvAdapter?.getDataSource()
+        if (dataSource?.isEmpty()!!) {
+            return
+        }
+        /**
+         * 迭代器处理 ConcurrentModificationException 错误
+         */
+        val it = dataSource.iterator()
+        while (it.hasNext()) {
+            val d = it.next() as XmDownDaoBean
+            if (d.isSelect) {
+                p?.deleteDao(d.url)
+                dataSource.remove(d)
+            }
+        }
+        rvAdapter?.notifyDataSetChanged()
+    }
+
+    override fun notification() {
+        rvAdapter?.getDataSource()?.clear()
         rvAdapter?.notifyDataSetChanged()
     }
 

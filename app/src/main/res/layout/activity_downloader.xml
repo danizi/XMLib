@@ -37,6 +37,12 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="暂停所有" />
+        <Button
+            android:id="@+id/btn_resume_all"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="恢复所有" />
 
         <Button
             android:id="@+id/btn_delete_all"

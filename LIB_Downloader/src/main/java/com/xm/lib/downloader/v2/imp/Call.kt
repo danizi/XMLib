@@ -1,6 +1,6 @@
 package com.xm.lib.downloader.v2.imp
 
-import com.xm.lib.downloader.v2.XmDownRequest
+import com.xm.lib.downloader.v2.XmRealCall
 import com.xm.lib.downloader.v2.abs.AbsRequest
 
 /**
@@ -46,6 +46,14 @@ interface Call {
      * 创建工厂接口
      */
     interface Factory {
+        /**
+         * 创建call
+         */
         fun newCall(request: AbsRequest): Call
+
+        /**
+         * 删除call
+         */
+        fun removeCall(call: XmRealCall)
     }
 }
