@@ -46,6 +46,12 @@ class DownVH2(private val downClient: XmDownClient?, itemView: View) : BaseViewH
             //是否为编辑状态
             if (ent.isEdit) {
                 ui?.ivSelect?.visibility = View.VISIBLE
+                ui?.ivSelect?.isChecked = ent.isSelect
+                ui?.ivSelect?.setOnCheckedChangeListener { buttonView, isChecked ->
+                    //修改指定索引的选中标志
+                    val xmDownDaoBean = adapter.getDataSource()[pos] as XmDownDaoBean
+                    xmDownDaoBean.isSelect = isChecked
+                }
             } else {
                 ui?.ivSelect?.visibility = View.INVISIBLE
             }
@@ -73,10 +79,6 @@ class DownVH2(private val downClient: XmDownClient?, itemView: View) : BaseViewH
             }
 
 
-            ui?.ivSelect?.setOnCheckedChangeListener { buttonView, isChecked ->
-                val xmDownDaoBean = adapter.getDataSource()[pos] as XmDownDaoBean
-                xmDownDaoBean.isSelect = isChecked
-            }
         } else {
             BKLog.e("data not XmDownDaoBean")
         }

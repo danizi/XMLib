@@ -120,7 +120,7 @@ class XmDownClient private constructor(private val builder: Builder) : Call.Fact
 
             //任务分发器
             if (dispatcher == null) {
-                dispatcher = XmDownDispatcher(3)
+                dispatcher = XmDownDispatcher(1)
             }
 
             //任务数据库

@@ -30,6 +30,7 @@ class XmDownDao(private var version: Int, private var name: String, private var 
             daoHelp?.writableDatabase?.execSQL(XmDownDaoContract.SQL_INSERT, arrayOf(
                     bean.url,
                     bean.fileName,
+                    bean.path,
                     bean.total,
                     bean.progress,
                     bean.state
@@ -82,9 +83,10 @@ class XmDownDao(private var version: Int, private var name: String, private var 
                 val downDaoBean = XmDownDaoBean()
                 downDaoBean.url = cursor.getString(1)
                 downDaoBean.fileName = cursor.getString(2)
-                downDaoBean.total = cursor.getLong(3)
-                downDaoBean.progress = cursor.getLong(4)
-                downDaoBean.state = cursor.getString(5)
+                downDaoBean.path = cursor.getString(3)
+                downDaoBean.total = cursor.getLong(4)
+                downDaoBean.progress = cursor.getLong(5)
+                downDaoBean.state = cursor.getString(6)
                 downDaoBeans.add(downDaoBean)
             }
 
@@ -111,9 +113,10 @@ class XmDownDao(private var version: Int, private var name: String, private var 
                 val downDaoBean = XmDownDaoBean()
                 downDaoBean.url = cursor.getString(1)
                 downDaoBean.fileName = cursor.getString(2)
-                downDaoBean.total = cursor.getLong(3)
-                downDaoBean.progress = cursor.getLong(4)
-                downDaoBean.state = cursor.getString(5)
+                downDaoBean.path = cursor.getString(3)
+                downDaoBean.total = cursor.getLong(4)
+                downDaoBean.progress = cursor.getLong(5)
+                downDaoBean.state = cursor.getString(6)
                 downDaoBeans.add(downDaoBean)
             }
             if (downDaoBeans.size > 1) {

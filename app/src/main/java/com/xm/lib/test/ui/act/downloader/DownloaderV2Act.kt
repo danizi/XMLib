@@ -15,10 +15,9 @@ import com.xm.lib.test.contract.DownloaderActContract
 import com.xm.lib.test.holder.DownVH2
 
 /**
- * 下载模块相关测试
+ * version 2 普通下载模块相关测试
  */
-
-class DownloaderAct : MvpActivity<DownloaderActContract.P>(), DownloaderActContract.V {
+class DownloaderV2Act : MvpActivity<DownloaderActContract.P>(), DownloaderActContract.V {
 
     companion object {
         const val TAG = DownloaderActContract.TAG
@@ -151,7 +150,7 @@ class DownloaderAct : MvpActivity<DownloaderActContract.P>(), DownloaderActContr
                     xmDownDaoBean.total = total
                 }
                 xmDownDaoBean.state = XmDownState.RUNNING
-                this@DownloaderAct.runOnUiThread {
+                this@DownloaderV2Act.runOnUiThread {
                     rvAdapter?.notifyItemChanged(i)
                 }
                 break
@@ -195,7 +194,6 @@ class DownloaderAct : MvpActivity<DownloaderActContract.P>(), DownloaderActContr
             if (!editMode) {
                 d.isSelect = false
             }
-
             d.isEdit = editMode
         }
 
@@ -208,14 +206,15 @@ class DownloaderAct : MvpActivity<DownloaderActContract.P>(), DownloaderActContr
             return
         }
         /**
-         * 迭代器处理 ConcurrentModificationException 错误
+         * 迭代器处理 ConcurrentModificationException 错误,这里必须使用迭代器处理
          */
         val it = dataSource.iterator()
         while (it.hasNext()) {
             val d = it.next() as XmDownDaoBean
             if (d.isSelect) {
-                p?.deleteDao(d.url)
-                dataSource.remove(d)
+                p?.cancelDownloaderThread(d.url)
+                p?.deleteLocalCache(d.url)
+                it.remove()
             }
         }
         rvAdapter?.notifyDataSetChanged()

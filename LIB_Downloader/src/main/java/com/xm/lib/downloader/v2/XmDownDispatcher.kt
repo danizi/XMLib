@@ -1,6 +1,7 @@
 package com.xm.lib.downloader.v2
 
 import com.xm.lib.common.log.BKLog
+import com.xm.lib.downloader.v2.abs.AbsRunnable
 import com.xm.lib.downloader.v2.imp.IXmDownDispatcher
 import java.util.concurrent.ArrayBlockingQueue
 import java.util.concurrent.LinkedBlockingQueue
@@ -14,9 +15,9 @@ class XmDownDispatcher : IXmDownDispatcher {
 
     private var runningQueueNum = 1
     private var pool: ThreadPoolExecutor? = null
-    private val runningQueue = LinkedBlockingQueue<XmRealCall.DownRunnable>()
-    private val readyQueue = LinkedBlockingQueue<XmRealCall.DownRunnable>()
-    private val finishedQueue = LinkedBlockingQueue<XmRealCall.DownRunnable>()
+    private val runningQueue = LinkedBlockingQueue<AbsRunnable>()
+    private val readyQueue = LinkedBlockingQueue<AbsRunnable>()
+    private val finishedQueue = LinkedBlockingQueue<AbsRunnable>()
 
     constructor(runningQueueNum: Int) {
         this.runningQueueNum = runningQueueNum
@@ -35,7 +36,7 @@ class XmDownDispatcher : IXmDownDispatcher {
         const val TAG = "XmDownDispatcher"
     }
 
-    override fun enqueue(downRunnable: XmRealCall.DownRunnable) {
+    override fun enqueue(downRunnable: AbsRunnable) {
         if (runningQueue.size < runningQueueNum) {
             runningQueue.add(downRunnable)
             pool?.submit(downRunnable)
@@ -46,7 +47,7 @@ class XmDownDispatcher : IXmDownDispatcher {
         }
     }
 
-    override fun finished(downRunnable: XmRealCall.DownRunnable) {
+    override fun finished(downRunnable: AbsRunnable) {
         if (runningQueue.contains(downRunnable)) {
             BKLog.d(TAG, "任务完成 : ${downRunnable.getRequestUrl()}")
             try {
@@ -72,10 +73,13 @@ class XmDownDispatcher : IXmDownDispatcher {
         }
     }
 
-    override fun cancel(downRunnable: XmRealCall.DownRunnable) {
+    override fun cancel(downRunnable: AbsRunnable) {
         if (runningQueue.contains(downRunnable)) {
-            runningQueue.remove(downRunnable)
+            downRunnable.cancel()
             pool?.remove(downRunnable)
+            //runningQueue.remove(downRunnable)
+            //取消下载，就是从runningQueue
+            finished(downRunnable)
         }
 
 //        if (readyQueue.contains(downRunnable)) {
@@ -87,6 +91,7 @@ class XmDownDispatcher : IXmDownDispatcher {
         for (running in runningQueue) {
             pool?.remove(running)
         }
+        runningQueue.clear()
         readyQueue.clear()
     }
 }

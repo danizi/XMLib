@@ -2,7 +2,7 @@ package com.xm.lib.test.utils
 
 import android.app.Activity
 import android.content.Intent
-import com.xm.lib.test.ui.act.downloader.DownloaderAct
+import com.xm.lib.test.ui.act.downloader.DownloaderV2Act
 import com.xm.lib.test.ui.act.*
 
 /**
@@ -18,7 +18,7 @@ object IntoTarget {
                 act?.startActivity(Intent(act, ComponentAct::class.java))
             }
             "Downloader" -> {
-                act?.startActivity(Intent(act, DownloaderAct::class.java))
+                act?.startActivity(Intent(act, DownloaderV2Act::class.java))
             }
             "Media" -> {
                 act?.startActivity(Intent(act, MediaAct::class.java))

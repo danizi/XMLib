@@ -10,15 +10,16 @@ class XmDownDaoBean {
     var id = 0
     var url = ""
     var fileName = ""
+    var path = ""
+    var fileLength = 0L
     var total = 0L
     var progress = 0L
     var state = XmDownState.NOT_STARTED
-    var path = ""
+
 
     /**************************/
     /**以下字段不会存入数据库**/
     /**************************/
-
     //扩展的字段,在编辑是需要的
     var isEdit = false
     var isSelect = false

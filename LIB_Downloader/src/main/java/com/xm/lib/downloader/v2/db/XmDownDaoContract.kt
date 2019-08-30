@@ -8,6 +8,7 @@ object XmDownDaoContract {
     private const val column_id = "id"
     private const val column_url = "url"
     private const val column_fileName = "fileName"
+    private const val column_path = "path"
     private const val column_total = "total"
     private const val column_progress = "progress"
     private const val column_state = "state"
@@ -19,6 +20,7 @@ object XmDownDaoContract {
             "$column_id integer primary key autoincrement," +
             "$column_url varchar(255) not null," +
             "$column_fileName varchar(255) not null," +
+            "$column_path varchar(255) not null," +
             "$column_total integer default 0," +
             "$column_progress integer default 0, " +
             "$column_state varchar(255) not null" +
@@ -30,9 +32,10 @@ object XmDownDaoContract {
     const val SQL_INSERT = "insert into $tableName (" +
             "$column_url," +
             "$column_fileName," +
+            "$column_path," +
             "$column_total," +
             "$column_progress," +
-            "$column_state)values (?,?,?,?,?);"
+            "$column_state)values (?,?,?,?,?,?);"
 
     /**
      * 删除所有数据

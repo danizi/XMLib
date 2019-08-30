@@ -7,6 +7,7 @@ import android.os.Handler
 import android.os.Message
 import com.xm.lib.common.log.BKLog
 import com.xm.lib.downloader.utils.CommonUtil
+import com.xm.lib.downloader.utils.FileUtil
 import com.xm.lib.downloader.v2.XmDownClient
 import com.xm.lib.downloader.v2.XmDownRequest
 import com.xm.lib.downloader.v2.abs.AbsRequest
@@ -15,13 +16,13 @@ import com.xm.lib.downloader.v2.imp.Call
 import com.xm.lib.downloader.v2.imp.XmDownInterface
 import com.xm.lib.downloader.v2.state.XmDownError
 import com.xm.lib.downloader.v2.state.XmDownState
-import com.xm.lib.test.ui.act.downloader.DownloaderAct
+import com.xm.lib.test.ui.act.downloader.DownloaderV2Act
 import java.io.File
 
 class DownloaderActContract {
 
     companion object {
-        const val TAG = "DownloaderAct"
+        const val TAG = "DownloaderV2Act"
     }
 
     interface V {
@@ -80,19 +81,19 @@ class DownloaderActContract {
                     parseInt(XmDownState.START) -> {
                         val obj = getXmDownDaoBean(msg.obj)
                         v.onDownloadStart(obj)  //更新任务状态UI界面
-                        BKLog.d(DownloaderAct.TAG, "${obj.fileName}任务开始...")
+                        BKLog.d(DownloaderV2Act.TAG, "${obj.fileName}任务开始...")
                     }
 
                     parseInt(XmDownState.CANCLE) -> {
                         val obj = getXmDownDaoBean(msg.obj)
                         v.onDownloadCancel(obj)
-                        BKLog.d(DownloaderAct.TAG, "${obj.fileName}任务取消...")
+                        BKLog.d(DownloaderV2Act.TAG, "${obj.fileName}任务取消...")
                     }
 
                     parseInt(XmDownState.PAUSE) -> {
                         val obj = getXmDownDaoBean(msg.obj)
                         v.onDownloadPause(obj)
-                        BKLog.d(DownloaderAct.TAG, "${obj.fileName}任务暂停...")
+                        BKLog.d(DownloaderV2Act.TAG, "${obj.fileName}任务暂停...")
                     }
 
                     parseInt(XmDownState.RUNNING) -> {
@@ -102,13 +103,13 @@ class DownloaderActContract {
                     parseInt(XmDownState.COMPLETE) -> {
                         val obj = getXmDownDaoBean(msg.obj)
                         v.onDownloadComplete(obj)
-                        BKLog.d(DownloaderAct.TAG, "${obj.fileName}任务完成...")
+                        BKLog.d(DownloaderV2Act.TAG, "${obj.fileName}任务完成...")
                     }
 
                     parseInt(XmDownState.ERROR) -> {
                         val obj = getXmDownDaoBean(msg.obj)
                         v.onDownloadFailed(obj)
-                        BKLog.d(DownloaderAct.TAG, "${obj.fileName}任务错误... error:${obj.error}")
+                        BKLog.d(DownloaderV2Act.TAG, "${obj.fileName}任务错误... error:${obj.error}")
                     }
                 }
             }
@@ -166,10 +167,15 @@ class DownloaderActContract {
         }
 
         fun clickDelete() {
+            //删除
             v.deleteSelectItem()
         }
 
         fun clickDeleteAll() {
+            //终止所有下载线程
+            downClient?.dispatcher?.cancelAll()
+
+            //清除数据库
             downClient?.dao?.updateAllState(XmDownState.NOT_STARTED)
             downClient?.dao?.deleteAll()
             if (com.xm.lib.common.util.file.FileUtil.delAll(File(downClient?.dir))) {
@@ -227,7 +233,7 @@ class DownloaderActContract {
                 // todo 进度刷新
                 val obj = request
                 v.onDownloadProgress(request)
-                BKLog.d(DownloaderAct.TAG, "进度 : ${obj.progress} total : ${obj.total}")
+                BKLog.d(DownloaderV2Act.TAG, "进度 : ${obj.progress} total : ${obj.total}")
             } else {
                 val msg = rvUpdateHandler.obtainMessage()
                 msg.what = parseInt(state)
@@ -294,12 +300,24 @@ class DownloaderActContract {
         }
 
         /**
-         * 删除记录
+         * 删除本地缓存记录
          */
-        fun deleteDao(url: String) {
+        fun deleteLocalCache(url: String) {
+            for (bean in downClient?.dao?.select(url)!!) {
+                BKLog.d("${bean.path} 删除状态: ${FileUtil.del(File(bean.path))}")
+            }
             downClient?.dao?.delete(url)
         }
 
-
+        fun cancelDownloaderThread(url: String) {
+            //终止选中下载线程
+            for (call in downClient?.calls!!) {
+                if (call.request().url == url) {
+                    call.downRunnable.cancel()
+                    downClient?.dispatcher?.cancel(call.downRunnable)
+                    break
+                }
+            }
+        }
     }
 }
