@@ -33,6 +33,7 @@ class MainActivity : AppCompatActivity() {
         items.add("Share")
         items.add("Statistics")
         items.add("Web")
+        items.add("PrimaryTest")
         return items
     }
 }

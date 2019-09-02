@@ -35,6 +35,41 @@ object IntoTarget {
             "Web" -> {
                 act?.startActivity(Intent(act, WebAct::class.java))
             }
+            "PrimaryTest" -> {
+                act?.startActivity(Intent(act, PrimaryTestActivity::class.java))
+            }
+
+            PrimaryActivity::class.java.simpleName -> {
+                act?.startActivity(Intent(act, PrimaryActivity::class.java))
+            }
+
+            PrimaryActivityB::class.java.simpleName -> {
+                act?.startActivity(Intent(act, PrimaryActivityB::class.java))
+            }
+
+            PrimaryCache::class.java.simpleName -> {
+                act?.startActivity(Intent(act, PrimaryCache::class.java))
+            }
+
+            PrimaryAni::class.java.simpleName -> {
+                act?.startActivity(Intent(act, PrimaryCache::class.java))
+            }
+
+            PrimaryStandard::class.java.simpleName -> {
+                act?.startActivity(Intent(act, PrimaryStandard::class.java))
+            }
+
+            PrimarySingleTop::class.java.simpleName -> {
+                act?.startActivity(Intent(act, PrimarySingleTop::class.java))
+            }
+
+            PrimarySingleTask::class.java.simpleName -> {
+                act?.startActivity(Intent(act, PrimarySingleTask::class.java))
+            }
+
+            PrimarySingleInstance::class.java.simpleName -> {
+                act?.startActivity(Intent(act, PrimarySingleInstance::class.java))
+            }
         }
     }
 }

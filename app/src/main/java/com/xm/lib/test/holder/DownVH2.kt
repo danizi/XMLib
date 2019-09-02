@@ -178,4 +178,8 @@ class DownVH2(private val downClient: XmDownClient?, itemView: View) : BaseViewH
             }
         }
     }
+
+
+
+
 }

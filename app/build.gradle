@@ -44,4 +44,6 @@ dependencies {
     implementation project(':LIB_Statistics')
     implementation project(':LIB_Web')
 
+    //报错 KotlinReflectionNotSupportedError: Kotlin reflection implementation is not found at runtime. Make sure you have kotlin-reflect.jar in the classpath
+    implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
 }

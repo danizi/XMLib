@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ui.act.PrimaryActivity"
+    tools:ignore="HardcodedText">
+
+    <Button
+        android:id="@+id/btn_start_b_result"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="携带【消息】跳转到B窗口 - B点击返回键返回【结果】" />
+
+    <Button
+        android:id="@+id/btn_start_b_no_result"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="跳转到B窗口 - 查看生命周期" />
+
+    <Button
+        android:id="@+id/btn_change_life_1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="切换成横屏 - 保存状态" />
+
+    <Button
+        android:id="@+id/btn_change_life_2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="弹出对话框 - 查看生命周期" />
+
+    <!--启动模式-->
+    <Button
+        android:id="@+id/btn_standard"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="标准模式 - Standard "
+        android:textAllCaps="false" />
+
+    <Button
+        android:id="@+id/btn_single_top"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="栈顶复用模式 - SingleTop "
+        android:textAllCaps="false" />
+
+    <Button
+        android:id="@+id/btn_single_task"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="栈内复用模式 - SingleTask "
+        android:textAllCaps="false" />
+
+    <Button
+        android:id="@+id/btn_single_instance"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="单实例模式 - SingleInstance "
+        android:textAllCaps="false" />
+
+</LinearLayout>
