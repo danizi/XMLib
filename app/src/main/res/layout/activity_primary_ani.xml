@@ -4,7 +4,40 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.act.PrimaryAni">
+    tools:context=".ui.act.PrimaryAni"
+    tools:ignore="HardcodedText">
 
+    <TextView
+        android:id="@+id/tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="一个栗子" />
+
+    <Button
+        android:id="@+id/btn_value_animator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:text="valueAnimatorTestByCode"
+        android:textAllCaps="false"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+    <Button
+        android:id="@+id/btn_object_animator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:text="objectAnimatorByCode"
+        android:textAllCaps="false"
+        app:layout_constraintBottom_toTopOf="@+id/btn_value_animator" />
+
+    <Button
+        android:id="@+id/btn_animator_set"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:text="AnimatorSetByCode"
+        android:textAllCaps="false"
+        app:layout_constraintBottom_toTopOf="@+id/btn_object_animator" />
 
 </android.support.constraint.ConstraintLayout>

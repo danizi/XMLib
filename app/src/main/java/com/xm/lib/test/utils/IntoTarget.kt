@@ -52,7 +52,7 @@ object IntoTarget {
             }
 
             PrimaryAni::class.java.simpleName -> {
-                act?.startActivity(Intent(act, PrimaryCache::class.java))
+                act?.startActivity(Intent(act, PrimaryAni::class.java))
             }
 
             PrimaryStandard::class.java.simpleName -> {
