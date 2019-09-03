@@ -1,4 +1,4 @@
-package com.xm.lib.test.adapter
+package com.xm.lib.common.base.adapter
 
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
@@ -6,9 +6,9 @@ import android.support.v4.app.FragmentStatePagerAdapter
 import com.xm.lib.common.log.BKLog
 
 /**
- * ViewPager适配器
+ * ViewPager + Fragment 适配器
  */
-class VPAdapter private constructor(private val builder: Builder?, private val fm: FragmentManager?) : FragmentStatePagerAdapter(fm) {
+class BaseVpAdapter private constructor(private val builder: Builder?, private val fm: FragmentManager?) : FragmentStatePagerAdapter(fm) {
 
     override fun getItem(p0: Int): Fragment? {
         for (ent in builder?.tabs?.entries!!) {
@@ -52,8 +52,8 @@ class VPAdapter private constructor(private val builder: Builder?, private val f
             return this
         }
 
-        fun builder(): VPAdapter {
-            return VPAdapter(this, fm)
+        fun builder(): BaseVpAdapter {
+            return BaseVpAdapter(this, fm)
         }
     }
 }

@@ -39,8 +39,8 @@ object IntoTarget {
                 act?.startActivity(Intent(act, PrimaryTestActivity::class.java))
             }
 
-            PrimaryActivity::class.java.simpleName -> {
-                act?.startActivity(Intent(act, PrimaryActivity::class.java))
+            PrimaryActivityA::class.java.simpleName -> {
+                act?.startActivity(Intent(act, PrimaryActivityA::class.java))
             }
 
             PrimaryActivityB::class.java.simpleName -> {

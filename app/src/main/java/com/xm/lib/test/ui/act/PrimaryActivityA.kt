@@ -47,7 +47,7 @@ import com.xm.lib.test.utils.IntoTarget
  *
  * 通讯
  */
-class PrimaryActivity : AppCompatActivity() {
+class PrimaryActivityA : AppCompatActivity() {
 
     companion object {
         const val TAG = "PrimaryActivityA"
@@ -194,5 +194,4 @@ class PrimaryActivity : AppCompatActivity() {
             }
         }
     }
-
 }

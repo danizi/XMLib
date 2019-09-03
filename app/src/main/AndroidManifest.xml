@@ -46,7 +46,7 @@
         <activity android:name=".ui.act.downloader.M3u8DownloaderV2Act" />
         <activity android:name=".ui.act.PrimaryTestActivity" />
         <activity
-            android:name=".ui.act.PrimaryActivity"
+            android:name=".ui.act.PrimaryActivityA"
             android:configChanges="keyboardHidden|orientation|screenSize|navigation|keyboard" />
         <activity android:name=".ui.act.PrimaryService" />
         <activity android:name=".ui.act.PrimaryBroadcast" />

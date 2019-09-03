@@ -31,7 +31,7 @@ class PrimaryTestActivity : BaseActivity() {
     }
 
     override fun iniEvent() {
-        ui?.activity?.setOnClickListener { IntoTarget.start(PrimaryActivity::class.simpleName, this) }
+        ui?.activity?.setOnClickListener { IntoTarget.start(PrimaryActivityA::class.simpleName, this) }
         ui?.service?.setOnClickListener { IntoTarget.start(PrimaryService::class.simpleName, this) }
         ui?.broadcast?.setOnClickListener { IntoTarget.start(PrimaryBroadcast::class.simpleName, this) }
         ui?.contentprovider?.setOnClickListener { IntoTarget.start(PrimaryContentProvider::class.simpleName, this) }

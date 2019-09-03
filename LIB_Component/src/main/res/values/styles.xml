@@ -22,4 +22,8 @@
         <item name="android:windowExitAnimation">@anim/pop_out</item>
     </style>
 
+    <style name="TabLayoutSize" parent="TextAppearance.Design.Tab">
+        <item name="android:textSize">24sp</item>
+    </style>
+
 </resources>
