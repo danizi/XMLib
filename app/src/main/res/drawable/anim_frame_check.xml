@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animated-selector xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:state_checked="false"
+    tools:ignore="NewApi">
+
+
+    <item
+        android:id="@+id/state_on"
+        android:drawable="@drawable/frame_01" />
+
+    <item
+        android:id="@+id/state_off"
+        android:drawable="@drawable/frame_02" />
+
+    <transition
+        android:fromId="@+id/state_on"
+        android:toId="@+id/state_off">
+        <animation-list>
+            <item />
+            <item />
+            <item />
+            <item />
+        </animation-list>
+    </transition>
+
+</animated-selector>

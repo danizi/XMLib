@@ -13,14 +13,17 @@ import android.support.constraint.ConstraintLayout
 import android.text.TextUtils
 import android.util.AttributeSet
 import android.util.Log
-import android.view.*
+import android.view.MotionEvent
+import android.view.SurfaceHolder
+import android.view.SurfaceView
+import android.view.ViewGroup
 import android.view.ViewTreeObserver.OnGlobalLayoutListener
 import android.widget.FrameLayout
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
+import com.xm.lib.common.helper.TimerHelper
 import com.xm.lib.common.log.BKLog
 import com.xm.lib.common.util.ScreenUtil
-import com.xm.lib.common.helper.TimerHelper
 import com.xm.lib.media.attachment.BaseAttachmentView
 import com.xm.lib.media.base.IXmMediaPlayer.Companion.TAG
 import com.xm.lib.media.broadcast.BroadcastManager
@@ -94,6 +97,9 @@ class XmVideoView : FrameLayout {
      * 记录播放的位置
      */
     private var pos = 0L
+    private var url = ""
+
+//    private var saveUrl = ""
     /**
      * 服务对外提供接口
      */
@@ -402,12 +408,14 @@ class XmVideoView : FrameLayout {
         /*异步准备播放*/
         isComplete = false
         this.pos = pos?.toLong()!!
+        this.url = url!!
         this.autoPlay = autoPlay
         if (surfaceView == null || sh == null) {
             //添加画布
             surfaceView = SurfaceView(context)
             surfaceView?.layoutParams = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
             sh = surfaceView?.holder
+            // surfaceView?.visibility= View.GONE  设置画布隐藏就无法播放了
             sh?.addCallback(object : SurfaceHolder.Callback {
                 override fun surfaceChanged(holder: SurfaceHolder?, format: Int, width: Int, height: Int) {
                     TimerHelper().start(object : TimerHelper.OnDelayTimerListener {
@@ -455,18 +463,22 @@ class XmVideoView : FrameLayout {
                     BKLog.d(TAG, "surfaceDestroyed")
                 }
 
+                /**
+                 * 会自动再次调用、处理恢复播放
+                 */
                 override fun surfaceCreated(holder: SurfaceHolder?) {
-                    if (!TextUtils.isEmpty(url)) {
+                    if (!TextUtils.isEmpty(this@XmVideoView.url)) {
                         if (mediaPlayer == null) {
                             initMediaPlayer()
                         } else {
                             //保存状态
                             this@XmVideoView.pos = mediaPlayer?.getCurrentPosition()!!
+                            mediaPlayer?.stop()
                             mediaPlayer?.reset()
                         }
                         mediaPlayer?.setDisplay(holder)
                         try {
-                            mediaPlayer?.setDataSource(url)
+                            mediaPlayer?.setDataSource(this@XmVideoView.url)
                         } catch (e: IllegalArgumentException) {
                             e.printStackTrace()
                         } catch (e: IOException) {
@@ -479,15 +491,15 @@ class XmVideoView : FrameLayout {
                     BKLog.d(IXmMediaPlayer.TAG, "surfaceCreated")
                 }
             })
-            // surfaceView?.visibility= View.GONE  设置画布隐藏就无法播放了
             addView(surfaceView)
         } else {
             mediaPlayer?.stop()
             mediaPlayer?.reset()
             mediaPlayer?.setDisplay(sh)
-            mediaPlayer?.setDataSource(url)
+            mediaPlayer?.setDataSource(this@XmVideoView.url)
             mediaPlayer?.prepareAsync()
         }
+
     }
 
     private var ratio = 1f
@@ -546,6 +558,7 @@ class XmVideoView : FrameLayout {
      * 窗口不可见处理
      */
     fun onPause() {
+        mediaPlayer?.pause()
 //        if (timer == null) {
 //            timer = TimerHelper()
 //            timer?.start(object : TimerHelper.OnPeriodListener {
@@ -582,7 +595,7 @@ class XmVideoView : FrameLayout {
      * 窗口可见处理
      */
     fun onResume() {
-
+        //pos = mediaPlayer?.getCurrentPosition()!!
     }
 
     /**

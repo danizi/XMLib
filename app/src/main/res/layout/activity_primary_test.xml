@@ -116,10 +116,15 @@
             android:orientation="horizontal">
 
             <Button
-                android:id="@+id/ani"
+                android:id="@+id/ani_tween"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="3.0" />
+                android:text="间补动画" />
+            <Button
+                android:id="@+id/ani_frame"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="帧动画" />
 
             <Button
                 android:id="@+id/ani_property"

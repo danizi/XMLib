@@ -8,7 +8,7 @@ import com.xm.lib.test.R
 import com.xm.lib.test.utils.IntoTarget
 
 class PrimaryTestActivity : BaseActivity() {
-    private var ui: ViewHolder? = null
+    private var ui: UI? = null
 
     override fun setContentViewBefore() {}
 
@@ -18,7 +18,7 @@ class PrimaryTestActivity : BaseActivity() {
 
     override fun findViews() {
         if (ui == null) {
-            ui = ViewHolder.create(this)
+            ui = UI.create(this)
         }
     }
 
@@ -41,8 +41,9 @@ class PrimaryTestActivity : BaseActivity() {
         ui?.sp?.setOnClickListener { IntoTarget.start(PrimaryCache::class.simpleName, this) }
         ui?.cp?.setOnClickListener { IntoTarget.start(PrimaryCache::class.simpleName, this) }
 
-        ui?.ani?.setOnClickListener { IntoTarget.start(PrimaryAni::class.simpleName, this) }
-        ui?.aniProperty?.setOnClickListener { }
+        ui?.aniTween?.setOnClickListener {IntoTarget.start(PrimaryAniTween::class.simpleName, this) }
+        ui?.aniFrame?.setOnClickListener { IntoTarget.start(PrimaryAniFrame::class.simpleName, this)}
+        ui?.aniProperty?.setOnClickListener { IntoTarget.start(PrimaryAniProperty::class.simpleName, this) }
 
         ui?.thread?.setOnClickListener { IntoTarget.start(PrimaryThread::class.simpleName, this) }
 
@@ -54,40 +55,33 @@ class PrimaryTestActivity : BaseActivity() {
         ui?.pb?.setOnClickListener { }
     }
 
-    internal class ViewHolder(val activity: Button, val service: Button, val broadcast: Button, val contentprovider: Button, val file: Button, val db: Button, val sp: Button, val cp: Button, val thread: Button, val ani: Button, val aniProperty: Button, val rv: Button, val vp: Button, val web: Button, val dl: Button, val sb: Button, val pb: Button) {
+
+    private class UI private constructor(val activity: Button, val service: Button, val broadcast: Button, val contentprovider: Button, val file: Button, val db: Button, val sp: Button, val cp: Button, val thread: Button, val aniTween: Button, val aniFrame: Button, val aniProperty: Button, val rv: Button, val vp: Button, val web: Button, val dl: Button, val sb: Button, val pb: Button) {
         companion object {
 
-            fun create(rootView: Activity): ViewHolder {
-                //四大组件
+            fun create(rootView: Activity): UI {
                 val activity = rootView.findViewById<View>(R.id.activity) as Button
                 val service = rootView.findViewById<View>(R.id.service) as Button
                 val broadcast = rootView.findViewById<View>(R.id.broadcast) as Button
                 val contentprovider = rootView.findViewById<View>(R.id.contentprovider) as Button
-
                 val file = rootView.findViewById<View>(R.id.file) as Button
                 val db = rootView.findViewById<View>(R.id.db) as Button
                 val sp = rootView.findViewById<View>(R.id.sp) as Button
                 val cp = rootView.findViewById<View>(R.id.cp) as Button
-
-                //Android线程
                 val thread = rootView.findViewById<View>(R.id.thread) as Button
-
-                //动画
-                val ani = rootView.findViewById<View>(R.id.ani) as Button
+                val aniTween = rootView.findViewById<View>(R.id.ani_tween) as Button
+                val aniFrame = rootView.findViewById<View>(R.id.ani_frame) as Button
                 val aniProperty = rootView.findViewById<View>(R.id.ani_property) as Button
-
-                //控件
                 val rv = rootView.findViewById<View>(R.id.rv) as Button
                 val vp = rootView.findViewById<View>(R.id.vp) as Button
                 val web = rootView.findViewById<View>(R.id.web) as Button
                 val dl = rootView.findViewById<View>(R.id.dl) as Button
                 val sb = rootView.findViewById<View>(R.id.sb) as Button
                 val pb = rootView.findViewById<View>(R.id.pb) as Button
-                return ViewHolder(activity, service, broadcast, contentprovider, file, db, sp, cp, thread, ani, aniProperty, rv, vp, web, dl, sb, pb)
+                return UI(activity, service, broadcast, contentprovider, file, db, sp, cp, thread, aniTween, aniFrame, aniProperty, rv, vp, web, dl, sb, pb)
             }
         }
     }
-
 }
 
 

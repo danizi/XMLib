@@ -53,12 +53,12 @@
         <activity android:name=".ui.act.PrimaryContentProvider" />
         <activity android:name=".ui.act.PrimaryCache" />
         <activity android:name=".ui.act.PrimaryThread" />
-        <activity android:name=".ui.act.PrimaryAni" />
+        <activity android:name=".ui.act.PrimaryAniProperty" />
         <activity android:name=".ui.act.PrimaryDrawlayout" />
         <activity android:name=".ui.act.PrimaryWeb" />
         <activity android:name=".ui.act.PrimaryActivityB" />
 
-        <!--启动模式设置-->
+        <!-- 启动模式设置 -->
         <activity
             android:name=".ui.act.PrimaryStandard"
             android:launchMode="standard" />
@@ -71,8 +71,8 @@
         <activity
             android:name=".ui.act.PrimarySingleInstance"
             android:launchMode="singleInstance" />
-
-
+        <activity android:name=".ui.act.PrimaryAniTween" />
+        <activity android:name=".ui.act.PrimaryAniFrame"></activity>
     </application>
 
 </manifest>
