@@ -472,9 +472,11 @@ class XmVideoView : FrameLayout {
                             initMediaPlayer()
                         } else {
                             //保存状态
-                            this@XmVideoView.pos = mediaPlayer?.getCurrentPosition()!!
-                            mediaPlayer?.stop()
-                            mediaPlayer?.reset()
+                            if(mediaPlayer?.isPlaying()!!){
+                                this@XmVideoView.pos = mediaPlayer?.getCurrentPosition()!!
+                                mediaPlayer?.stop()
+                                mediaPlayer?.reset()
+                            }
                         }
                         mediaPlayer?.setDisplay(holder)
                         try {

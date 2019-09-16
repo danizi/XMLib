@@ -43,5 +43,6 @@ class CollectTest {
         for (l in list) {
             println("$l")
         }
+
     }
 }

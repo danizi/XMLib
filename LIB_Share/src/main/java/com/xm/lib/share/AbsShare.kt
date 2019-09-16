@@ -2,6 +2,7 @@ package com.xm.lib.share
 
 import android.app.Activity
 import android.graphics.Bitmap
+import com.tencent.mm.opensdk.modelbiz.WXLaunchMiniProgram
 import com.tencent.mm.opensdk.modelmsg.SendMessageToWX
 
 /**
@@ -15,12 +16,12 @@ abstract class AbsShare(val activity: Activity) {
      * 分享图片
      * @param bmp 分享的图片Bitmap对象
      */
-    abstract fun shareImage(bmp: Bitmap,scene:Int?=SendMessageToWX.Req.WXSceneSession)
+    abstract fun shareImage(bmp: Bitmap, scene: Int? = SendMessageToWX.Req.WXSceneSession)
 
     /**
      * 分享文本
      */
-    abstract fun shareText(text: String,scene:Int?=SendMessageToWX.Req.WXSceneSession)
+    abstract fun shareText(text: String, scene: Int? = SendMessageToWX.Req.WXSceneSession)
 
     /**
      * 分享音乐
@@ -29,7 +30,7 @@ abstract class AbsShare(val activity: Activity) {
      * @param title 音乐分享标题
      * @param description 音乐分享描述
      */
-    abstract fun shareMusic(thumb: Int, lowBandUrl: String, title: String, description: String,scene:Int?=SendMessageToWX.Req.WXSceneSession)
+    abstract fun shareMusic(thumb: Int, lowBandUrl: String, title: String, description: String, scene: Int? = SendMessageToWX.Req.WXSceneSession)
 
     /**
      * 分享视频
@@ -38,7 +39,7 @@ abstract class AbsShare(val activity: Activity) {
      * @param title 视频分享标题
      * @param description 视频分享描述
      */
-    abstract fun shareVideo(thumb: Int, videoUrl: String, title: String, description: String,scene:Int?=SendMessageToWX.Req.WXSceneSession)
+    abstract fun shareVideo(thumb: Int, videoUrl: String, title: String, description: String, scene: Int? = SendMessageToWX.Req.WXSceneSession)
 
     /**
      * 分享app数据
@@ -46,7 +47,7 @@ abstract class AbsShare(val activity: Activity) {
      * @param title 分享标题
      * @param description 分享描述
      */
-    abstract fun shareAppData(path: String, title: String, description: String,scene:Int?=SendMessageToWX.Req.WXSceneSession)
+    abstract fun shareAppData(path: String, title: String, description: String, scene: Int? = SendMessageToWX.Req.WXSceneSession)
 
     /**
      * 分享网页
@@ -55,7 +56,23 @@ abstract class AbsShare(val activity: Activity) {
      * @param title 分享标题
      * @param description 分享内容
      */
-    abstract fun shareWebPage(thumb: Int, webpageUrl: String, title: String, description: String,scene:Int?=SendMessageToWX.Req.WXSceneSession)
+    abstract fun shareWebPage(thumb: Int, webpageUrl: String, title: String, description: String, scene: Int? = SendMessageToWX.Req.WXSceneSession)
+
+    /**
+     * 小程序分享
+     * @param userName        小程序的原始id
+     * @param path            拉起小程序页面的可带参路径，不填默认拉起小程序首页，对于小游戏，可以只传入 query 部分，来实现传参效果，如：传入 "?foo=bar"。
+     * @param miniprogramType 小程序类型
+     */
+    abstract fun shareMiniProgram(thumb: Int, title: String, description: String, userName: String, path: String, miniprogramType: Int? = WXLaunchMiniProgram.Req.MINIPTOGRAM_TYPE_RELEASE, scene: Int? = SendMessageToWX.Req.WXSceneSession)
+
+    /**
+     * 拉起小程序
+     * @param userName        小程序的原始id
+     * @param path            拉起小程序页面的可带参路径，不填默认拉起小程序首页，对于小游戏，可以只传入 query 部分，来实现传参效果，如：传入 "?foo=bar"。
+     * @param miniprogramType 小程序类型
+     */
+    abstract fun miniProgram(userName: String, path: String, miniprogramType: Int? = WXLaunchMiniProgram.Req.MINIPTOGRAM_TYPE_RELEASE)
 
     /**
      * 授權

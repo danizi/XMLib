@@ -5,22 +5,17 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Canvas
+import android.os.Build
+import com.tencent.mm.opensdk.modelbiz.WXLaunchMiniProgram
 import com.tencent.mm.opensdk.modelmsg.*
 import com.tencent.mm.opensdk.openapi.IWXAPI
 import com.tencent.mm.opensdk.openapi.WXAPIFactory
 import com.xm.lib.share.AbsShare
-import com.xm.lib.share.R
 import com.xm.lib.share.ShareConfig
-import android.opengl.ETC1.getHeight
-import android.opengl.ETC1.getWidth
-import android.graphics.drawable.Drawable
-import android.os.Build
-import android.os.Build.VERSION_CODES
-import android.os.Build.VERSION_CODES.LOLLIPOP
-import android.os.Build.VERSION
 
 
 class WxShare(act: Activity) : AbsShare(act) {
+
 
     companion object {
         private const val THUMB_SIZE = 100
@@ -162,6 +157,35 @@ class WxShare(act: Activity) : AbsShare(act) {
         req.transaction = buildTransaction("webpage")
         req.message = msg
         req.scene = scene!!
+        api?.sendReq(req)
+    }
+
+    override fun shareMiniProgram(thumb: Int, title: String, description: String, userName: String, path: String, miniprogramType: Int?, scene: Int?) {
+        val miniProgram = WXMiniProgramObject()
+        miniProgram.userName = userName
+        miniProgram.path = path
+
+        val msg = WXMediaMessage(miniProgram)
+        msg.title = title
+        msg.description = description
+        //val bmp = BitmapFactory.decodeResource(activity.resources, thumb)
+        val bmp = getBitmap(activity, thumb)
+        val thumbBmp = Bitmap.createScaledBitmap(bmp, THUMB_SIZE, THUMB_SIZE, true)
+        bmp?.recycle()
+        msg.thumbData = Util.bmpToByteArray(thumbBmp, true)
+
+        val req = SendMessageToWX.Req()
+        req.transaction = buildTransaction("webpage")
+        req.message = msg
+        req.scene = scene!!
+        api?.sendReq(req)
+    }
+
+    override fun miniProgram(userName: String, path: String, miniprogramType: Int?) {
+        val req = WXLaunchMiniProgram.Req()
+        req.userName = userName
+        req.path = path
+        req.miniprogramType = miniprogramType!!
         api?.sendReq(req)
     }
 

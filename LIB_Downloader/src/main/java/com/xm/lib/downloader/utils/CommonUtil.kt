@@ -15,6 +15,8 @@ import java.io.IOException
 import java.math.BigInteger
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
+import android.os.Looper
+
 
 object CommonUtil {
     private val TAG = this.javaClass.simpleName
@@ -122,8 +124,17 @@ object CommonUtil {
         intent.data = uri
         context.sendBroadcast(intent)
 
-        Toast.makeText(context,"图片保存成功",Toast.LENGTH_SHORT).show()
+        Toast.makeText(context, "图片保存成功", Toast.LENGTH_SHORT).show()
 
+    }
+
+    /**
+     * 是否是主线程
+     */
+    fun isMainThread(): Boolean {
+        //return Looper.getMainLooper().getThread() == Thread.currentThread();
+        //return Looper.getMainLooper().getThread().getId() == Thread.currentThread().getId()
+        return Looper.getMainLooper() == Looper.myLooper()
     }
 
 }

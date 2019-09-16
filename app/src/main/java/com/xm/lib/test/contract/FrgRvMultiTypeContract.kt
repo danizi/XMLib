@@ -1,4 +1,4 @@
-package com.xm.lib.test.adapter
+package com.xm.lib.test.contract
 
 import android.content.Context
 

@@ -7,7 +7,7 @@ import android.view.View
 import com.xm.lib.common.base.mvp.MvpFragment
 import com.xm.lib.common.base.rv.v2.BaseRvAdapterV2
 import com.xm.lib.test.R
-import com.xm.lib.test.adapter.FrgRvMultiTypeContract
+import com.xm.lib.test.contract.FrgRvMultiTypeContract
 import com.xm.lib.test.bean.TypeBean1
 import com.xm.lib.test.bean.TypeBean2
 import com.xm.lib.test.bean.TypeBean3
