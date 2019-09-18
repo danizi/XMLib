@@ -56,7 +56,7 @@ dependencies {
 
     /* ===== 其他第三方框架 ====*/
     api 'com.jaeger.statusbarutil:library:1.5.1' // 标题栏设置颜色
-    api 'com.github.tbruyelle:rxpermissions:0.10.2'    // 动态申请权限
+    api 'com.github.tbruyelle:rxpermissions:0.10.2'    // 动态申请权限 Could not find com.github.tbruyelle:rxpermissions:0.10.2.
     api 'com.github.gongw:verifycodeview:1.0.2'// 短信验证码框  https://github.com/wei-gong/VerifyCodeView
     api 'com.youth.banner:banner:1.4.10' // 轮播图
     api 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.5.1'//刷新组件

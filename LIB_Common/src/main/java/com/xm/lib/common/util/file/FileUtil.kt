@@ -9,7 +9,9 @@ import java.nio.channels.FileChannel
 import java.nio.charset.Charset
 import java.text.DecimalFormat
 
-
+/**
+ * 文件操作工具类
+ */
 object FileUtil : IFileAndroid(), IFileSize, IFileCommon, IFileZip {
 
     const val debug = true
@@ -142,7 +144,7 @@ object FileUtil : IFileAndroid(), IFileSize, IFileCommon, IFileZip {
         val path = file.absolutePath.split(File.separator)
         var dir = ""
         for (i in 0..(path.size - 2)) {
-            dir += File.separator+ path[i]
+            dir += File.separator + path[i]
         }
 
         //创建文件
@@ -313,6 +315,9 @@ abstract class IFileAndroid {
     }
 }
 
+/**
+ * 文件大小转化相关操作
+ */
 interface IFileSize {
     /**
      * 字节转 KB MB GB 单位
@@ -321,6 +326,9 @@ interface IFileSize {
     fun getSizeUnit(size: Long, unit: SpaceUnit? = null): String
 }
 
+/**
+ * 增删改查移动等操作
+ */
 interface IFileCommon {
 
     /**
@@ -361,6 +369,9 @@ interface IFileCommon {
     fun mergeFiles(resource: File?, target: File?): Boolean
 }
 
+/**
+ * 解压压缩操作
+ */
 interface IFileZip {
     /**
      * 解压
