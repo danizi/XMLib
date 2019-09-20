@@ -461,6 +461,7 @@ class XmVideoView : FrameLayout {
 
                 override fun surfaceDestroyed(holder: SurfaceHolder?) {
                     BKLog.d(TAG, "surfaceDestroyed")
+
                 }
 
                 /**
@@ -561,6 +562,8 @@ class XmVideoView : FrameLayout {
      */
     fun onPause() {
         mediaPlayer?.pause()
+        mediaPlayer?.stop()
+        mediaPlayer?.reset()
 //        if (timer == null) {
 //            timer = TimerHelper()
 //            timer?.start(object : TimerHelper.OnPeriodListener {

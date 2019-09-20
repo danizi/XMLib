@@ -9,6 +9,9 @@ import android.graphics.Canvas
 import android.graphics.Matrix
 
 
+/**
+ * View的相关操作
+ */
 object ViewUtil {
 
     /**
@@ -91,7 +94,7 @@ object ViewUtil {
      */
     fun getViewBitmap2(view: View, scale: Float): Bitmap {
         //375/667
-        val height =   view.measuredWidth/scale
+        val height = view.measuredWidth / scale
         view.layoutParams.height = height.toInt()
         val shareBitmap = Bitmap.createBitmap(view.measuredWidth, view.measuredHeight, Bitmap.Config.ARGB_4444)
         val c = Canvas(shareBitmap)
@@ -100,7 +103,7 @@ object ViewUtil {
     }
 
 
-     fun setBmp(bitmap: Bitmap): Bitmap {
+    fun setBmp(bitmap: Bitmap): Bitmap {
         val width = bitmap.width
         val height = bitmap.height
         // 设置想要的大小

@@ -1,11 +1,8 @@
-package com.xm.lib.common.util
+package com.xm.lib.common.helper
 
 import android.os.Environment
 import okhttp3.*
 import java.io.*
-import java.io.File.separator
-import android.os.Environment.getExternalStorageDirectory
-import com.xm.lib.common.log.BKLog
 
 
 /**
