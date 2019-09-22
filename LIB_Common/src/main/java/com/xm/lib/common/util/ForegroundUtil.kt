@@ -23,18 +23,13 @@ object ForegroundUtil {
     /**
      * 获取栈顶的应用包名
      */
-
     fun getForegroundActivityName(context: Context): String {
         var currentClassName = ""
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
             val manager = context.applicationContext.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
             currentClassName = manager.getRunningTasks(1)[0].topActivity.packageName
         } else {
-            val initStat = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
-                getForegroundUsageStats(context, START_TIME, END_TIME)
-            } else {
-                TODO("VERSION.SDK_INT < LOLLIPOP_MR1")
-            }
+            val initStat = getForegroundUsageStats(context, START_TIME, END_TIME)
             if (initStat != null) {
                 currentClassName = initStat.packageName
             }
@@ -64,7 +59,6 @@ object ForegroundUtil {
     /**
      * 获取记录前台应用的UsageStats对象
      */
-    @RequiresApi(Build.VERSION_CODES.LOLLIPOP_MR1)
     private fun getForegroundUsageStats(context: Context, startTime: Long, endTime: Long): UsageStats? {
         var usageStatsResult: UsageStats? = null
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -99,7 +93,6 @@ object ForegroundUtil {
     /**
      * 通过UsageStatsManager获取List<UsageStats>集合
     </UsageStats> */
-    @RequiresApi(Build.VERSION_CODES.LOLLIPOP_MR1)
     fun getUsageStatsList(context: Context, startTime: Long, endTime: Long): List<UsageStats>? {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             val manager = context.applicationContext.getSystemService(Context.USAGE_STATS_SERVICE) as UsageStatsManager
@@ -108,7 +101,7 @@ object ForegroundUtil {
             if (usageStatses == null || usageStatses.size == 0) {// 没有权限，获取不到数据
                 val intent = Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS)
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                context.getApplicationContext().startActivity(intent)
+                context.applicationContext.startActivity(intent)
                 return null
             }
             return usageStatses

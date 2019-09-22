@@ -1,11 +1,14 @@
 package com.xm.lib.test.ui.act
 
 import android.app.Activity
+import android.os.Looper
+import android.os.Message
 import android.view.View
 import android.widget.Button
 import com.xm.lib.common.base.BaseActivity
 import com.xm.lib.test.R
 import com.xm.lib.test.utils.IntoTarget
+import java.util.logging.Handler
 
 class PrimaryTestActivity : BaseActivity() {
     private var ui: UI? = null
@@ -23,7 +26,14 @@ class PrimaryTestActivity : BaseActivity() {
     }
 
     override fun initDisplay() {
+        val handler = object : android.os.Handler() {
 
+            override fun handleMessage(msg: Message?) {
+                super.handleMessage(msg)
+                Looper.prepare()
+            }
+        }
+        handler.sendEmptyMessage(0)
     }
 
     override fun iniData() {
@@ -41,8 +51,8 @@ class PrimaryTestActivity : BaseActivity() {
         ui?.sp?.setOnClickListener { IntoTarget.start(PrimaryCache::class.simpleName, this) }
         ui?.cp?.setOnClickListener { IntoTarget.start(PrimaryCache::class.simpleName, this) }
 
-        ui?.aniTween?.setOnClickListener {IntoTarget.start(PrimaryAniTween::class.simpleName, this) }
-        ui?.aniFrame?.setOnClickListener { IntoTarget.start(PrimaryAniFrame::class.simpleName, this)}
+        ui?.aniTween?.setOnClickListener { IntoTarget.start(PrimaryAniTween::class.simpleName, this) }
+        ui?.aniFrame?.setOnClickListener { IntoTarget.start(PrimaryAniFrame::class.simpleName, this) }
         ui?.aniProperty?.setOnClickListener { IntoTarget.start(PrimaryAniProperty::class.simpleName, this) }
 
         ui?.thread?.setOnClickListener { IntoTarget.start(PrimaryThread::class.simpleName, this) }
