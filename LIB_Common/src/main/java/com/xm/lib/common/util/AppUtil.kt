@@ -19,7 +19,12 @@ object AppUtil {
             appInfo.packageName = info.packageName
             appInfo.appName = info.applicationInfo.loadLabel(pm).toString()
             appInfo.icon = info.applicationInfo.loadIcon(pm)
-            appInfo.system = info.applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM == 0 //true 非系统应用
+            if (info.applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM == 0) {
+                appInfo.system = 1 //true 非系统应用
+            } else {
+                appInfo.system = 0
+            }
+
             appInfos.add(appInfo)
         }
         return appInfos
