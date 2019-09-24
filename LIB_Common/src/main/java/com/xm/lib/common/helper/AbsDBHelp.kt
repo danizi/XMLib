@@ -200,6 +200,7 @@ class DBContract {
                 if (i == infos.size - 1) {
                     sql.append("${info.name}=?")
                 } else {
+                    //dddd
                     sql.append("${info.name}=?,")
                 }
             }
