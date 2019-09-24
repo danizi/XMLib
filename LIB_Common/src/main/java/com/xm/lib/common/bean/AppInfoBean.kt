@@ -17,9 +17,9 @@ open class AppInfoBean {
     /**
      * 0 false 未选中 1 true
      */
-    var check: Int = 0
+    var choose: Int = 0
 
     override fun toString(): String {
-        return "AppInfoBean(icon=$icon, appName=$appName, packageName=$packageName, versionName=$versionName, system=$system, check=$check)"
+        return "AppInfoBean(icon=$icon, appName=$appName, packageName=$packageName, versionName=$versionName, system=$system, choose=$choose)"
     }
 }

@@ -2,7 +2,7 @@ package com.xm.lib.common
 
 import com.xm.lib.common.bean.AppInfoBean
 import com.xm.lib.common.helper.DBContract
-import com.xm.lib.common.util.ReflectUtil.getFiledsInfo
+import com.xm.lib.common.util.ReflectUtil.getFiledInfo
 import org.junit.Test
 
 /**
@@ -24,7 +24,7 @@ class AbsSqlStatementCreationTest {
         val sql = SQL()
         val tableName = "bean"
         val bean = AppInfoBean()
-        System.out.println("实体信息:" + getFiledsInfo(Bean()).toString())
+        System.out.println("实体信息:" + getFiledInfo(Bean()).toString())
         System.out.println("创建表  : " + sql.createSQLTable(bean, tableName))
         System.out.println("增      : " + sql.createSQLInsert(bean, tableName))
         System.out.println("删      : " + sql.createSQLDelete(bean, tableName, "column=?"))
