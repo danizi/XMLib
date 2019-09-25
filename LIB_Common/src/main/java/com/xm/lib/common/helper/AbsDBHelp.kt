@@ -3,6 +3,7 @@ package com.xm.lib.common.helper
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
+import android.text.TextUtils
 import com.xm.lib.common.log.BKLog
 import com.xm.lib.common.util.ReflectUtil
 import com.xm.lib.common.util.ReflectUtil.getFiledInfo
@@ -88,7 +89,7 @@ class DBContract {
                 } else if (info.genericType.contains("double") || info.genericType.contains("int")) {
                     SQL_TYPE_INTEGER
                 } else {
-                    SQL_TYPE_TEXT
+                    "TEXT"
                 }
 
                 //位置到最后一个字段的时候不加“，”
@@ -132,12 +133,13 @@ class DBContract {
         }
 
         open fun createSQLDelete(b: Any?, tableName: String, vararg selectionArgs: String?): String {
-            // 查询条件只能and
-            check(b, tableName)
             //如果过滤条件为控件就返回删除所有的sql语句
-            if (selectionArgs.isEmpty()) {
+            if (selectionArgs.isNotEmpty() && TextUtils.isEmpty(selectionArgs[0])) {
                 return "$SQL_DELETE_FROM $tableName;"
             }
+
+            // 查询条件只能and
+            check(b, tableName)
 
             //val infos = getFiledInfo(b!!)
             val sql = StringBuilder()
@@ -201,10 +203,10 @@ class DBContract {
 
         open fun createSQLQuery(b: Any?, tableName: String, vararg selectionArgs: String?): String {
             // 查询条件只能and
-            check(b, tableName)
-            if (selectionArgs.isEmpty()) {
+            if (selectionArgs.isNotEmpty() && TextUtils.isEmpty(selectionArgs[0])) {
                 return "$SQL_SELECT $tableName"
             }
+            check(b, tableName)
             //val infos = getFiledInfo(b!!)
             val sql = StringBuilder()
             sql.append("$SQL_SELECT $tableName")
@@ -240,30 +242,29 @@ class DBContract {
     abstract class AbsDao<B : Any>(private val tableName: String?, private val dbHelp: AbsDBHelp?) {
         companion object {
             private const val TAG = "AbsDao"
+            private const val DEBUG = false
         }
 
-        var writableDatabase: SQLiteDatabase? = null
-        var statementCreation: AbsSqlStatementCreation? = null
+        private var writableDatabase: SQLiteDatabase? = null
+        private var statementCreation: AbsSqlStatementCreation? = null
 
         init {
             writableDatabase = dbHelp?.writableDatabase
             statementCreation = dbHelp?.getLockSqlStatementCreation()
         }
 
-        abstract fun getDeleteSelection(): String
 
-        abstract fun getUpdateSelection(): String
+        abstract fun getDeleteSelection(): String //删除条件
+        abstract fun getUpdateSelection(): String //更新条件
+        abstract fun getSelectSelection(): String //查找条件
 
-        abstract fun getSelectSelection(): String
-
-        abstract fun getDeleteSelectionValaue(bean: B?): Array<Any?>
-
-        abstract fun getSelectSelectionValue(bean: B?): Array<String?>
-
-        abstract fun newInstance(): B
+        abstract fun getDeleteBindValue(bean: B?): Array<Any?> //删除条件所绑定的值
+        abstract fun getSelectBindValue(bean: B?): Array<String?> //查找条件所绑定的值
+        abstract fun newInstance(): B  //实例化数据绑定实体类
 
         open fun exist(bean: B): Boolean {
-            if (select(bean).isNotEmpty() && select(bean).size > 0) {
+            val items = select(bean)
+            if (items.isNotEmpty() && items.size > 0) {
                 return true
             }
             return false
@@ -271,7 +272,9 @@ class DBContract {
 
         open fun insert(bean: B): Boolean {
             try {
-                writableDatabase = dbHelp?.writableDatabase
+//                if(!writableDatabase?.isOpen!!){
+//                    writableDatabase = dbHelp?.writableDatabase
+//                }
                 check(bean)
                 if (exist(bean)) {
                     BKLog.e(TAG, "该记录存在 ${bean.toString()}")
@@ -293,32 +296,23 @@ class DBContract {
                 e.printStackTrace()
                 BKLog.e(TAG, "插入数据失败 : ${e.message}")
             } finally {
-                writableDatabase?.close()
+                //writableDatabase?.close()
             }
             return false
         }
 
         open fun delete(bean: B): Boolean {
-            writableDatabase = dbHelp?.writableDatabase
-            check(bean)
-            return try {
-                val deleteSql = statementCreation?.createSQLDelete(bean, tableName!!, getDeleteSelection())
-                writableDatabase?.execSQL(deleteSql, getDeleteSelectionValaue(bean))
-                BKLog.d(TAG, "删除数据")
-                BKLog.d(TAG, "deleteSql : $deleteSql")
-                true
-            } catch (e: Exception) {
-                e.printStackTrace()
-                false
-            } finally {
-                writableDatabase?.close()
-            }
+            return delete(bean, getDeleteSelection(), getDeleteBindValue(bean))
         }
 
         open fun update(bean: B): Boolean {
             try {
-                writableDatabase = dbHelp?.writableDatabase
+                //writableDatabase = dbHelp?.writableDatabase
                 check(bean)
+                if (!exist(bean)) {
+                    BKLog.e(TAG, "更新数据失败,数据库中没有${bean.toString()}该记录")
+                    return false
+                }
                 val infos = ReflectUtil.getFiledInfo(bean)
                 val bindArgs = arrayOfNulls<Any>(infos.size + 1)
                 var selectionValue: Any? = null
@@ -331,43 +325,31 @@ class DBContract {
                 bindArgs[infos.size] = selectionValue
 
                 val updateSql = statementCreation?.createSQLUpdate(bean, tableName!!, getUpdateSelection())
-                writableDatabase?.execSQL(updateSql, arrayOf(bindArgs))
-                BKLog.d(TAG, "更新数据")
-                BKLog.d(TAG, "updateSql : $updateSql")
-                BKLog.d(TAG, "bindArgs : ${bindArgs.toString()}")
+                writableDatabase?.execSQL(updateSql, bindArgs)
+                BKLog.d(TAG, "更新数据成功")
+                if (DEBUG) {
+                    BKLog.d(TAG, "updateSql : $updateSql")
+                    BKLog.d(TAG, "bindArgs : ${bindArgs.asList().toString()}")
+                }
                 return true
             } catch (e: Exception) {
                 e.printStackTrace()
                 return false
             } finally {
-                writableDatabase?.close()
+                //writableDatabase?.close()
             }
         }
 
         open fun select(bean: B): ArrayList<B> {
-            return select(bean, getSelectSelection())
+            return select(bean, getSelectSelection(), getSelectBindValue(bean))
         }
 
         open fun deleteAll(): Boolean {
-            return try {
-                writableDatabase = dbHelp?.writableDatabase
-                check()
-                val deleteAllSql = statementCreation?.createSQLDelete(Any(), tableName!!, "")
-                writableDatabase?.execSQL(deleteAllSql)
-                BKLog.d(TAG, "删所有数据除数据")
-                BKLog.d(TAG, "deleteSql : $deleteAllSql")
-                true
-            } catch (e: Exception) {
-                e.printStackTrace()
-                false
-            } finally {
-                writableDatabase?.close()
-            }
-
+            return delete(null, "", arrayOf())
         }
 
         open fun selectALL(): ArrayList<B> {
-            return select(null, "")
+            return select(null, "", arrayOf())
         }
 
         open fun clear() {
@@ -378,18 +360,56 @@ class DBContract {
             statementCreation = null
         }
 
-        private fun select(bean: B?, selectionArg: String?): ArrayList<B> {
-            writableDatabase = dbHelp?.writableDatabase
+        /**
+         * 特定条件删除 bean selectionArg deleteBindValue都不为null
+         * 删除全部 bean selectionArg deleteBindValue 为null
+         * @param bean 实体bean
+         * @param selectionArg 过滤条件
+         * @param deleteBindValue 绑定条件值
+         */
+        private fun delete(bean: B?, selectionArg: String?, deleteBindValue: Array<Any?>): Boolean {
+            //writableDatabase = dbHelp?.writableDatabase
+            check()
+            try {
+                val deleteSql = statementCreation?.createSQLDelete(bean, tableName!!, selectionArg)
+                if (bean == null && TextUtils.isEmpty(selectionArg) && deleteBindValue.isEmpty()) {
+                    BKLog.d("删除所有数据")
+                    writableDatabase?.execSQL(deleteSql, deleteBindValue)
+                    return true
+                } else {
+                    if (exist(bean!!)) {
+                        writableDatabase?.execSQL(deleteSql, deleteBindValue)
+                        BKLog.d(TAG, "删除特定条件数据")
+                        BKLog.d(TAG, "deleteSql : $deleteSql")
+                        return true
+                    } else {
+                        BKLog.e(TAG, "数据库中不存在${bean.toString()}")
+                        return false
+                    }
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+                return false
+            } finally {
+                //writableDatabase?.close()
+            }
+        }
+
+        /**
+         * 特定条件查找 bean selectionArg selectSelectionValue都不为null
+         * 查找全部 bean selectionArg selectSelectionValue 为null
+         * @param bean 实体bean
+         * @param selectionArg 过滤条件
+         * @param selectSelectionValue 绑定条件值
+         */
+        private fun select(bean: B?, selectionArg: String?, selectSelectionValue: Array<String?>): ArrayList<B> {
+            //writableDatabase = dbHelp?.writableDatabase
             check()
             val objList = ArrayList<B>()
             val selectSql = statementCreation?.createSQLQuery(bean, tableName!!, selectionArg)
-            val selectSelectionValue = getSelectSelectionValue(bean)
             val cursor = writableDatabase?.rawQuery(selectSql, selectSelectionValue)
-
-            if (cursor == null) {
-                writableDatabase?.close()
-                return objList
-            }
+                    ?: //writableDatabase?.close()
+                    return objList
             try {
                 while (cursor.moveToNext()) {
                     val obj = newInstance()
@@ -411,14 +431,18 @@ class DBContract {
                 if (cursor.isClosed) {
                     cursor.close()
                 }
-                writableDatabase?.close()
+                // writableDatabase?.close()
             }
-            BKLog.d(TAG, "=====================")
-            BKLog.d(TAG, "selectSql            : $selectSql")
-            BKLog.d(TAG, "selectSelectionValue : ${selectSelectionValue[0]}")
-            BKLog.d(TAG, "selectItemListSize   : ${objList.size}")
-            BKLog.d(TAG, "selectItemList       : ${objList.toString()}")
-            BKLog.d(TAG, "=====================")
+            if (DEBUG) {
+                BKLog.d(TAG, "=====================")
+                BKLog.d(TAG, "selectSql            : $selectSql")
+                if (selectSelectionValue.isNotEmpty()) {
+                    BKLog.d(TAG, "selectSelectionValue : ${selectSelectionValue[0]}")
+                }
+                BKLog.d(TAG, "selectItemListSize   : ${objList.size}")
+                BKLog.d(TAG, "selectItemList       : ${objList.toString()}")
+                BKLog.d(TAG, "=====================")
+            }
             return objList
         }
 
