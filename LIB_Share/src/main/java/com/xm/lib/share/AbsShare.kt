@@ -64,7 +64,7 @@ abstract class AbsShare(val activity: Activity) {
      * @param path            拉起小程序页面的可带参路径，不填默认拉起小程序首页，对于小游戏，可以只传入 query 部分，来实现传参效果，如：传入 "?foo=bar"。
      * @param miniprogramType 小程序类型
      */
-    abstract fun shareMiniProgram(thumb: Int, title: String, description: String, userName: String, path: String, miniprogramType: Int? = WXLaunchMiniProgram.Req.MINIPTOGRAM_TYPE_RELEASE, scene: Int? = SendMessageToWX.Req.WXSceneSession)
+    abstract fun shareMiniProgram(thumb: Bitmap, title: String, description: String, userName: String, path: String, miniprogramType: Int? = WXLaunchMiniProgram.Req.MINIPTOGRAM_TYPE_RELEASE, scene: Int? = SendMessageToWX.Req.WXSceneSession)
 
     /**
      * 拉起小程序

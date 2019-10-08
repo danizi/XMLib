@@ -160,20 +160,20 @@ class WxShare(act: Activity) : AbsShare(act) {
         api?.sendReq(req)
     }
 
-    override fun shareMiniProgram(thumb: Int, title: String, description: String, userName: String, path: String, miniprogramType: Int?, scene: Int?) {
+    override fun shareMiniProgram(thumb: Bitmap, title: String, description: String, userName: String, path: String, miniprogramType: Int?, scene: Int?) {
         val miniProgram = WXMiniProgramObject()
         miniProgram.userName = userName
         miniProgram.path = path
-
+        miniProgram.webpageUrl = "baidu.com"
         val msg = WXMediaMessage(miniProgram)
         msg.title = title
         msg.description = description
         //val bmp = BitmapFactory.decodeResource(activity.resources, thumb)
-        val bmp = getBitmap(activity, thumb)
-        val thumbBmp = Bitmap.createScaledBitmap(bmp, THUMB_SIZE, THUMB_SIZE, true)
-        bmp?.recycle()
-        msg.thumbData = Util.bmpToByteArray(thumbBmp, true)
-
+        //val bmp = getBitmap(activity, thumb)
+        //val thumbBmp = Bitmap.createScaledBitmap(bmp, THUMB_SIZE, THUMB_SIZE, true)
+        //bmp?.recycle()
+        msg.thumbData = Util.bmpToByteArray(thumb, false)
+        //thumb.recycle()
         val req = SendMessageToWX.Req()
         req.transaction = buildTransaction("webpage")
         req.message = msg
