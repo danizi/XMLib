@@ -26,4 +26,14 @@
         <item name="android:textSize">24sp</item>
     </style>
 
+
+    <!--自定义组件开关按钮-->
+    <declare-styleable name="ToggleButton">
+        <attr name="no_s" format="reference" />
+        <attr name="no" format="reference" />
+        <attr name="off_s" format="reference" />
+        <attr name="off" format="reference" />
+    </declare-styleable>
+
+
 </resources>

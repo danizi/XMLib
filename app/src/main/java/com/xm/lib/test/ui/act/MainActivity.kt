@@ -24,6 +24,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun getDataResouce(): ArrayList<Any> {
+        applicationContext
+        baseContext
         val items = ArrayList<Any>()
         items.add("Common")
         items.add("Component")

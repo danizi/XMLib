@@ -5,9 +5,14 @@ import android.app.Activity
 /**
  * 支付抽象类
  */
-abstract class AbsPay(act: Activity) {
+abstract class AbsPay(act: Activity) : IPay {
     protected var activity: Activity = act
+}
 
+/**
+ * 支付接口
+ */
+interface IPay {
     /**
      * @param channel 渠道号
      * @param paramsJson 支付参数json串
@@ -16,22 +21,22 @@ abstract class AbsPay(act: Activity) {
 
      * @param listener 支付监听
      */
-    abstract fun pay(channel: Channel, paramsJson: String, listener: OnPayListener)
+    fun pay(channel: Channel, paramsJson: String, listener: OnPayListener)
 
     /**
      * 微信支付初始化
      * @param payConfig 初始化参数
      */
-    abstract fun init(payConfig: PayConfig)
+    fun init(payConfig: PayConfig)
 
     /**
      * 回收资源
      */
-    abstract fun clear()
+    fun clear()
 }
 
 /**
- * 监听
+ * 支付的监听
  */
 interface OnPayListener {
     fun onSuccess()
@@ -40,18 +45,23 @@ interface OnPayListener {
 }
 
 /**
- * 渠道号
+ * 支付的渠道号
  */
 enum class Channel {
+    //小米渠道
     XIAOMI,
+    //华为渠道
     HUAWEI,
+    //一般的渠道
     GENERAL
 }
 
 /**
- * 支付类型
+ * 支付的类型
  */
 enum class Type {
+    //阿里
     ALI,
+    //微信
     WX
 }

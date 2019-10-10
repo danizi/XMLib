@@ -6,4 +6,18 @@
     android:layout_height="match_parent"
     tools:context=".ui.act.ComponentAct">
 
+    <com.xm.lib.component.ToggleButton
+        android:background="@mipmap/btn_connect_on"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:no="@mipmap/btn_connect_on"
+        app:no_s="@mipmap/btn_connect_on_s"
+        app:off="@mipmap/btn_connect_off"
+        app:off_s="@mipmap/btn_connect_off_s" />
+
+    <!--<com.scwang.smartrefresh.layout.header.ClassicsHeader-->
+        <!--android:visibility="gone"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content" />-->
+
 </android.support.constraint.ConstraintLayout>

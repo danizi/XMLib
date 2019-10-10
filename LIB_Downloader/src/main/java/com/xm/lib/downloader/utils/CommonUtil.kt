@@ -3,8 +3,11 @@ package com.xm.lib.downloader.utils
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.Canvas
+import android.graphics.Paint
 import android.net.Uri
 import android.os.Environment
+import android.os.Looper
 import android.provider.MediaStore
 import android.text.TextUtils
 import android.widget.Toast
@@ -15,7 +18,6 @@ import java.io.IOException
 import java.math.BigInteger
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
-import android.os.Looper
 
 
 object CommonUtil {
@@ -108,6 +110,7 @@ object CommonUtil {
 
         } catch (e: Exception) {
             e.stackTrace
+            e.printStackTrace()
         } finally {
             try {
                 outStream?.close()
@@ -126,6 +129,26 @@ object CommonUtil {
 
         Toast.makeText(context, "图片保存成功", Toast.LENGTH_SHORT).show()
 
+    }
+
+    fun drawWXMiniBitmap(bitmap: Bitmap, width: Int, height: Int): Bitmap {
+        val mBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
+        // 用这个Bitmap生成一个Canvas,然后canvas就会把内容绘制到上面这个bitmap中
+        val mCanvas = Canvas(mBitmap)
+        // 绘制画笔
+        val mPicturePaint = Paint()
+        // 绘制背景图片
+        mCanvas.drawBitmap(mBitmap, 0.0f, 0.0f, mPicturePaint)
+        // 绘制图片的宽、高
+        val width_head = bitmap.width
+        val height_head = bitmap.height
+        // 绘制图片－－保证其在水平方向居中
+        mCanvas.drawBitmap(bitmap, (width - width_head).toFloat() / 2, (height - height_head).toFloat() / 2,
+                mPicturePaint)
+        // 保存绘图为本地图片
+        mCanvas.save()
+        mCanvas.restore()
+        return mBitmap
     }
 
     /**

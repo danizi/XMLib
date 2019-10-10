@@ -15,8 +15,7 @@ import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.widget.Button
 import com.tbruyelle.rxpermissions2.RxPermissions
-import com.xm.lib.common.util.M3u8Helper
-import com.xm.lib.common.util.M3u8Helper.parseDownUrl
+import com.xm.lib.common.helper.M3u8Helper
 import com.xm.lib.downloader.DownManager
 import com.xm.lib.downloader.config.DownConfig
 import com.xm.lib.downloader.enum_.DownErrorType
@@ -24,6 +23,7 @@ import com.xm.lib.downloader.enum_.DownStateType
 import com.xm.lib.downloader.event.DownObserver
 import com.xm.lib.downloader.task.DownTask
 import com.xm.lib.downloader.task.DownTasker
+import com.xm.lib.media.cache.M3u8Helper.parseDownUrl
 import com.xm.lib.test.R
 import com.xm.lib.test.adapter.DownAdapter
 import com.xm.lib.test.holder.DownViewHolder

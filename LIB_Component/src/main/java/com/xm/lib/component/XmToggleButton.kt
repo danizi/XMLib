@@ -8,22 +8,58 @@ import android.support.constraint.ConstraintSet
 import android.util.AttributeSet
 import android.util.Log
 import android.view.View
+import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.ImageView
 
 
 /**
  * 开关
  */
-class ToggleButton(context: Context?, attrs: AttributeSet?) : ConstraintLayout(context, attrs), IToggleButton {
+class ToggleButton : ConstraintLayout, IToggleButton {
+
     companion object {
         const val TAG = "ToggleButton"
     }
+
+    constructor(context: Context?) : super(context) {
+        ini(context, null)
+    }
+
+    constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs) {
+        ini(context, attrs)
+    }
+
+    constructor(context: Context?, attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
+        ini(context, attrs)
+    }
+
 
     private lateinit var leftButton: ImageView
     private lateinit var rightButton: ImageView
     var toggleButtonLeft: ToggleButtonBean? = null
     var toggleButtonRight: ToggleButtonBean? = null
     var listener: OnToggleButtonClickListener? = null
+
+    private var resNoS = 0
+    private var resNo = 0
+    private var resOffS = 0
+    private var resOff = 0
+    private fun ini(context: Context?, attrs: AttributeSet?) {
+        if (context == null) {
+            return
+        }
+        val a = context.obtainStyledAttributes(R.styleable.ToggleButton)
+        resNoS = a.getResourceId(R.styleable.ToggleButton_no_s, 0)
+        resNo = a.getResourceId(R.styleable.ToggleButton_no, 0)
+        resOffS = a.getResourceId(R.styleable.ToggleButton_off_s, 0)
+        resOff = a.getResourceId(R.styleable.ToggleButton_off, 0)
+
+        setLeftButton(resNoS, resNo, 100, 60)
+                .setRightButton(resOffS, resOff, 100, 60)
+                .build()
+
+        a.recycle()
+    }
 
     override fun setLeftButton(beforeId: Int, afterId: Int, w: Int, h: Int): ToggleButton {
         toggleButtonLeft = getToggleButtonBean(beforeId, afterId, w, h)
@@ -44,28 +80,19 @@ class ToggleButton(context: Context?, attrs: AttributeSet?) : ConstraintLayout(c
         return toggleButtonBean
     }
 
-    /**
-     * 重置状态
-     */
-    fun reset() {
+    override fun reset() {
         setImageResource(leftButton, rightButton, toggleButtonLeft?.afterId, toggleButtonRight?.beforeId)
         CommonUtil.clickable(leftButton, true)
         CommonUtil.clickable(rightButton, false)
     }
 
-    /**
-     * 选中左边按钮
-     */
-    fun selLeft() {
+    override fun selLeft() {
         CommonUtil.clickable(leftButton, false)
         CommonUtil.clickable(rightButton, true)
         setImageResource(leftButton, rightButton, toggleButtonLeft?.afterId, toggleButtonRight?.beforeId)
     }
 
-    /**
-     * 选中右边按钮
-     */
-    fun selRight() {
+    override fun selRight() {
         CommonUtil.clickable(leftButton, true)
         CommonUtil.clickable(rightButton, false)
         setImageResource(leftButton, rightButton, toggleButtonLeft?.beforeId, toggleButtonRight?.afterId)
@@ -78,8 +105,8 @@ class ToggleButton(context: Context?, attrs: AttributeSet?) : ConstraintLayout(c
         leftButton = leftButton(set, 0)
         rightButton = rightButton(set, leftButton.id)
         setImageResource(leftButton, rightButton, toggleButtonLeft?.afterId, toggleButtonRight?.beforeId)    //设置默认资源
-        this.addView(leftButton)
-        this.addView(rightButton)
+        this.addView(leftButton, LayoutParams(WRAP_CONTENT, WRAP_CONTENT))
+        this.addView(rightButton,LayoutParams(WRAP_CONTENT, WRAP_CONTENT))
         //设置监听
         leftButton.setOnClickListener {
             setImageResource(leftButton, rightButton, toggleButtonLeft?.afterId, toggleButtonRight?.beforeId)
@@ -166,6 +193,21 @@ class ToggleButtonBean {
  * 对外提供接口
  */
 interface IToggleButton {
+    /**
+     * 重置状态
+     */
+    fun reset()
+
+    /**
+     * 选中左边按钮
+     */
+    fun selLeft()
+
+    /**
+     * 选中右边按钮
+     */
+    fun selRight()
+
     /**
      * 设置左边的资源
      */

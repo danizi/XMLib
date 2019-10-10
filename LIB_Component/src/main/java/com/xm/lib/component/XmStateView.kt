@@ -55,7 +55,7 @@ class XmStateView(context: Context, attrs: AttributeSet?) : FrameLayout(context,
         h(progressCircular)
         s(ivIcon)
         s(btnReplay)
-        hide()
+        //hide()
 
         setResAndTip(R.mipmap.common_warn, error)
         btnReplay?.setOnClickListener(listener)

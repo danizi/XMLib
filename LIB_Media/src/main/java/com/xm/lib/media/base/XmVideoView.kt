@@ -264,7 +264,7 @@ class XmVideoView : FrameLayout {
             override fun onError(mp: IXmMediaPlayer, what: Int, extra: Int): Boolean {
                 //mediaState = MediaState.MEDIA_STATE_ERROR
                 playerObservable?.notifyObserversError(mp, what, extra)
-                return false
+                return true
             }
         })
 
