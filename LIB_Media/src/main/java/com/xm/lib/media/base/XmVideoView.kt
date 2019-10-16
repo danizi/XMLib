@@ -9,7 +9,6 @@ import android.graphics.Color
 import android.media.MediaPlayer
 import android.media.SubtitleData
 import android.os.IBinder
-import android.support.constraint.ConstraintLayout
 import android.text.TextUtils
 import android.util.AttributeSet
 import android.util.Log
@@ -398,6 +397,9 @@ class XmVideoView : FrameLayout {
         }
     }
 
+    var oldW = 0
+    var oldH = 0
+
     /**
      * 播放
      * @param url 播放地址
@@ -429,12 +431,12 @@ class XmVideoView : FrameLayout {
                                 val lp = FrameLayout.LayoutParams(
                                         RelativeLayout.LayoutParams.MATCH_PARENT,
                                         RelativeLayout.LayoutParams.MATCH_PARENT)
-                                lp.setMargins(margin, 0, margin, 0)
+//                                lp.setMargins(margin, 0, margin, 0)
                                 surfaceView?.layoutParams = lp
-                                val lp2 = ConstraintLayout.LayoutParams(
-                                        RelativeLayout.LayoutParams.MATCH_PARENT,
-                                        RelativeLayout.LayoutParams.MATCH_PARENT)
-                                this@XmVideoView.layoutParams = lp2
+//                                val lp2 = ConstraintLayout.LayoutParams(
+//                                        RelativeLayout.LayoutParams.MATCH_PARENT,
+//                                        RelativeLayout.LayoutParams.MATCH_PARENT)
+//                                this@XmVideoView.layoutParams = lp2
                                 BKLog.d(TAG, "横屏 surfaceChanged width:$width height:$height")
                                 BKLog.d(TAG, "横屏 surfaceChanged w:$w h:$h")
                             } else if (ScreenUtil.isPortrait(context)) {
@@ -444,14 +446,26 @@ class XmVideoView : FrameLayout {
                                 val lp = FrameLayout.LayoutParams(
                                         RelativeLayout.LayoutParams.MATCH_PARENT,
                                         RelativeLayout.LayoutParams.MATCH_PARENT)
-                                lp.setMargins(0, 0, 0, 0)
-                                surfaceView?.layoutParams?.width = w
-                                surfaceView?.layoutParams?.height = height
+
+//                                lp.setMargins(0, 0, 0, 0)
+
+                                if (oldW == 0 && oldH == 0) {
+                                    oldW = w
+                                    oldH = height
+                                }else{
+                                    this@XmVideoView?.layoutParams?.width = oldW
+                                    this@XmVideoView?.layoutParams?.height = oldH
+                                }
+
+//                                surfaceView?.layoutParams?.width = w
+//                                surfaceView?.layoutParams?.height = height
+                                surfaceView?.layoutParams?.width = oldW
+                                surfaceView?.layoutParams?.height = oldH
                                 surfaceView?.layoutParams = lp
-                                val lp2 = ConstraintLayout.LayoutParams(
-                                        RelativeLayout.LayoutParams.MATCH_PARENT,
-                                        height)
-                                this@XmVideoView.layoutParams = lp2
+//                                val lp2 = ConstraintLayout.LayoutParams(
+//                                        RelativeLayout.LayoutParams.MATCH_PARENT,
+//                                        height)
+//                                this@XmVideoView.layoutParams = lp2
                                 BKLog.d(TAG, "竖屏 surfaceChanged width:$width height:$height")
                                 BKLog.d(TAG, "竖屏 surfaceChanged w:$w h:$h")
                             }
@@ -473,7 +487,7 @@ class XmVideoView : FrameLayout {
                             initMediaPlayer()
                         } else {
                             //保存状态
-                            if(mediaPlayer?.isPlaying()!!){
+                            if (mediaPlayer?.isPlaying()!!) {
                                 this@XmVideoView.pos = mediaPlayer?.getCurrentPosition()!!
                                 mediaPlayer?.stop()
                                 mediaPlayer?.reset()

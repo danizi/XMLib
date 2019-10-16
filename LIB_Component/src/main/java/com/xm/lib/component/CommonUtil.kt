@@ -1,13 +1,18 @@
 package com.xm.lib.component
 
 import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.text.ClipboardManager
 import android.text.SpannableString
 import android.text.Spanned
 import android.text.TextUtils
 import android.text.style.ForegroundColorSpan
+import android.util.Base64
 import android.view.View
 import android.view.ViewGroup
+import java.io.ByteArrayOutputStream
+import java.io.IOException
 import java.text.DecimalFormat
 
 
@@ -107,5 +112,45 @@ class CommonUtil {
             view?.isFocusableInTouchMode = false
         }
 
+        /**
+         * bitmap转Base64
+         */
+        fun bitmapToBase64(bitmap: Bitmap?): String? {
+            var result: String? = null
+            var baos: ByteArrayOutputStream? = null
+            try {
+                if (bitmap != null) {
+                    baos = ByteArrayOutputStream()
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos)
+
+                    baos.flush()
+                    baos.close()
+
+                    val bitmapBytes = baos.toByteArray()
+                    result = Base64.encodeToString(bitmapBytes, Base64.DEFAULT)
+                }
+            } catch (e: IOException) {
+                e.printStackTrace()
+            } finally {
+                try {
+                    if (baos != null) {
+                        baos.flush()
+                        baos.close()
+                    }
+                } catch (e: IOException) {
+                    e.printStackTrace()
+                }
+
+            }
+            return result
+        }
+
+        /**
+         * Base64b转itmap
+         */
+        fun base64ToBitmap(base64Data: String): Bitmap {
+            val bytes = Base64.decode(base64Data, Base64.DEFAULT)
+            return BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
+        }
     }
 }
